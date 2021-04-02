@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="mediumMargin">64dp</dimen>
+    <dimen name="logo_margin">125dp</dimen>
+    <dimen name="smallLabelPadding">8dp</dimen>
+    <dimen name="inputTextPadding">16dp</dimen>
+</resources>

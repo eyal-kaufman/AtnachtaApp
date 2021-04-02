@@ -1,4 +1,23 @@
 <resources>
     <string name="app_name">Atnachta</string>
     <string name="hello_atnachta">Hello Atnachta!</string>
+    <string name="loginButton">כניסה</string>
+    <string name="loginUsernameLabel">שם משתמש</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loginPasswordLabel">סיסמא</string>
+    <string name="loginUsernameHint">שם משתמש</string>
+    <string name="loginPasswordHint">סיסמא</string>
+    <string name="mainScreenSearchLabel">חיפוש</string>
+    <string name="mainScreenSearchButtonText">חפש</string>
+    <string name="addNewProfileButtonText">+  הוסף פרופיל חדש</string>
+    <string name="mainScreenFirstNameLabel">שם פרטי</string>
+    <string name="mainScreenLastNameLabel">שם משפחה</string>
+    <string name="mainScreenIDLabel">תעודת זהות</string>
+    <string name="ReferenceDetails">פרטי הפניה</string>
+    <string name="newReferenceRefererName">שם המפנה</string>
+    <string name="newReferenceReceiverName">שם מקבל ההפניה</string>
+    <string name="newReferenceReason">סיבת ההפניה</string>
+    <string name="newProfileFirstName">שם פרטי</string>
+    <string name="newProfileLastName">שם משפחה</string>
+    <string name="personalDetails">פרטים אישיים</string>
 </resources>

@@ -39,8 +39,7 @@ class MainScreen : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         val binding = DataBindingUtil.inflate<FragmentMainScreenBinding>(inflater,R.layout.fragment_main_screen,container,false)
-        binding.addNewProfileButton.setOnClickListener { view : View -> view.findNavController().navigate(R.id.action_mainScreen_to_newProfileFragment)}
-        binding.mainScreenSearchButton.setOnClickListener { view : View -> view.findNavController().navigate(R.id.action_mainScreen_to_newReferenceFragment)}
+        binding.addNewProfileButton.setOnClickListener { view : View -> view.findNavController().navigate(R.id.action_mainScreen_to_newReferenceFragment)}
         return binding.root
     }
 

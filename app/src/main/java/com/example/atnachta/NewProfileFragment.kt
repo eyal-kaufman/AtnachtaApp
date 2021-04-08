@@ -41,8 +41,6 @@ class NewProfileFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_new_profile,container,false)
-        binding.referenceDetails.setOnClickListener {setCardExpansion(binding.referenceDetailsList)}
-        binding.personalDetails.setOnClickListener {setCardExpansion(binding.personalDetailsList)}
         return binding.root
     }
 

@@ -4,4 +4,6 @@
     <dimen name="logo_margin">125dp</dimen>
     <dimen name="smallLabelPadding">8dp</dimen>
     <dimen name="inputTextPadding">16dp</dimen>
+    <dimen name="inputTextPaddingStart">30dp</dimen>
+    <dimen name="inputTextPaddingEnd">30dp</dimen>
 </resources>

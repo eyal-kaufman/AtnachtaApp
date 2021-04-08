@@ -21,10 +21,18 @@
         <action
             android:id="@+id/action_mainScreen_to_newProfileFragment"
             app:destination="@id/newProfileFragment" />
+        <action
+            android:id="@+id/action_mainScreen_to_newReferenceFragment"
+            app:destination="@id/newReferenceFragment" />
     </fragment>
     <fragment
         android:id="@+id/newProfileFragment"
         android:name="com.example.atnachta.NewProfileFragment"
         android:label="fragment_new_profile"
         tools:layout="@layout/fragment_new_profile" />
+    <fragment
+        android:id="@+id/newReferenceFragment"
+        android:name="com.example.atnachta.NewReference"
+        android:label="fragment_new_reference"
+        tools:layout="@layout/fragment_new_reference" />
 </navigation>

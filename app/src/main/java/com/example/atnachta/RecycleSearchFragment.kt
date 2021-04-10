@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.atnachta.data.Girl
 import com.example.atnachta.databinding.FragmentRecycleSearchBinding
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,14 +28,21 @@ class RecycleSearch : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    lateinit var binding : FragmentRecycleSearchBinding;
-
+    lateinit var binding : FragmentRecycleSearchBinding
+    var exampleList : MutableList<String> = mutableListOf()
+    var girlsList : MutableList<Girl> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        for (i in 1..20){
+            exampleList.add("Word "+i)
+            girlsList.add(Girl("Girl num ",i.toString(), i+10))
+
+        }
+
     }
 
     override fun onCreateView(
@@ -43,6 +53,10 @@ class RecycleSearch : Fragment() {
         val adapter = PersonItemAdapter()
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_recycle_search,container,false)
         binding.resultList.adapter = adapter
+        adapter.girlsData = girlsList
+//        adapter.girlsData = exampleList
+//        adapter.get
+//        binding.resultList.get()
         return binding.root
     }
 

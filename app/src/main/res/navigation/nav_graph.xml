@@ -21,10 +21,18 @@
         <action
             android:id="@+id/action_mainScreen_to_newReferenceFragment"
             app:destination="@id/newReferenceFragment" />
+        <action
+            android:id="@+id/action_mainScreen_to_recycleSearch"
+            app:destination="@id/recycleSearch" />
     </fragment>
     <fragment
         android:id="@+id/newReferenceFragment"
         android:name="com.example.atnachta.NewReference"
         android:label="fragment_new_reference"
         tools:layout="@layout/fragment_new_reference" />
+    <fragment
+        android:id="@+id/recycleSearch"
+        android:name="com.example.atnachta.RecycleSearch"
+        android:label="fragment_recycle_search"
+        tools:layout="@layout/fragment_recycle_search" />
 </navigation>

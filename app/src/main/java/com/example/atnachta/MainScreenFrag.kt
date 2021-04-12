@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.app.ActionBar
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.example.atnachta.databinding.FragmentLoginBinding
@@ -25,6 +26,7 @@ class MainScreen : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -40,6 +42,9 @@ class MainScreen : Fragment() {
         // Inflate the layout for this fragment
         val binding = DataBindingUtil.inflate<FragmentMainScreenBinding>(inflater,R.layout.fragment_main_screen,container,false)
         binding.addNewProfileButton.setOnClickListener { view : View -> view.findNavController().navigate(R.id.action_mainScreen_to_newReferenceFragment)}
+        activity?.actionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
+        activity?.actionBar?.setCustomView(R.layout.action_bar_layout)
+        activity?.setTitle(R.string.mainScreenFragmentTitle)
         return binding.root
     }
 

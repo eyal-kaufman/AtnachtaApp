@@ -24,6 +24,7 @@
                 android:id="@+id/firstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPersonName"
                 android:hint="@string/firstName" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,100 +44,48 @@
                 android:id="@+id/familyName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPersonName"
                 android:hint="@string/familyName" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/editTextDateOfBirth"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout3"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="@dimen/inputTextPaddingStart"
-            android:ems="10"
-            android:hint="@string/dateOfBirth"
-            android:inputType="date"
+            android:paddingStart="@dimen/inputTextPaddingStart"
+            android:paddingEnd="@dimen/inputTextPaddingEnd"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
-        <View
-            android:id="@+id/divider1"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="24dp"
-            android:background="@color/dividerColor"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPostalAddress" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/address"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:text="@string/ParentsDetails"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider1" />
+            android:text="@string/phone"
+            app:layout_constraintBottom_toTopOf="@+id/editTextPhone4"
+            app:layout_constraintEnd_toEndOf="@+id/editTextPhone4" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/editTextPhone4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/labeledInputMargin"
             android:ems="10"
-            android:hint="@string/mothersName"
-            android:inputType="textPersonName"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@+id/editTextDateOfBirth"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-        <EditText
-            android:id="@+id/editTextTextPersonName2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:ems="10"
-            android:hint="@string/fathersName"
-            android:inputType="textPersonName"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
-
-        <EditText
-            android:id="@+id/editTextPhone2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/phone"
             android:inputType="phone"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName" />
+            app:layout_constraintEnd_toEndOf="@+id/editTextDate2"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
-        <EditText
-            android:id="@+id/editTextPhone3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/phone"
-            android:inputType="phone"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName2" />
-
-        <EditText
-            android:id="@+id/editTextTextPostalAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:ems="10"
-            android:hint="@string/address"
-            android:inputType="textPostalAddress"
-            app:layout_constraintEnd_toEndOf="@+id/editTextDateOfBirth"
-            app:layout_constraintTop_toBottomOf="@+id/editTextDateOfBirth" />
 
         <Button
             android:id="@+id/continueButton"
@@ -147,6 +96,27 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/editTextDate2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/labeledInputMargin"
+            android:layout_marginEnd="@dimen/inputTextPaddingStart"
+            android:ems="10"
+            android:inputType="date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextPhone4" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dateOfBirth"
+            app:layout_constraintBottom_toTopOf="@+id/editTextDate2"
+            app:layout_constraintEnd_toEndOf="@+id/editTextDate2" />
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

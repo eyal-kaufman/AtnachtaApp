@@ -6,4 +6,5 @@
     <dimen name="inputTextPadding">16dp</dimen>
     <dimen name="inputTextPaddingStart">30dp</dimen>
     <dimen name="inputTextPaddingEnd">30dp</dimen>
+    <dimen name="labeledInputMargin">40dp</dimen>
 </resources>

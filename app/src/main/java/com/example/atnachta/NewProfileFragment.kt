@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.findNavController
-import com.example.atnachta.databinding.FragmentLoginBinding
+import com.example.atnachta.data.Girl
 import com.example.atnachta.databinding.FragmentNewProfileBinding
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,6 +28,7 @@ class NewProfileFragment : Fragment() {
     private var param2: String? = null
 
     lateinit var binding : FragmentNewProfileBinding
+    lateinit var firestore : FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,10 +44,21 @@ class NewProfileFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_new_profile,container,false)
-        activity?.setTitle(R.string.basicDetails)
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // getting Firestore instance
+        firestore = Firebase.firestore
+
+        // continue button setup
+        binding.continueButton.setOnClickListener { addData()}
+
+        // setting action bar title
+        activity?.setTitle(R.string.basicDetails)
+    }
     fun setCardExpansion(view : View){
         when(view.visibility){
             View.GONE -> view.visibility = View.VISIBLE
@@ -52,8 +66,16 @@ class NewProfileFragment : Fragment() {
         }
     }
 
+    private fun addData(){
+        val girl = createGirl()
+        firestore.collection("profiles").add(girl)
+    }
 
-
+    private fun createGirl() : Girl{
+        return Girl(binding.firstName.text.toString(),
+                binding.familyName.text.toString(),
+                Integer.parseInt(binding.editTextGirlPhone.text.toString()))
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of

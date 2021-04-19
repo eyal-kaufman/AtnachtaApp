@@ -73,17 +73,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/phone"
-            app:layout_constraintBottom_toTopOf="@+id/editTextPhone4"
-            app:layout_constraintEnd_toEndOf="@+id/editTextPhone4" />
+            app:layout_constraintBottom_toTopOf="@+id/editTextGirlPhone"
+            app:layout_constraintEnd_toEndOf="@+id/editTextGirlPhone" />
 
         <EditText
-            android:id="@+id/editTextPhone4"
+            android:id="@+id/editTextGirlPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/labeledInputMargin"
             android:ems="10"
             android:inputType="phone"
-            app:layout_constraintEnd_toEndOf="@+id/editTextDate2"
+            app:layout_constraintEnd_toEndOf="@+id/editTextDateOfBirth"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
 
@@ -98,7 +98,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-            android:id="@+id/editTextDate2"
+            android:id="@+id/editTextDateOfBirth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/labeledInputMargin"
@@ -106,15 +106,15 @@
             android:ems="10"
             android:inputType="date"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextPhone4" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextGirlPhone" />
 
         <TextView
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dateOfBirth"
-            app:layout_constraintBottom_toTopOf="@+id/editTextDate2"
-            app:layout_constraintEnd_toEndOf="@+id/editTextDate2" />
+            app:layout_constraintBottom_toTopOf="@+id/editTextDateOfBirth"
+            app:layout_constraintEnd_toEndOf="@+id/editTextDateOfBirth" />
 
 
 

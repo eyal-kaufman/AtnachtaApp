@@ -38,4 +38,8 @@
     <string name="newReferenceFragmentTitle">פרטי הפניה</string>
     <string name="mainScreenFragmentTitle">חיפוש</string>
     <string name="loginFragmentTitle">כניסה</string>
+    <string name="loginImageDescription">Logo</string>
+    <string name="motherDetails">פרטי אמא</string>
+    <string name="fullName">שם מלא</string>
+    <string name="referenceReason">סיבת ההפניה</string>
 </resources>

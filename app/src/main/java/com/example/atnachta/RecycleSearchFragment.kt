@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
@@ -53,13 +54,14 @@ class RecycleSearch : Fragment() {
         val adapter = PersonItemAdapter(girlsData = girlsList,)
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_recycle_search,container,false)
         binding.resultList.adapter = adapter
-//        adapter.girlsData = girlsList
-//        adapter.girlsData = exampleList
-//        adapter.get
-//        binding.resultList.get()
+
+        binding.searchButton.setOnClickListener { adapter.editResultList(getGirlsList(girlsList,binding.searchInput)) }
         return binding.root
     }
-
+    fun getGirlsList(girlsList: MutableList<Girl>, searchInput: EditText) : MutableList<Girl>{
+        val query: String = searchInput.text.toString()
+        return girlsList.filter{ query in it.firstName || query in it.lastName} as MutableList<Girl>
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of

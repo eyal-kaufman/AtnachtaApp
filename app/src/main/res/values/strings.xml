@@ -27,4 +27,19 @@
     <string name="job">תפקיד</string>
     <string name="phone">טלפון</string>
     <string name="continueButtonText">המשך</string>
+    <string name="firstName">שם פרטי</string>
+    <string name="familyName">שם משפחה</string>
+    <string name="dateOfBirth">תאריך לידה</string>
+    <string name="ParentsDetails">פרטי הורים</string>
+    <string name="mothersName">שם האמא</string>
+    <string name="fathersName">שם האבא</string>
+    <string name="address">כתובת</string>
+    <string name="basicDetails">פרטים בסיסיים</string>
+    <string name="newReferenceFragmentTitle">פרטי הפניה</string>
+    <string name="mainScreenFragmentTitle">חיפוש</string>
+    <string name="loginFragmentTitle">כניסה</string>
+    <string name="loginImageDescription">Logo</string>
+    <string name="motherDetails">פרטי אמא</string>
+    <string name="fullName">שם מלא</string>
+    <string name="referenceReason">סיבת ההפניה</string>
 </resources>

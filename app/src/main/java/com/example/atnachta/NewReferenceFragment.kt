@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import com.example.atnachta.databinding.FragmentNewReferenceBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -37,6 +38,8 @@ class NewReference : Fragment() {
                               savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_new_reference,container,false)
+        binding.continueButton.setOnClickListener { view : View -> view.findNavController().navigate(R.id.action_newReferenceFragment_to_newProfileFragment)}
+        activity?.setTitle(R.string.ReferenceDetails)
         return binding.root
     }
 

@@ -50,10 +50,10 @@ class RecycleSearch : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val adapter = PersonItemAdapter()
+        val adapter = PersonItemAdapter(girlsData = girlsList,)
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_recycle_search,container,false)
         binding.resultList.adapter = adapter
-        adapter.girlsData = girlsList
+//        adapter.girlsData = girlsList
 //        adapter.girlsData = exampleList
 //        adapter.get
 //        binding.resultList.get()

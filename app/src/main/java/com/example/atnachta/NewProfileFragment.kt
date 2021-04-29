@@ -102,7 +102,7 @@ class NewProfileFragment : Fragment() {
     private fun createGirl() : Girl{
         return Girl(binding.firstName.text.toString(),
                 binding.familyName.text.toString(),
-                Integer.parseInt(binding.editTextGirlPhone.text.toString()))
+                Integer.parseInt(binding.editTextProfilePhone.text.toString()))
     }
 
     companion object {

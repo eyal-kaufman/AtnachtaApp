@@ -18,8 +18,9 @@ import com.google.firebase.ktx.Firebase
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+
 private const val PROFILES_COLLECTION = "profiles"
-private const val TAG = "DocSnippets"
+private const val TAG = "DocSnippets" // not sure what this means, was copied from Firestore documentation
 
 
 /**

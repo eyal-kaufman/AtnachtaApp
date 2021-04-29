@@ -25,6 +25,8 @@ class MainScreen : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    lateinit var binding: FragmentMainScreenBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -37,11 +39,18 @@ class MainScreen : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        val binding = DataBindingUtil.inflate<FragmentMainScreenBinding>(inflater,R.layout.fragment_main_screen,container,false)
-        binding.addNewProfileButton.setOnClickListener { view : View -> view.findNavController().navigate(R.id.action_mainScreen_to_newReferenceFragment)}
+
+        // ActionBar title
         activity?.setTitle(R.string.mainScreenFragmentTitle)
-        binding.mainScreenSearchButton.setOnClickListener { view : View -> view.findNavController().navigate(R.id.action_mainScreen_to_recycleSearch)}
+
+        // init binding
+        binding = DataBindingUtil.inflate<FragmentMainScreenBinding>(inflater,R.layout.fragment_main_screen,container,false)
+
+        // setup buttons
+        binding.addNewProfileButton.setOnClickListener { view : View -> view.findNavController().navigate(
+            MainScreenDirections.actionMainScreenToNewProfileFragment())}
+        binding.mainScreenSearchButton.setOnClickListener { view : View -> view.findNavController().navigate(
+            MainScreenDirections.actionMainScreenToRecycleSearch())}
         return binding.root
     }
 

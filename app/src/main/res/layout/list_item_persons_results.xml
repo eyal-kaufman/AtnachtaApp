@@ -18,25 +18,67 @@
         tools:srcCompat="@android:drawable/sym_def_app_icon" />
 
     <TextView
-        android:id="@+id/sleep_length"
+        android:id="@+id/fullNameText"
         android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/quality_image"
         app:layout_constraintTop_toTopOf="@+id/quality_image"
         tools:text="Wednesday" />
 
     <TextView
-        android:id="@+id/quality_string"
+        android:id="@+id/cityNameText"
         android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/sleep_length"
+        android:layout_marginEnd="100dp"
+        app:layout_constraintEnd_toEndOf="@+id/fullNameText"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/sleep_length"
-        app:layout_constraintTop_toBottomOf="@+id/sleep_length"
+        app:layout_constraintStart_toStartOf="@+id/fullNameText"
+        app:layout_constraintTop_toBottomOf="@+id/fullNameText"
         tools:text="Excellent!!!" />
+
+    <TextView
+        android:id="@+id/nameLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="שם"
+        app:layout_constraintBottom_toBottomOf="@+id/fullNameText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fullNameText" />
+
+    <TextView
+        android:id="@+id/ageLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="8dp"
+        android:text="גיל"
+        app:layout_constraintBottom_toBottomOf="@+id/cityNameText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintStart_toEndOf="@+id/cityNameText" />
+
+    <TextView
+        android:id="@+id/ageText"
+        android:layout_width="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="20"
+        app:layout_constraintBottom_toBottomOf="@+id/cityNameText"
+        app:layout_constraintEnd_toStartOf="@+id/ageLabel" />
+
+    <TextView
+        android:id="@+id/cityLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:text="עיר"
+        app:layout_constraintBottom_toBottomOf="@+id/cityNameText"
+        app:layout_constraintStart_toEndOf="@+id/cityNameText"
+        app:layout_constraintTop_toTopOf="@+id/cityNameText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

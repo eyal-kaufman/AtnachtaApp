@@ -1,12 +1,8 @@
 package com.example.atnachta
 
-import android.graphics.Color
-import android.graphics.Color.RED
-import android.hardware.camera2.params.RggbChannelVector.RED
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -63,8 +59,8 @@ class PersonItemAdapter(var girlsData : MutableList<Girl>):
         notifyItemInserted(this.itemCount-1)
     }
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val sleepLength: TextView = itemView.findViewById(R.id.sleep_length)
-        val quality: TextView = itemView.findViewById(R.id.quality_string)
+        val sleepLength: TextView = itemView.findViewById(R.id.fullNameText)
+        val quality: TextView = itemView.findViewById(R.id.cityNameText)
         val qualityImage: ImageView = itemView.findViewById(R.id.quality_image)
     }
 

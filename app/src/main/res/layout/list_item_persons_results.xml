@@ -38,8 +38,7 @@
         app:layout_constraintEnd_toEndOf="@+id/fullNameText"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/fullNameText"
-        app:layout_constraintTop_toBottomOf="@+id/fullNameText"
-        tools:text="Excellent!!!" />
+        app:layout_constraintTop_toBottomOf="@+id/fullNameText" />
 
     <TextView
         android:id="@+id/nameLabel"
@@ -65,12 +64,14 @@
 
     <TextView
         android:id="@+id/ageText"
-        android:layout_width="16dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="15dp"
         android:text="20"
         app:layout_constraintBottom_toBottomOf="@+id/cityNameText"
-        app:layout_constraintEnd_toStartOf="@+id/ageLabel" />
+        app:layout_constraintEnd_toStartOf="@+id/ageLabel"
+        app:layout_constraintStart_toEndOf="@+id/cityLabel" />
 
     <TextView
         android:id="@+id/cityLabel"

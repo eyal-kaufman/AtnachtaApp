@@ -31,14 +31,15 @@ class PersonItemAdapter(var girlsData : MutableList<Girl>):
 
     private fun bind(holder: ViewHolder, girlItem: Girl) {
 //        val res = holder.itemView.context.resources
-        holder.sleepLength.text = "${girlItem.firstName} her first name"
-        holder.quality.text = "last name is ${girlItem.lastName} and the age ${girlItem.age}"
-        holder.qualityImage.setImageResource(when (girlItem.age) {
+        holder.profileName.setText("${girlItem.firstName} ${girlItem.lastName}")
+//        holder.profileCity.text = "???"
+        holder.profileAge.setText("${girlItem.age}")
+        holder.profileImage.setImageResource(when (girlItem.age) {
             15 -> R.drawable.ic_launcher_background
             else -> R.drawable.ic_launcher_foreground
         })
 //        holder.qualityImage.setOnClickListener { holder.sleepLength.text = "hsdghdsfjk"}
-        holder.qualityImage.setOnClickListener {addEyal(girlItem)}
+        holder.profileImage.setOnClickListener {addEyal(girlItem)}
     }
 
     public fun editResultList(girlsData: MutableList<Girl>){
@@ -59,9 +60,10 @@ class PersonItemAdapter(var girlsData : MutableList<Girl>):
         notifyItemInserted(this.itemCount-1)
     }
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val sleepLength: TextView = itemView.findViewById(R.id.fullNameText)
-        val quality: TextView = itemView.findViewById(R.id.cityNameText)
-        val qualityImage: ImageView = itemView.findViewById(R.id.quality_image)
+        val profileName: TextView = itemView.findViewById(R.id.fullNameText)
+        val profileCity: TextView = itemView.findViewById(R.id.cityNameText)
+        val profileImage: ImageView = itemView.findViewById(R.id.quality_image)
+        val profileAge: TextView = itemView.findViewById(R.id.ageText)
     }
 
 

@@ -12,17 +12,15 @@
 
         <ImageView
             android:id="@+id/logInLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/logo_margin"
-            app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="32dp"
+            android:contentDescription="@string/loginImageDescription"
+            android:src="@drawable/atnachta_logo_large"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:srcCompat="@tools:sample/avatars"
-            android:contentDescription="@string/loginImageDescription" />
+            app:layout_constraintVertical_chainStyle="spread"/>
 
         <Button
             android:id="@+id/loginButton"

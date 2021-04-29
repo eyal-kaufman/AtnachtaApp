@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "184643748406",
+    "project_id": "atnachtaapp",
+    "storage_bucket": "atnachtaapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184643748406:android:f1b56e3b9518ec66dcce97",
+        "android_client_info": {
+          "package_name": "com.example.atnachta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "184643748406-3jd5119p5k9raqrljv2gb18me6vsh89g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoMdQUnV7NLgBSioy1EPqgEOquzPKRshk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "184643748406-3jd5119p5k9raqrljv2gb18me6vsh89g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

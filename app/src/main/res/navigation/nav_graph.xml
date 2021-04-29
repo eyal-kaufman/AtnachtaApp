@@ -19,26 +19,30 @@
         android:label="fragment_main_screen"
         tools:layout="@layout/fragment_main_screen" >
         <action
-            android:id="@+id/action_mainScreen_to_newReferenceFragment"
-            app:destination="@id/newReferenceFragment" />
-        <action
             android:id="@+id/action_mainScreen_to_recycleSearch"
             app:destination="@id/recycleSearch" />
+        <action
+            android:id="@+id/action_mainScreen_to_newProfileFragment"
+            app:destination="@id/newProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/newReferenceFragment"
         android:name="com.example.atnachta.NewReference"
         android:label="fragment_new_reference"
         tools:layout="@layout/fragment_new_reference" >
-        <action
-            android:id="@+id/action_newReferenceFragment_to_newProfileFragment"
-            app:destination="@id/newProfileFragment" />
+        <argument
+            android:name="girlDocId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/newProfileFragment"
         android:name="com.example.atnachta.NewProfileFragment"
         android:label="fragment_new_profile"
-        tools:layout="@layout/fragment_new_profile" />
+        tools:layout="@layout/fragment_new_profile" >
+        <action
+            android:id="@+id/action_newProfileFragment_to_newReferenceFragment"
+            app:destination="@id/newReferenceFragment" />
+    </fragment>
     <fragment
         android:id="@+id/recycleSearch"
         android:name="com.example.atnachta.RecycleSearch"

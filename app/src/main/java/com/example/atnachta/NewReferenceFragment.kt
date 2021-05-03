@@ -1,6 +1,7 @@
 package com.example.atnachta
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.example.atnachta.data.Girl
+import com.example.atnachta.data.Reference
 import com.example.atnachta.databinding.FragmentNewReferenceBinding
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -18,6 +21,7 @@ import com.google.firebase.ktx.Firebase
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
+private const val TAG = "DocSnippets" // not sure what this means, was copied from Firestore documentation
 private const val PROFILES_COLLECTION = "profiles"
 
 
@@ -34,6 +38,8 @@ class NewReference : Fragment() {
     lateinit var binding : FragmentNewReferenceBinding
     lateinit var firestore : FirebaseFirestore
     lateinit var girlDocId : String
+    lateinit var girlDocRef : DocumentReference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,10 +67,11 @@ class NewReference : Fragment() {
 
         // getting girlDocId
         girlDocId = NewReferenceArgs.fromBundle(requireArguments()).girlDocId
-        firestore.collection(PROFILES_COLLECTION).document(girlDocId).update("age", 123123123)
+        girlDocRef = firestore.collection(PROFILES_COLLECTION).document(girlDocId)
+//        firestore.collection(PROFILES_COLLECTION).document(girlDocId).update("age", 123123123)
 
         // continue button setup
-        binding.continueButton.setOnClickListener { continueButtonHandler()}
+        binding.continueButton.setOnClickListener {continueButtonHandler()}
         /*TODO Continue button should:
         *  1. Create a Reference object from data in TextViews
         *  2. Add the new reference to the reference nested-collection in the girl Firestore doc */
@@ -72,7 +79,25 @@ class NewReference : Fragment() {
     }
 
     private fun continueButtonHandler(){
+        val ref: Reference = createReference()
+        girlDocRef.collection("References").add(ref)
+                .addOnSuccessListener { documentReference ->
+                    Log.d(TAG, "DocumentSnapshot written with ID: ${documentReference.id}")
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error adding document", e)
+                }
+    }
 
+    private fun createReference(): Reference {
+        return Reference(binding.receiverName.text.toString(),
+                        binding.editTextDate.text.toString(),
+                        binding.editTextTime.text.toString(),
+                        binding.referenceReason.text.toString(),
+                        binding.refererName.text.toString(),
+                        binding.refererJob.text.toString(),
+                        Integer.parseInt(binding.editTextPhone.text.toString())
+        )
     }
 
     companion object {

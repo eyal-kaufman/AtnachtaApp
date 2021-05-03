@@ -69,21 +69,21 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/phoneLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/phone"
-            app:layout_constraintBottom_toTopOf="@+id/editTextGirlPhone"
-            app:layout_constraintEnd_toEndOf="@+id/editTextGirlPhone" />
+            app:layout_constraintBottom_toTopOf="@id/editTextProfilePhone"
+            app:layout_constraintEnd_toEndOf="@id/editTextProfilePhone" />
 
         <EditText
-            android:id="@+id/editTextGirlPhone"
+            android:id="@+id/editTextProfilePhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/labeledInputMargin"
             android:ems="10"
             android:inputType="phone"
-            app:layout_constraintEnd_toEndOf="@+id/editTextDateOfBirth"
+            app:layout_constraintEnd_toEndOf="@id/editTextDateCreationDate"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
 
@@ -98,7 +98,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-            android:id="@+id/editTextDateOfBirth"
+            android:id="@+id/editTextDateCreationDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/labeledInputMargin"
@@ -106,15 +106,15 @@
             android:ems="10"
             android:inputType="date"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextGirlPhone" />
+            app:layout_constraintTop_toBottomOf="@id/editTextProfilePhone" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/dateLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dateOfBirth"
-            app:layout_constraintBottom_toTopOf="@+id/editTextDateOfBirth"
-            app:layout_constraintEnd_toEndOf="@+id/editTextDateOfBirth" />
+            app:layout_constraintBottom_toTopOf="@id/editTextDateCreationDate"
+            app:layout_constraintEnd_toEndOf="@id/editTextDateCreationDate" />
 
 
 

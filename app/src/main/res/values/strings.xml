@@ -27,6 +27,10 @@
     <string name="job">תפקיד</string>
     <string name="phone">טלפון</string>
     <string name="continueButtonText">המשך</string>
+    <string name="girl_profile">פרופיל נערה</string>
+    <string name="private_data">פרטים אישיים</string>
+    <string name="full_name">שם מלא:</string>
+    <string name="edit">ערוך</string>
     <string name="firstName">שם פרטי</string>
     <string name="familyName">שם משפחה</string>
     <string name="dateOfBirth">תאריך לידה</string>

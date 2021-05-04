@@ -6,10 +6,11 @@ plugins {
     id 'androidx.navigation.safeargs'
 }
 
+apply plugin: 'kotlin-android-extensions'
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
-
     defaultConfig {
         applicationId "com.example.atnachta"
         minSdkVersion 21

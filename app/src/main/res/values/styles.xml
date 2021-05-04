@@ -22,4 +22,16 @@
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="word_profile_field">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_margin">5sp</item>
+    </style>
+
+    <style name="profile_card_view">
+        <item name="android:layout_marginBottom">5sp</item>
+        <item name="android:layout_marginTop">5sp</item>
+    </style>
 </resources>

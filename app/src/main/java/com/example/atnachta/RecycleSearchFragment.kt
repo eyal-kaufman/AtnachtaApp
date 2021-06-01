@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.atnachta.data.Girl
 import com.example.atnachta.databinding.FragmentRecycleSearchBinding
@@ -49,6 +50,8 @@ class RecycleSearch : Fragment() {
         binding.resultList.adapter = adapter
 
         binding.searchButton.setOnClickListener { adapter.editResultList(queryProfiles(binding.searchInput)) }
+        binding.button3.setOnClickListener { v: View -> v.findNavController().navigate(R.id.action_recycleSearch_to_profileFragment) }
+
 //        docRef.get()
 
 //    print(docRef.get())

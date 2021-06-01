@@ -3,18 +3,22 @@ package com.example.atnachta
 import android.os.Bundle
 import android.transition.AutoTransition
 import android.transition.TransitionManager
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.widget.Button
-import android.widget.EditText
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.example.atnachta.databinding.FragmentNewProfileBinding
-import kotlinx.android.synthetic.main.fragment_profile.*
+import com.example.atnachta.data.Girl
 import com.example.atnachta.databinding.FragmentProfileBinding
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -31,8 +35,13 @@ class profileFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    lateinit var profile: Girl
+    lateinit var firestore: FirebaseFirestore
     lateinit var binding: FragmentProfileBinding
+    lateinit var girlDocId: String
+    lateinit var girlDocRef: DocumentReference
+    val TAG: String = "profile"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,9 +55,12 @@ class profileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        var profile: Girl
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
-        binding.button4.setOnClickListener { view : View -> view.findNavController().navigate(R.id.action_profileFragment_to_newReferenceFragment)}
+        binding.button4.setOnClickListener { view: View ->
+            view.findNavController().navigate(R.id.action_profileFragment_to_newReferenceFragment)
+        }
         activity?.setTitle(R.string.basicDetails)
         binding.editButton.setOnClickListener {
             editMode(it)
@@ -81,19 +93,45 @@ class profileFragment : Fragment() {
                 referenceData.visibility = View.GONE;
             }
         }
+        girlDocId = "shiraTest"
+        firestore = Firebase.firestore
+        girlDocRef = firestore.collection("profiles").document(girlDocId)
+        girlDocRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    retrieveProfileData(document)
+
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
         return binding.root
     }
 
+    private fun retrieveProfileData(document: DocumentSnapshot){
+        Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+        edited_name.text = document.getString("firstName")
+        edited_id.text = document.getString("lastName")
+        edited_phone.text = document.getString("age")
+    }
+
+
+    private fun updateProfileData(document: DocumentSnapshot){
+        girlDocRef.update("lastName", edit_id.text)
+        girlDocRef.update("age", edit_phone.text)
+        girlDocRef.update("firstName", edit_name.text)
+        Log.d(TAG, "DocumentSnapshot update: ${document.data}")
+    }
     private fun displayMode(view: View) {
-        edited_name.text = edit_name.text
         edited_name.visibility = View.VISIBLE
         edit_name.visibility = View.GONE
 
-        edited_id.text = edit_id.text
         edited_id.visibility = View.VISIBLE
         edit_id.visibility = View.GONE
 
-        edited_phone.text = edit_phone.text
         edited_phone.visibility = View.VISIBLE
         edit_phone.visibility = View.GONE
 

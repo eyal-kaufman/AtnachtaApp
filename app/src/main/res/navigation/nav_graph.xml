@@ -61,6 +61,9 @@
         <action
             android:id="@+id/action_profileFragment_to_newReferenceFragment"
             app:destination="@id/newReferenceFragment" />
+        <argument
+            android:name="docID"
+            app:argType="string" />
     </fragment>
 
 </navigation>

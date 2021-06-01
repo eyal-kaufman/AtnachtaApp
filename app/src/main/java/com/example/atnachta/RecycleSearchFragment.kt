@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.atnachta.data.Girl
@@ -116,7 +117,8 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
     override fun onProfileSelected(snapshot: DocumentSnapshot) {
         val docId : String = snapshot.id
         Log.d(TAG, docId)
-        // TODO navigate to profile page with docId as argument, see onRestaurantSelected as example
+        val action = RecycleSearchDirections.actionRecycleSearchToProfileFragment(docId)
+        findNavController().navigate(action)
     }
 
     // the documentation said to implement it like that

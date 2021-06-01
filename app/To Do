@@ -1,0 +1,2 @@
+check the viewBinding thing - should either move everything to viewBining, or set certain layouts
+to ignore, so it wont create unneeded binding classes

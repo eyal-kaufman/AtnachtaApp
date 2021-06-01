@@ -60,7 +60,7 @@ class NewProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // continue button setup
-        binding.continueButton.setOnClickListener { v : View -> continueButtonHandler(v)}
+        binding.continueButton.setOnClickListener { v : View -> continueButtonHandler(v) }
         /*TODO Continue button should:
         *  1. Create a Girl object from data in TextViews
         *  2. Create a Girl document in Firestore

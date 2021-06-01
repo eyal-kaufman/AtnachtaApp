@@ -46,6 +46,7 @@ class PersonItemAdapter(var girlsData : MutableList<Girl>):
         this.girlsData = girlsData
         notifyDataSetChanged()
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
 //        val view = layoutInflater.inflate(R.layout.list_item_persons_results, parent, false)

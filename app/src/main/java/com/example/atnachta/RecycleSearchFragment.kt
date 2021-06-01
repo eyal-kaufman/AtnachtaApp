@@ -7,11 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.atnachta.data.Girl
+import com.example.atnachta.data.Profile
 import com.example.atnachta.databinding.FragmentRecycleSearchBinding
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -21,6 +28,8 @@ import com.google.firebase.ktx.Firebase
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
+private const val PROFILES_COLLECTION = "profiles"
+
 
 
 /**
@@ -28,13 +37,18 @@ private const val ARG_PARAM2 = "param2"
  * Use the [RecycleSearch.newInstance] factory method to
  * create an instance of this fragment.
  */
-class RecycleSearch : Fragment() {
-    // TODO: Rename and change types of parameters
+class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
+    // TODO: 1. Check if the recyclerView gets data
+    // TODO: 2. Add onClickListeners to the Search button and search results
+
     private var param1: String? = null
     private var param2: String? = null
 
     lateinit var binding : FragmentRecycleSearchBinding
     lateinit var firestore: FirebaseFirestore
+    lateinit var collectionReference: CollectionReference
+    lateinit var adapter: ProfileAdapter
+
     val TAG : String = "RecycleView"
     ///samples
 
@@ -42,19 +56,88 @@ class RecycleSearch : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         firestore = Firebase.firestore
-        val girlsList : MutableList<Girl> = mutableListOf()
-        val adapter = PersonItemAdapter(girlsData = girlsList,)
+        collectionReference = firestore.collection(PROFILES_COLLECTION)
+        setUpRecyclerView()
+
+        // onClickListener for the search button - update result list
+        binding.searchButton.setOnClickListener { updateQuery(binding.searchInput.text.toString()) }
 
 
-        binding.resultList.adapter = adapter
-
-        binding.searchButton.setOnClickListener { adapter.editResultList(queryProfiles(binding.searchInput)) }
+        // TODO: Eyals code, may want to remove
+//        val girlsList : MutableList<Girl> = mutableListOf()
+//        val adapter = PersonItemAdapter(girlsData = girlsList,)
+//        binding.resultList.adapter = adapter
+//        binding.searchButton.setOnClickListener { adapter.editResultList(queryProfiles(binding.searchInput)) }
 //        docRef.get()
 
 //    print(docRef.get())
     }
 
+    /**
+     * Click handler for the search button.
+     * Updates the query the adapter works with, according to what the user searched
+     * @param searchInput the text the user typed at the search bar
+     */
+    private fun updateQuery(searchInput: String) {
+        val newQuery : Query = if (searchInput.isBlank()){ // if blank just show everything
+            collectionReference.orderBy("firstName", Query.Direction.DESCENDING)
+        } else{ // query by input
+            val splitText = searchInput.split(" ")
+            collectionReference.whereIn("firstName", splitText) //TODO change to better search
+        }
+        val newOptions : FirestoreRecyclerOptions<Profile> = FirestoreRecyclerOptions.Builder<Profile>()
+            .setQuery(newQuery, Profile::class.java)
+            .build()
+        // Change options of adapter.
+        adapter.updateOptions(newOptions)
 
+    }
+
+    private fun setUpRecyclerView() {
+        // set up a query which gets all of the profiles in the database
+        val query : Query = collectionReference.orderBy("firstName", Query.Direction.DESCENDING)
+
+        // define the options object (firebaseUI class), that gets the query into the adapter
+        val firestoreRecyclerOptions : FirestoreRecyclerOptions<Profile> = FirestoreRecyclerOptions.Builder<Profile>()
+            .setQuery(query, Profile::class.java)
+            .build()
+
+        adapter = ProfileAdapter(firestoreRecyclerOptions,this)
+        binding.resultList.layoutManager = LinearLayoutManager(activity) // still not sure what that is, but is needed
+        binding.resultList.adapter = adapter
+
+    }
+
+    /**
+     * the click handler for pressing a result item
+     * @param snapshot docSnapshot of the selcted profile. We get the snapshot from the viewHolder
+     * (specifically in onBindViewHolder), which gets using firebaseUI methods
+     */
+    override fun onProfileSelected(snapshot: DocumentSnapshot) {
+        val docId : String = snapshot.id
+        Log.d(TAG, docId)
+        // TODO navigate to profile page with docId as argument, see onRestaurantSelected as example
+    }
+
+    // the documentation said to implement it like that
+    override fun onStart() {
+        super.onStart()
+        adapter.startListening()
+    }
+
+    // the documentation said to implement it like that
+    override fun onStop() {
+        super.onStop()
+        adapter.stopListening()
+    }
+
+    //todo not sure if this one is necessary
+    override fun onDestroy() {
+        super.onDestroy()
+        adapter.stopListening()
+    }
+
+    // TODO: remove this function
     fun queryProfiles(searchInput: EditText) : MutableList<Girl>{
         val girlsList : MutableList<Girl> = mutableListOf()
         val splitText = searchInput.text.toString().split(" ")
@@ -83,24 +166,15 @@ class RecycleSearch : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-//      TODO: delete
-//        for (i in 1..20){
-//            girlsList.add(Girl("Girl num ",i.toString(), i+10))
-//
-//        }
-
-
     }
 
     override fun onCreateView(
+
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-//        val adapter = PersonItemAdapter(girlsData = girlsList,)
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_recycle_search,container,false)
-//        binding.resultList.adapter = adapter
-//
 //        binding.searchButton.setOnClickListener { adapter.editResultList(getGirlsList(girlsList,binding.searchInput)) }
         return binding.root
     }
@@ -125,5 +199,6 @@ class RecycleSearch : Fragment() {
             }
     }
 
+
+
 }
-class TextItemViewHolder(val textView: TextView): RecyclerView.ViewHolder(textView)

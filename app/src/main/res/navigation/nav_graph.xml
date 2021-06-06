@@ -31,7 +31,7 @@
         android:label="fragment_new_reference"
         tools:layout="@layout/fragment_new_reference" >
         <argument
-            android:name="girlDocId"
+            android:name="profileDocId"
             app:argType="string" />
     </fragment>
     <fragment

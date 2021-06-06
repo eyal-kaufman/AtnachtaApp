@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.findNavController
-import com.example.atnachta.data.Girl
 import com.example.atnachta.data.Reference
 import com.example.atnachta.databinding.FragmentNewReferenceBinding
 import com.google.firebase.firestore.DocumentReference
@@ -37,8 +35,8 @@ class NewReference : Fragment() {
 
     lateinit var binding : FragmentNewReferenceBinding
     lateinit var firestore : FirebaseFirestore
-    lateinit var girlDocId : String
-    lateinit var girlDocRef : DocumentReference
+    private lateinit var profileDocId : String
+    private lateinit var profileDocRef : DocumentReference
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,8 +64,8 @@ class NewReference : Fragment() {
         firestore = Firebase.firestore
 
         // getting girlDocId
-        girlDocId = NewReferenceArgs.fromBundle(requireArguments()).girlDocId
-        girlDocRef = firestore.collection(PROFILES_COLLECTION).document(girlDocId)
+        profileDocId = NewReferenceArgs.fromBundle(requireArguments()).profileDocId
+        profileDocRef = firestore.collection(PROFILES_COLLECTION).document(profileDocId)
 //        firestore.collection(PROFILES_COLLECTION).document(girlDocId).update("age", 123123123)
 
         // continue button setup
@@ -80,7 +78,7 @@ class NewReference : Fragment() {
 
     private fun continueButtonHandler(){
         val ref: Reference = createReference()
-        girlDocRef.collection("References").add(ref)
+        profileDocRef.collection("References").add(ref)
                 .addOnSuccessListener { documentReference ->
                     Log.d(TAG, "DocumentSnapshot written with ID: ${documentReference.id}")
                 }

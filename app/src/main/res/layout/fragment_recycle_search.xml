@@ -29,7 +29,7 @@
             android:id="@+id/searchInput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="what to search?"
+            android:hint="@string/searchHint"
             app:layout_constraintEnd_toStartOf="@+id/searchButton"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

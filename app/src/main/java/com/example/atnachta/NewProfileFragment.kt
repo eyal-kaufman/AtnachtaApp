@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.example.atnachta.data.Girl
+import com.example.atnachta.data.Profile
 import com.example.atnachta.databinding.FragmentNewProfileBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -74,11 +75,16 @@ class NewProfileFragment : Fragment() {
     }
 
     private fun continueButtonHandler(view: View){
-        val girl: Girl = createGirl()
-        val girlDocRef = firestore.collection(PROFILES_COLLECTION).document()
-        girlDocRef.set(girl)
-        girlDocRef.get().addOnSuccessListener { document ->
-            if (document != null) {
+
+        val profile : Profile = createProfile()
+
+
+        val profileDocRef = firestore.collection(PROFILES_COLLECTION).document()
+
+        profileDocRef.set(profile)
+
+        profileDocRef.get().addOnSuccessListener { document ->
+            if (document != null){
                 Log.d(TAG, "DocumentSnapshot data: ${document.data}")
                 view.findNavController().navigate(
                     NewProfileFragmentDirections.actionNewProfileFragmentToNewReferenceFragment(document.id))
@@ -90,7 +96,28 @@ class NewProfileFragment : Fragment() {
                 Log.d(TAG, "get failed with ", exception)
             }
 
+//        val girl: Girl = createGirl()
+
+//        val girlDocRef = firestore.collection(PROFILES_COLLECTION).document()
+
+//        girlDocRef.set(girl)
+
+//        girlDocRef.get().addOnSuccessListener { document ->
+//            if (document != null) {
+//                Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+//                view.findNavController().navigate(
+//                    NewProfileFragmentDirections.actionNewProfileFragmentToNewReferenceFragment(document.id))
+//            } else {
+//                Log.d(TAG, "No such document")
+//            }
+//        }
+//            .addOnFailureListener { exception ->
+//                Log.d(TAG, "get failed with ", exception)
+//            }
+
+
     }
+
 
 
     fun setCardExpansion(view : View){
@@ -100,6 +127,11 @@ class NewProfileFragment : Fragment() {
         }
     }
 
+    private fun createProfile() : Profile{
+        return Profile(binding.firstName.text.toString(),
+            binding.familyName.text.toString(),
+            binding.editTextProfilePhone.text.toString())
+    }
     private fun createGirl() : Girl{
         return Girl(binding.firstName.text.toString(),
                 binding.familyName.text.toString(),

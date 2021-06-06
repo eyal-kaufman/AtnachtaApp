@@ -84,7 +84,8 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
             collectionReference.orderBy("firstName", Query.Direction.DESCENDING)
         } else{ // query by input
             val splitText = searchInput.split(" ")
-            collectionReference.whereIn("firstName", splitText) //TODO change to better search
+            // NOTICE - this wont find old test profiles without a searchList field
+            collectionReference.whereArrayContains("searchList", searchInput)
         }
         val newOptions : FirestoreRecyclerOptions<Profile> = FirestoreRecyclerOptions.Builder<Profile>()
             .setQuery(newQuery, Profile::class.java)

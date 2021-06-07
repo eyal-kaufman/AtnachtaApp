@@ -8,14 +8,14 @@
     <ImageView
         android:id="@+id/quality_image"
         android:layout_width="@dimen/icon_size"
-        android:layout_height="60dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@android:drawable/sym_def_app_icon" />
+        tools:srcCompat="@drawable/ic_baseline_person_24" />
 
     <TextView
         android:id="@+id/fullNameText"
@@ -23,32 +23,30 @@
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/AddressValue"
         app:layout_constraintStart_toEndOf="@+id/quality_image"
         app:layout_constraintTop_toTopOf="@+id/quality_image"
         tools:text="Full Name" />
 
     <TextView
-        android:id="@+id/cityNameText"
+        android:id="@+id/IDValue"
         android:layout_width="0dp"
         android:layout_height="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="100dp"
-        app:layout_constraintEnd_toEndOf="@+id/fullNameText"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/fullNameText"
-        app:layout_constraintTop_toBottomOf="@+id/fullNameText" />
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/quality_image"
+        app:layout_constraintTop_toTopOf="@+id/IDLabel"
+        tools:text="000000" />
 
     <TextView
         android:id="@+id/nameLabel"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="10dp"
         android:text="שם"
-        app:layout_constraintBottom_toBottomOf="@+id/fullNameText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/fullNameText" />
+        app:layout_constraintEnd_toEndOf="@+id/ageLabel"
+        app:layout_constraintTop_toTopOf="@+id/quality_image" />
 
     <TextView
         android:id="@+id/ageLabel"
@@ -57,29 +55,50 @@
         android:layout_marginStart="7dp"
         android:layout_marginEnd="8dp"
         android:text="גיל"
-        app:layout_constraintBottom_toBottomOf="@+id/cityNameText"
+        app:layout_constraintBottom_toBottomOf="@+id/IDValue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.92"
-        app:layout_constraintStart_toEndOf="@+id/cityNameText" />
+        app:layout_constraintStart_toEndOf="@+id/IDValue" />
 
     <TextView
         android:id="@+id/ageText"
-        android:layout_width="wrap_content"
+        android:layout_width="16dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:text="20"
-        app:layout_constraintBottom_toBottomOf="@+id/cityNameText"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
+        tools:text="20"
         app:layout_constraintEnd_toStartOf="@+id/ageLabel"
-        app:layout_constraintStart_toStartOf="@+id/cityLabel" />
+        app:layout_constraintHorizontal_bias="0.772"
+        app:layout_constraintStart_toEndOf="@+id/IDLabel"
+        app:layout_constraintTop_toBottomOf="@+id/fullNameText" />
 
     <TextView
-        android:id="@+id/cityLabel"
-        android:layout_width="22dp"
+        android:id="@+id/IDLabel"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="5dp"
-        android:text=" גגג"
-        app:layout_constraintBottom_toBottomOf="@+id/cityNameText"
-        app:layout_constraintEnd_toStartOf="@+id/nameLabel"
-        app:layout_constraintStart_toEndOf="@+id/cityNameText" />
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="40dp"
+        android:text="תעודת זהות"
+        app:layout_constraintEnd_toStartOf="@+id/ageLabel"
+        app:layout_constraintTop_toBottomOf="@+id/fullNameText" />
+
+    <TextView
+        android:id="@+id/addressLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="כתובת"
+        app:layout_constraintEnd_toEndOf="@+id/ageLabel"
+        app:layout_constraintTop_toBottomOf="@+id/IDLabel" />
+
+    <TextView
+        android:id="@+id/AddressValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="10dp"
+        tools:text ="ירושלים, גבעת רם, אהלן אהלן"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/addressLabel"
+        app:layout_constraintStart_toEndOf="@+id/quality_image" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

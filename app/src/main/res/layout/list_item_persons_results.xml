@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/quality_image"
         app:layout_constraintTop_toTopOf="@+id/quality_image"
-        tools:text="Wednesday" />
+        tools:text="Full Name" />
 
     <TextView
         android:id="@+id/cityNameText"
@@ -66,20 +66,20 @@
         android:id="@+id/ageText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="24dp"
         android:text="20"
         app:layout_constraintBottom_toBottomOf="@+id/cityNameText"
         app:layout_constraintEnd_toStartOf="@+id/ageLabel"
-        app:layout_constraintStart_toEndOf="@+id/cityLabel" />
+        app:layout_constraintStart_toStartOf="@+id/cityLabel" />
 
     <TextView
         android:id="@+id/cityLabel"
-        android:layout_width="wrap_content"
+        android:layout_width="22dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:text="עיר"
+        android:layout_marginEnd="5dp"
+        android:text=" גגג"
         app:layout_constraintBottom_toBottomOf="@+id/cityNameText"
-        app:layout_constraintStart_toEndOf="@+id/cityNameText"
-        app:layout_constraintTop_toTopOf="@+id/cityNameText" />
+        app:layout_constraintEnd_toStartOf="@+id/nameLabel"
+        app:layout_constraintStart_toEndOf="@+id/cityNameText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

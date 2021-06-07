@@ -1,10 +1,7 @@
 package com.example.atnachta
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.atnachta.data.Profile
 import com.example.atnachta.databinding.ListItemPersonsResultsBinding
@@ -27,7 +24,7 @@ class ProfileAdapter(options: FirestoreRecyclerOptions<Profile>, private val lis
 
     override fun onBindViewHolder(holder: ProfileHolder, position: Int, model: Profile) {
         holder.binding.fullNameText.text = "First Name: ${model.firstName}"
-        holder.binding.ageText.text = "Phone Number: ${model.phone}"
+        holder.binding.ageText.text = "Phone Number: ${model.age}"
         holder.binding.qualityImage.setImageResource(R.drawable.ic_launcher_background)
 
         // onClickListener for the holder - click received by the holder but handled by the fragment

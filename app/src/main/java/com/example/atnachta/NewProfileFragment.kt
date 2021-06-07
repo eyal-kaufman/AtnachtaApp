@@ -83,19 +83,18 @@ class NewProfileFragment : Fragment() {
 
         profileDocRef.set(profile)
 
-        profileDocRef.get().addOnSuccessListener { document ->
-            if (document != null){
-                Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-                view.findNavController().navigate(
-                    NewProfileFragmentDirections.actionNewProfileFragmentToNewReferenceFragment(document.id))
-            } else {
-                Log.d(TAG, "No such document")
-            }
-        }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "get failed with ", exception)
-            }
-
+//        profileDocRef.get().addOnSuccessListener { document ->
+//            if (document != null){
+//                Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+//                view.findNavController().navigate(
+//                    NewProfileFragmentDirections.actionNewProfileFragmentToNewReferenceFragment(document.id))
+//            } else {
+//                Log.d(TAG, "No such document")
+//            }
+//        }
+//            .addOnFailureListener { exception ->
+//                Log.d(TAG, "get failed with ", exception)
+//            }
 //        val girl: Girl = createGirl()
 
 //        val girlDocRef = firestore.collection(PROFILES_COLLECTION).document()

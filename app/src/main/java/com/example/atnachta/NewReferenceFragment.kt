@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
+import com.example.atnachta.data.Profile
 import com.example.atnachta.data.Reference
 import com.example.atnachta.databinding.FragmentNewReferenceBinding
 import com.google.firebase.firestore.DocumentReference
@@ -35,8 +37,8 @@ class NewReference : Fragment() {
 
     lateinit var binding : FragmentNewReferenceBinding
     lateinit var firestore : FirebaseFirestore
-    private lateinit var profileDocId : String
-    private lateinit var profileDocRef : DocumentReference
+//    private lateinit var profileDocId : String
+//    private lateinit var profileDocRef : DocumentReference
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,19 +66,22 @@ class NewReference : Fragment() {
         firestore = Firebase.firestore
 
         // getting girlDocId
-        profileDocId = NewReferenceArgs.fromBundle(requireArguments()).profileDocId
-        profileDocRef = firestore.collection(PROFILES_COLLECTION).document(profileDocId)
+//        profileDocId = NewReferenceArgs.fromBundle(requireArguments()).profileDocId
+//        profileDocRef = firestore.collection(PROFILES_COLLECTION).document(profileDocId)
 //        firestore.collection(PROFILES_COLLECTION).document(girlDocId).update("age", 123123123)
 
         // continue button setup
-        binding.continueButton.setOnClickListener {continueButtonHandler()}
+        binding.continueButton.setOnClickListener {v : View -> continueButtonHandler(v)}
         /*TODO Continue button should:
         *  1. Create a Reference object from data in TextViews
         *  2. Add the new reference to the reference nested-collection in the girl Firestore doc */
 
     }
 
-    private fun continueButtonHandler(){
+    private fun continueButtonHandler(view: View){
+        val profile : Profile = createProfile()
+        val profileDocRef = firestore.collection(PROFILES_COLLECTION).document()
+        profileDocRef.set(profile)
         val ref: Reference = createReference()
         profileDocRef.collection("References").add(ref)
                 .addOnSuccessListener { documentReference ->
@@ -85,6 +90,26 @@ class NewReference : Fragment() {
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error adding document", e)
                 }
+        profileDocRef.get().addOnSuccessListener { document ->
+            if (document != null){
+                Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                view.findNavController().navigate(
+                    NewReferenceDirections.actionNewReferenceToProfileFragment(document.id))
+            } else {
+                Log.d(TAG, "No such document")
+            }
+        }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    private fun createProfile() : Profile{
+        // todo change this according to the updated profile constructor
+        return Profile(binding.girlFirstName.text.toString(),"",binding.girlAge.text.toString())
+//        return Profile(binding.firstName.text.toString(),
+//            binding.familyName.text.toString(),
+//            binding.editTextProfilePhone.text.toString())
     }
 
     private fun createReference(): Reference {

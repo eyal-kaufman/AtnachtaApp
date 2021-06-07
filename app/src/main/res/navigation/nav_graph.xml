@@ -22,26 +22,8 @@
             android:id="@+id/action_mainScreen_to_recycleSearch"
             app:destination="@id/recycleSearch" />
         <action
-            android:id="@+id/action_mainScreen_to_newProfileFragment"
-            app:destination="@id/newProfileFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/newReferenceFragment"
-        android:name="com.example.atnachta.NewReference"
-        android:label="fragment_new_reference"
-        tools:layout="@layout/fragment_new_reference" >
-        <argument
-            android:name="profileDocId"
-            app:argType="string" />
-    </fragment>
-    <fragment
-        android:id="@+id/newProfileFragment"
-        android:name="com.example.atnachta.NewProfileFragment"
-        android:label="fragment_new_profile"
-        tools:layout="@layout/fragment_new_profile" >
-        <action
-            android:id="@+id/action_newProfileFragment_to_newReferenceFragment"
-            app:destination="@id/newReferenceFragment" />
+            android:id="@+id/action_mainScreen_to_newReference"
+            app:destination="@id/newReference" />
     </fragment>
     <fragment
         android:id="@+id/recycleSearch"
@@ -58,12 +40,18 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
 
-        <action
-            android:id="@+id/action_profileFragment_to_newReferenceFragment"
-            app:destination="@id/newReferenceFragment" />
         <argument
             android:name="docID"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/newReference"
+        android:name="com.example.atnachta.NewReference"
+        android:label="fragment_new_reference"
+        tools:layout="@layout/fragment_new_reference" >
+        <action
+            android:id="@+id/action_newReference_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 
 </navigation>

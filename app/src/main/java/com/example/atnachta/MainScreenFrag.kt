@@ -48,7 +48,7 @@ class MainScreen : Fragment() {
 
         // setup buttons
         binding.addNewProfileButton.setOnClickListener { view : View -> view.findNavController().navigate(
-            MainScreenDirections.actionMainScreenToNewProfileFragment())}
+            MainScreenDirections.actionMainScreenToNewReference())}
         binding.mainScreenSearchButton.setOnClickListener { view : View -> view.findNavController().navigate(
             MainScreenDirections.actionMainScreenToRecycleSearch())}
         return binding.root

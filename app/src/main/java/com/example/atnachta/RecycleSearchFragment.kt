@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -63,15 +64,9 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         // onClickListener for the search button - update result list
         binding.searchButton.setOnClickListener { updateQuery(binding.searchInput.text.toString()) }
 
-
-        // TODO: Eyals code, may want to remove
-//        val girlsList : MutableList<Girl> = mutableListOf()
-//        val adapter = PersonItemAdapter(girlsData = girlsList,)
-//        binding.resultList.adapter = adapter
-//        binding.searchButton.setOnClickListener { adapter.editResultList(queryProfiles(binding.searchInput)) }
-//        docRef.get()
-
-//    print(docRef.get())
+        // onClickListener for the newProfile button - go to create profile fragment
+        binding.newProfileButton.setOnClickListener{ v : View -> v.findNavController().navigate(
+            RecycleSearchDirections.actionRecycleSearchToNewReference())}
     }
 
     /**
@@ -140,28 +135,6 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         adapter.stopListening()
     }
 
-    // TODO: remove this function
-    fun queryProfiles(searchInput: EditText) : MutableList<Girl>{
-        val girlsList : MutableList<Girl> = mutableListOf()
-        val splitText = searchInput.text.toString().split(" ")
-        val docRef = firestore.collection("profiles").whereIn("firstName", splitText)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        girlsList.add(document.toObject<Girl>())
-                        Log.d(TAG, "${document.id} => ${document.data}")
-
-                    }
-
-                }
-                .addOnFailureListener { exception ->
-                    Log.w(TAG, "Error getting documents: ", exception)
-                }
-//        val query: String = searchInput.text.toString()
-//        return girlsList.filter{ query in it.firstName || query in it.lastName} as MutableList<Girl>
-        return girlsList
-    }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -178,7 +151,6 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
     ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_recycle_search,container,false)
-//        binding.searchButton.setOnClickListener { adapter.editResultList(getGirlsList(girlsList,binding.searchInput)) }
         return binding.root
     }
 

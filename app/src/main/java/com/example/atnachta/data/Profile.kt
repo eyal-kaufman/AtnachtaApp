@@ -15,7 +15,7 @@ class Profile {
     var yearOfAliyah : String = ""
     var religiosity : String = ""
     var citizenshipStatus : String = ""
-//    var age : Int = 0
+    var age : Int? = null
 //    Education:
     var lastStudyingAt : String = ""
     var grade : String = ""
@@ -47,15 +47,14 @@ class Profile {
 
 
     constructor() {}
-    constructor(firstName: String?, lastName: String?, phone: String?) {
+    constructor(firstName: String?, age: Int?) {
         this.firstName = firstName ?: "" // if input is null, put empty string
-        this.lastName = lastName ?: ""
-        this.phone = phone ?: ""
+        this.age = age
 
         // TODO eyal- also keep this line
         /* This list is needed for querying. When user searches for name/id, it searches this list
         * IMPORTANT - this must be updated every time we update first/last name*/
-        this.searchList = listOf(firstName,lastName,"$firstName $lastName", phone) //todo change phone to ID
+        this.searchList = listOf(firstName,lastName,"$firstName $lastName", ID)
 
     }
 }

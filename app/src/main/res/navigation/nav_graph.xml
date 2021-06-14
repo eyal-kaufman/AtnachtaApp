@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_recycleSearch_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_recycleSearch_to_newReference"
+            app:destination="@id/newReference" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -43,6 +46,9 @@
         <argument
             android:name="docID"
             app:argType="string" />
+        <action
+            android:id="@+id/action_profileFragment_to_addReferenceToProfileFragment"
+            app:destination="@id/addReferenceToProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/newReference"
@@ -51,7 +57,13 @@
         tools:layout="@layout/fragment_new_reference" >
         <action
             android:id="@+id/action_newReference_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/mainScreen"
+            app:popUpToInclusive="false" />
     </fragment>
+    <fragment
+        android:id="@+id/addReferenceToProfileFragment"
+        android:name="com.example.atnachta.AddReferenceToProfileFragment"
+        android:label="AddReferenceToProfileFragment" />
 
 </navigation>

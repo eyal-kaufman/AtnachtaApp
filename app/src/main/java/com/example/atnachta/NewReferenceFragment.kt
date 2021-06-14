@@ -72,10 +72,6 @@ class NewReference : Fragment() {
 
         // continue button setup
         binding.continueButton.setOnClickListener {v : View -> continueButtonHandler(v)}
-        /*TODO Continue button should:
-        *  1. Create a Reference object from data in TextViews
-        *  2. Add the new reference to the reference nested-collection in the girl Firestore doc */
-
     }
 
     private fun continueButtonHandler(view: View){
@@ -106,7 +102,12 @@ class NewReference : Fragment() {
 
     private fun createProfile() : Profile{
         // todo change this according to the updated profile constructor
-        return Profile(binding.girlFirstName.text.toString(),"",binding.girlAge.text.toString())
+        val age : Int? = if (binding.girlAge.text.toString().isBlank()){
+            null
+        } else{
+            binding.girlAge.text.toString().toInt()
+        }
+        return Profile(binding.girlFirstName.text.toString(),age)
 //        return Profile(binding.firstName.text.toString(),
 //            binding.familyName.text.toString(),
 //            binding.editTextProfilePhone.text.toString())

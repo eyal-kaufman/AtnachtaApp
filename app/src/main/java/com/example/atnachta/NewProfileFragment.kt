@@ -61,11 +61,7 @@ class NewProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // continue button setup
-        binding.continueButton.setOnClickListener { v : View -> continueButtonHandler(v) }
-        /*TODO Continue button should:
-        *  1. Create a Girl object from data in TextViews
-        *  2. Create a Girl document in Firestore
-        *  3. Pass the doc id to the next fragment (NewReference)*/
+//        binding.continueButton.setOnClickListener { v : View -> continueButtonHandler(v) }
 
         // setting action bar title
         activity?.setTitle(R.string.basicDetails)
@@ -74,68 +70,23 @@ class NewProfileFragment : Fragment() {
         firestore = Firebase.firestore
     }
 
-    private fun continueButtonHandler(view: View){
+//    private fun continueButtonHandler(view: View){
+//        val profile : Profile = createProfile()
+//        val profileDocRef = firestore.collection(PROFILES_COLLECTION).document()
+//        profileDocRef.set(profile)
+//    }
 
-        val profile : Profile = createProfile()
-
-
-        val profileDocRef = firestore.collection(PROFILES_COLLECTION).document()
-
-        profileDocRef.set(profile)
-
-//        profileDocRef.get().addOnSuccessListener { document ->
-//            if (document != null){
-//                Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-//                view.findNavController().navigate(
-//                    NewProfileFragmentDirections.actionNewProfileFragmentToNewReferenceFragment(document.id))
-//            } else {
-//                Log.d(TAG, "No such document")
-//            }
-//        }
-//            .addOnFailureListener { exception ->
-//                Log.d(TAG, "get failed with ", exception)
-//            }
-//        val girl: Girl = createGirl()
-
-//        val girlDocRef = firestore.collection(PROFILES_COLLECTION).document()
-
-//        girlDocRef.set(girl)
-
-//        girlDocRef.get().addOnSuccessListener { document ->
-//            if (document != null) {
-//                Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-//                view.findNavController().navigate(
-//                    NewProfileFragmentDirections.actionNewProfileFragmentToNewReferenceFragment(document.id))
-//            } else {
-//                Log.d(TAG, "No such document")
-//            }
-//        }
-//            .addOnFailureListener { exception ->
-//                Log.d(TAG, "get failed with ", exception)
-//            }
-
-
-    }
-
-
-
-    fun setCardExpansion(view : View){
-        when(view.visibility){
-            View.GONE -> view.visibility = View.VISIBLE
-            else -> view.visibility = View.GONE
-        }
-    }
-
-    private fun createProfile() : Profile{
-        return Profile(binding.firstName.text.toString(),
-            binding.familyName.text.toString(),
-            binding.editTextProfilePhone.text.toString())
-    }
-    private fun createGirl() : Girl{
-        return Girl(binding.firstName.text.toString(),
-                binding.familyName.text.toString(),
-                Integer.parseInt(binding.editTextProfilePhone.text.toString()))
-    }
+//    private fun createProfile() : Profile{
+//        return Profile(binding.firstName.text.toString(),
+//            binding.familyName.text.toString(),
+//            binding.editTextProfilePhone.text.toString())
+//    }
+//
+//    private fun createGirl() : Girl{
+//        return Girl(binding.firstName.text.toString(),
+//                binding.familyName.text.toString(),
+//                Integer.parseInt(binding.editTextProfilePhone.text.toString()))
+//    }
 
     companion object {
         /**

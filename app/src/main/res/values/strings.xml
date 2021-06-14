@@ -48,4 +48,5 @@
     <string name="referenceReason">סיבת ההפניה</string>
     <string name="searchHint">הכנס/י שם או תעודת זהות…</string>
     <string name="age">גיל</string>
+    <string name="recycleSearchSearchButton">חיפוש</string>
 </resources>

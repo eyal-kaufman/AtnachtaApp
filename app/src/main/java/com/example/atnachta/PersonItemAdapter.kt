@@ -62,7 +62,7 @@ class PersonItemAdapter(var girlsData : MutableList<Girl>):
     }
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val profileName: TextView = itemView.findViewById(R.id.fullNameText)
-        val profileCity: TextView = itemView.findViewById(R.id.cityNameText)
+        val profileCity: TextView = itemView.findViewById(R.id.IDValue)
         val profileImage: ImageView = itemView.findViewById(R.id.quality_image)
         val profileAge: TextView = itemView.findViewById(R.id.ageText)
     }

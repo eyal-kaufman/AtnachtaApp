@@ -119,7 +119,7 @@ class NewReference : Fragment() {
                         binding.referenceReason.text.toString(),
                         binding.refererName.text.toString(),
                         binding.refererJob.text.toString(),
-                        Integer.parseInt(binding.editTextPhone.text.toString())
+                        binding.editTextPhone.text.toString()
         )
     }
 

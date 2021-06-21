@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -25,11 +24,10 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import org.json.*
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileWriter
-import java.io.IOException
+import org.apache.commons.csv.CSVFormat
+import org.apache.commons.csv.CSVPrinter
+import java.io.*
+import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -60,6 +58,8 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
     lateinit var map_lst : MutableList<Map<String, Any>>
     var data_STR = ""
     val TAG : String = "RecycleView"
+    var filename =""
+    var filepath = ""
     ///samples
 
 
@@ -98,6 +98,9 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
 //        val girlsList : MutableList<Girl> = mutableListOf()
 //        val adapter = PersonItemAdapter(girlsData = girlsList,)
 //        binding.resultList.adapter = adapter
+        if (!fooo()){
+            binding.button3.isEnabled = false
+        }
         binding.button3.setOnClickListener { foo() }
 //        docRef.get()
 
@@ -141,7 +144,13 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         binding.resultList.adapter = adapter
 
     }
-
+    fun fooo(): Boolean {
+        val extra = Environment.getExternalStorageState()
+        if (extra.equals(Environment.MEDIA_MOUNTED) ){
+            return true
+        }
+        return false
+    }
 //    TODO DELETE:
 
     fun foo(){
@@ -151,48 +160,85 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
 //
 //        val myfile = File(fileName)
 //        myfile.createNewFile()
-        val content = "Toda,snow ,is ,falling."
-        map_lst = mutableListOf()
+
+        filename ="myFile.csv"
+        filepath = "MyFileDir"
+        val myextrnal = File(context?.getExternalFilesDir(filepath), filename)
+        var fos : FileOutputStream? = null
+//        val tmp = Profile.l;
+        var headers : SortedSet<String> = sortedSetOf()
+        try{
+            collectionReference.orderBy("firstName", Query.Direction.DESCENDING)
+                .get().addOnSuccessListener { documents->
+                    val writer = myextrnal.bufferedWriter()
+                    writer.write("\ufeff")
+                    val csvPrinter = CSVPrinter(writer, CSVFormat.DEFAULT)
+
+                    for (doc in documents){
+                        if (headers.size==0) {
+                            headers = doc.data.keys.toSortedSet()
+                            csvPrinter.printRecord(headers)
+                        }
+                        csvPrinter.printRecord(doc.data.toSortedMap().values)
+//
+//                        fos = FileOutputStream(myextrnal)
+//                        fos!!.write((doc.data.toString()+"\n").toByteArray())
+
+                        Log.d(TAG, "${doc.id} => ${doc.data}")
+
+                    }
+                    val path: Uri =
+                        FileProvider.getUriForFile(requireContext(), "com.example.atnachta.fileprovider", myextrnal)
+
+                    val fileIntent = Intent(Intent.ACTION_SEND)
+                    fileIntent.type = "text/csv"
+                    fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Data")
+                    fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    fileIntent.putExtra(Intent.EXTRA_STREAM, path)
+                    startActivity(fileIntent)
+                    csvPrinter.flush();
+                    csvPrinter.close();
+                }
+
+        } catch (e :FileNotFoundException ){
+            e.printStackTrace()
+        } catch (e : IOException){
+            e.printStackTrace()
+        }
+//        val path: Uri =
+//            FileProvider.getUriForFile(requireContext(), "com.example.atnachta.fileprovider", myextrnal)
+////        val new_path = Uri.fromFile(myextrnal)
+//        val fileIntent = Intent(Intent.ACTION_SEND)
+//        fileIntent.type = "text/csv"
+//        fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Data")
+//        fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//        fileIntent.putExtra(Intent.EXTRA_STREAM, path)
+//        startActivity(fileIntent)
+//
+//
+//        map_lst = mutableListOf()
 
 //        myfile.writeText(content)
         try {
 
 //            val filelocation =
 //                File(context.getExternalFilesDir(), "data.csv")
-            val pathFile = File(context?.filesDir,"data.csv")
-            val writer = FileWriter(pathFile)
-//            var data_str : String = ""
-//            val docRef = firestore.collection("profiles").whereIn("firstName", "איל".split(" "))
-//                .get()
-//                .addOnSuccessListener { documents ->
-//                    for (document in documents) {
-//                        map_lst.add(document.data)
-//                        Log.d(TAG, "${document.id} => ${document.data}")
-//                        data_STR += document.data.toString() + "\n"
-////
-//                    }
+//            val root = File(context?.getExternalFilesDir(null), "Notes")
+//            if (!root.exists()) {
+//                root.mkdirs();
+//            }
+//            val outputfile = File(root, "data.csv")
+//            val writer = FileWriter(outputfile)
+//            writer.append(content)
+//            writer.flush()
+//            writer.close()
+
 //
-//                }
-            collectionReference.orderBy("firstName", Query.Direction.DESCENDING)
-                .get().addOnSuccessListener { documents->
-                    for (doc in documents){
-                        Log.d(TAG, "${doc.id} => ${doc.data}")
-//                        map_lst.add(doc.data)
-//                        writer.use { it.write(doc.data.toString()) }
-//                        pathFile.printWriter().use { out -> out.println(doc.data.toString()) }
-                        data_STR += doc.data.toString() + "\n"
-
-                    }
-                }
-            Log.d(TAG, data_STR)
-//            Log.e("errr",context?.getExternalFilesDir(null).toString())
-            writer.use { it.write(data_STR) }
-
-            val bufferedReader: BufferedReader = File(context?.filesDir,"data.csv").bufferedReader()
-            val inputString = bufferedReader.use { it.readText() }
-            println(inputString)
-            Log.e("errr inputString",inputString)
-            Log.e("errr dataSTR",data_STR)
+//            val bufferedReader: BufferedReader =myextrnal.bufferedReader()
+//            val inputString = bufferedReader.use { it.readText() }
+//            println(inputString)
+//            Log.e("errr inputString",inputString)
+//            Log.e("errr dataSTR",myextrnal.path)
 //            val file= File(context?.getExternalFilesDir(null),"data.csv")
 //            val uri = Uri.fromFile(file)
 
@@ -205,14 +251,10 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
 //            startActivity(Intent.createChooser(intent,"aaaaa"))
 
 //            val filelocation: File = File(context?.filesDir, "data.csv")
-            val path: Uri =
-                FileProvider.getUriForFile(requireContext(), "com.example.atnachta.fileprovider", pathFile)
-            val fileIntent = Intent(Intent.ACTION_SEND)
-            fileIntent.type = "text/csv"
-            fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Data")
-            fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            fileIntent.putExtra(Intent.EXTRA_STREAM, path)
-//            startActivity(fileIntent)
+
+
+
+
 //            ContextCompat.startActivity(Intent.createChooser(fileIntent, "Send mail"))
 //            startActivity(Intent.createChooser(fileIntent,"aaaaa"))
 //            if (context?.let { intent.resolveActivity(it.packageManager) } != null) {

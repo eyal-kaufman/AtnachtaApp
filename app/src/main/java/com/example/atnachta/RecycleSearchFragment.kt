@@ -1,19 +1,20 @@
 package com.example.atnachta
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.atnachta.data.Girl
 import com.example.atnachta.data.Profile
 import com.example.atnachta.databinding.FragmentRecycleSearchBinding
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -24,6 +25,10 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import org.apache.commons.csv.CSVFormat
+import org.apache.commons.csv.CSVPrinter
+import java.io.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,14 +56,14 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
     lateinit var collectionReference: CollectionReference
     lateinit var adapter: ProfileAdapter
 
+    lateinit var initialSearchInput: String
     val TAG : String = "RecycleView"
-    ///samples
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         firestore = Firebase.firestore
         collectionReference = firestore.collection(PROFILES_COLLECTION)
+        initialSearchInput = RecycleSearchArgs.fromBundle(requireArguments()).searchInput
         setUpRecyclerView()
 
         // onClickListener for the search button - update result list
@@ -78,8 +83,6 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         val newQuery : Query = if (searchInput.isBlank()){ // if blank just show everything
             collectionReference.orderBy("firstName", Query.Direction.DESCENDING)
         } else{ // query by input
-            val splitText = searchInput.split(" ")
-            // NOTICE - this wont find old test profiles without a searchList field
             collectionReference.whereArrayContains("searchList", searchInput)
         }
         val newOptions : FirestoreRecyclerOptions<Profile> = FirestoreRecyclerOptions.Builder<Profile>()
@@ -92,7 +95,11 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
 
     private fun setUpRecyclerView() {
         // set up a query which gets all of the profiles in the database
-        val query : Query = collectionReference.orderBy("firstName", Query.Direction.DESCENDING)
+        val query : Query = if (initialSearchInput.isBlank()){ // if blank just show everything
+            collectionReference.orderBy("firstName", Query.Direction.DESCENDING)
+        } else{ // query by input
+            collectionReference.whereArrayContains("searchList", initialSearchInput)
+        }
 
         // define the options object (firebaseUI class), that gets the query into the adapter
         val firestoreRecyclerOptions : FirestoreRecyclerOptions<Profile> = FirestoreRecyclerOptions.Builder<Profile>()

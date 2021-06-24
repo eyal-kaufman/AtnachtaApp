@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="mediumMargin">64dp</dimen>
-    <dimen name="logo_margin">125dp</dimen>
+    <dimen name="logo_margin">64dp</dimen>
     <dimen name="smallLabelPadding">8dp</dimen>
     <dimen name="inputTextPadding">16dp</dimen>
     <dimen name="inputTextPaddingStart">30dp</dimen>
     <dimen name="inputTextPaddingEnd">30dp</dimen>
     <dimen name="icon_size">64dp</dimen>
     <dimen name="labeledInputMargin">40dp</dimen>
+    <dimen name="login_button_margib" />
+    <dimen name="login_button_margin">64dp</dimen>
+    <dimen name="passwordChangeButtonMargin">64dp</dimen>
+    <dimen name="progressBarElevation">2dp</dimen>
+    <dimen name="passwordResetLogoMargin">64dp</dimen>
 </resources>

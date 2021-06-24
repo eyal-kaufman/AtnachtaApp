@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_mainScreen_to_newReference"
             app:destination="@id/newReference" />
+        <argument
+            android:name="userID"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/recycleSearch"
@@ -36,6 +39,9 @@
         <action
             android:id="@+id/action_recycleSearch_to_newReference"
             app:destination="@id/newReference" />
+        <argument
+            android:name="searchInput"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

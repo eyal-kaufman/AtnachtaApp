@@ -1,0 +1,7 @@
+authentication and use management:
+ - we (Atnachta and us) will create two constant admin account, with set up username/emails (denote "admin" and "user")
+ - login logic will work like this:
+    * If username = admin and password is correct:
+        go to admin-main-screen, which is regular main screen but with another option of "change user account password"
+    * else (if username != admin and password is correct)
+        go to user-main-screen, which is what we did until now

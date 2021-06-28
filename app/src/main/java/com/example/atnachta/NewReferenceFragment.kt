@@ -37,11 +37,6 @@ private const val PROFILES_COLLECTION = "profiles"
  */
 class NewReference : Fragment() {
     // TODO: Rename and change types of parameters
-
-
-    /*TODO:
-    *  3. Remove the extra fragment and make sure that the age+name views are not visible when
-    *     coming from ProfileFragment*/
     private var param1: String? = null
     private var param2: String? = null
 

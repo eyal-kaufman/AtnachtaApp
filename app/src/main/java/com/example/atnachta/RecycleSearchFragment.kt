@@ -71,7 +71,7 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
 
         // onClickListener for the newProfile button - go to create profile fragment
         binding.newProfileButton.setOnClickListener{ v : View -> v.findNavController().navigate(
-            RecycleSearchDirections.actionRecycleSearchToNewReference())}
+            RecycleSearchDirections.actionRecycleSearchToNewReference(true))}
     }
 
     /**

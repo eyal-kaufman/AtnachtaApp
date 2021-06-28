@@ -72,4 +72,7 @@
     <string name="backToLoginButtonText">חזרה למסך כניסה</string>
     <string name="generalPasswordResetError">שגיאה במהלך אתחול סיסמא</string>
     <string name="loginForPasswordResetFragmentTitle">כניסה למשתמש מדריכים</string>
+    <string name="dateChooserText">נא לבחור תאריך...</string>
+    <string name="timeChooserText">נא לבחור שעה...</string>
+    <string name="dateAndTime">תאריך ושעה</string>
 </resources>

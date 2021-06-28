@@ -13,4 +13,5 @@
     <dimen name="passwordChangeButtonMargin">64dp</dimen>
     <dimen name="progressBarElevation">2dp</dimen>
     <dimen name="passwordResetLogoMargin">64dp</dimen>
+    <dimen name="dateTimeSize">18sp</dimen>
 </resources>

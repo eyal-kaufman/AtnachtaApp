@@ -9,9 +9,9 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="wrap_content">
 
             <View
                 android:id="@+id/divider"
@@ -24,7 +24,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/girlAge" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout10"
+                android:id="@+id/textInputLayoutFirstName"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
                 android:paddingEnd="@dimen/inputTextPaddingEnd"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6">
+                app:layout_constraintTop_toBottomOf="@+id/personalDetailsTitleView">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/girlFirstName"
@@ -55,7 +55,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8">
+                app:layout_constraintTop_toBottomOf="@+id/referenceDetailsTitleView">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/receiverName"
@@ -66,26 +66,26 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/editTextDate"
+            <TextView
+                android:id="@+id/dateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="@dimen/inputTextPaddingStart"
-                android:ems="10"
-                android:inputType="date"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout6" />
+                android:textSize="@dimen/dateTimeSize"
+                app:layout_constraintEnd_toStartOf="@+id/timeTextView"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/timeTextView" />
 
-            <EditText
-                android:id="@+id/editTextTime"
+            <TextView
+                android:id="@+id/timeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:ems="10"
-                android:inputType="time"
-                app:layout_constraintEnd_toEndOf="@+id/editTextDate"
-                app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+                android:layout_marginTop="16dp"
+                android:textSize="@dimen/dateTimeSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/dateTextView"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout9"
@@ -97,14 +97,14 @@
                 android:paddingEnd="@dimen/inputTextPaddingEnd"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/editTextTime">
+                app:layout_constraintTop_toBottomOf="@id/timeTextView">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/referenceReason"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/referenceReason"
-                    android:inputType = "textPersonName" />
+                    android:inputType="textPersonName" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -145,8 +145,8 @@
                     android:id="@+id/refererName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:hint="@string/name" />
+                    android:hint="@string/name"
+                    android:inputType="textPersonName" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -166,8 +166,8 @@
                     android:id="@+id/refererJob"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:hint="@string/job" />
+                    android:hint="@string/job"
+                    android:inputType="textPersonName" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -196,17 +196,12 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/date"
-                app:layout_constraintBottom_toTopOf="@+id/editTextDate"
-                app:layout_constraintEnd_toEndOf="@+id/editTextDate" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/time"
-                app:layout_constraintBottom_toTopOf="@+id/editTextTime"
-                app:layout_constraintEnd_toEndOf="@+id/editTextTime" />
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:text="@string/dateAndTime"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout6" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -217,7 +212,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/editTextPhone" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/personalDetailsTitleView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -236,10 +231,10 @@
                 android:ems="10"
                 android:inputType="numberDecimal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout10" />
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutFirstName" />
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/textViewAgeTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/age"
@@ -247,7 +242,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/girlAge" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/referenceDetailsTitleView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -256,7 +251,6 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

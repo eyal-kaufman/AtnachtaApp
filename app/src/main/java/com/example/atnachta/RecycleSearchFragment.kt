@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.atnachta.data.Girl
@@ -176,6 +177,7 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_recycle_search,container,false)
 //        binding.searchButton.setOnClickListener { adapter.editResultList(getGirlsList(girlsList,binding.searchInput)) }
+        binding.button3.setOnClickListener { view : View -> view.findNavController().navigate(R.id.action_recycleSearch_to_profileFragment)}
         return binding.root
     }
 

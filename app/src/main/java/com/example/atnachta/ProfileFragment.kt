@@ -7,6 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -31,7 +34,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [profileFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class profileFragment : Fragment() {
+class profileFragment : Fragment(), AdapterView.OnItemSelectedListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -42,6 +45,15 @@ class profileFragment : Fragment() {
     lateinit var girlDocRef: DocumentReference
     val TAG: String = "profile"
 
+//    val _edit_text_array = arrayOf(binding.editName, binding.editId, binding.editPhone ,
+//        binding.editFatherName, binding.editMotherName, binding.editFatherPhone,
+//        binding.editMotherPhone, binding.editAddress, binding.editBirthDate,
+//        binding.editKupach, binding.editSchool, binding.editCivil)
+//
+//    val _edited_text_array = arrayOf(binding.editedName, binding.editedId, binding.editedPhone ,
+//        binding.editedFatherName, binding.editedMotherName, binding.editedFatherPhone,
+//        binding.editedMotherPhone, binding.editedAddress, binding.editedBirthDate,
+//        binding.editedKupach, binding.editedSchool, binding.editedCivil)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +61,17 @@ class profileFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        girlDocRef.update("firstName", "hey!").addOnSuccessListener {
+            Log.d(TAG, "success!")
+//            displayMode(view)
+        }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
     }
 
     override fun onCreateView(
@@ -61,14 +84,24 @@ class profileFragment : Fragment() {
         binding.button4.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_profileFragment_to_newReferenceFragment)
         }
+        binding.examples.setOnClickListener { view: View ->
+            view.findNavController().navigate(R.id.action_ProfileFragment_to_ReferenceFragment)
+        }
+
+//        girlDocId = "r2m6NpHUQX4WZOpcjJCC"
+//        firestore = Firebase.firestore
+//        girlDocRef = firestore.collection("profiles").document(girlDocId)
+
         activity?.setTitle(R.string.basicDetails)
+
         binding.editButton.setOnClickListener {
             editMode(it)
         }
+//        binding.button5.setOnClickListener { view ->
+//
+//        }
 
-        binding.button5.setOnClickListener {
-            displayMode(it)
-        }
+
         binding.parentsTitle.setOnClickListener {
             if (parentsData.visibility == View.GONE) {
                 TransitionManager.beginDelayedTransition(parentsData, AutoTransition())
@@ -93,7 +126,25 @@ class profileFragment : Fragment() {
                 referenceData.visibility = View.GONE;
             }
         }
-        girlDocId = "shiraTest"
+        binding.educationTitle.setOnClickListener {
+            if (educationData.visibility == View.GONE) {
+                TransitionManager.beginDelayedTransition(educationData, AutoTransition())
+                educationData.visibility = View.VISIBLE;
+            } else {
+                educationData.visibility = View.GONE;
+            }
+        }
+        binding.healthTitle.setOnClickListener {
+            if (healthData.visibility == View.GONE) {
+                TransitionManager.beginDelayedTransition(healthData, AutoTransition())
+                healthData.visibility = View.VISIBLE;
+            } else {
+                healthData.visibility = View.GONE;
+            }
+        }
+
+
+        girlDocId = "ncq4qmlp3LZGxp9iZliB"
         firestore = Firebase.firestore
         girlDocRef = firestore.collection("profiles").document(girlDocId)
         girlDocRef.get()
@@ -108,24 +159,36 @@ class profileFragment : Fragment() {
             .addOnFailureListener { exception ->
                 Log.d(TAG, "get failed with ", exception)
             }
+
         return binding.root
     }
 
-    private fun retrieveProfileData(document: DocumentSnapshot){
+    private fun retrieveProfileData(document: DocumentSnapshot) {
         Log.d(TAG, "DocumentSnapshot data: ${document.data}")
         edited_name.text = document.getString("firstName")
         edited_id.text = document.getString("lastName")
         edited_phone.text = document.getString("age")
     }
 
-
-    private fun updateProfileData(document: DocumentSnapshot){
+    private fun updateProfileData(document: DocumentSnapshot) {
         girlDocRef.update("lastName", edit_id.text)
         girlDocRef.update("age", edit_phone.text)
         girlDocRef.update("firstName", edit_name.text)
         Log.d(TAG, "DocumentSnapshot update: ${document.data}")
     }
+
+    private fun update(view: View) {
+
+    }
+
+
     private fun displayMode(view: View) {
+//        for(edit_text in _edit_text_array){
+//            edit_text.visibility = View.GONE
+//        }
+//        for(edited_text in _edited_text_array){
+//            edited_text.visibility = View.VISIBLE
+//        }
         edited_name.visibility = View.VISIBLE
         edit_name.visibility = View.GONE
 
@@ -178,7 +241,20 @@ class profileFragment : Fragment() {
 
 
     private fun editMode(view: View) {
-
+//        for(edit_text in _edit_text_array){
+//            edit_text.visibility = View.VISIBLE
+//        }
+//        for(edited_text in _edited_text_array){
+//            edited_text.visibility = View.GONE
+//        }
+        view.visibility = View.GONE
+        button5.visibility = View.VISIBLE
+//        for(edit_text in _edit_text_array){
+//            edit_text.visibility = View.VISIBLE
+//        }
+//        for(edited_text in _edited_text_array){
+//            edited_text.visibility = View.GONE
+//        }
         edited_name.visibility = View.GONE
         edit_name.visibility = View.VISIBLE
 
@@ -215,8 +291,7 @@ class profileFragment : Fragment() {
         edited_civil.visibility = View.GONE
         edit_civil.visibility = View.VISIBLE
 
-        view.visibility = View.GONE
-        button5.visibility = View.VISIBLE
+
     }
 
     companion object {
@@ -228,6 +303,15 @@ class profileFragment : Fragment() {
          * @param param2 Parameter 2.
          * @return A new instance of fragment profileFragment.
          */
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment profileFragment.
+         */
+
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
@@ -237,5 +321,13 @@ class profileFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        TODO("Not yet implemented")
     }
 }

@@ -15,6 +15,13 @@
             android:gravity="right"
             android:orientation="vertical">
 
+<!--            <Button-->
+<!--                android:id="@+id/button"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:onClick="update"-->
+<!--                android:text="Button" />-->
+
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -47,6 +54,8 @@
                         android:text="פרופיל נערה"
                         android:textSize="30sp" />
 
+
+
                 </TableRow>
 
             </TableLayout>
@@ -76,12 +85,36 @@
                         style="@style/word_profile_field"
                         android:layout_column="4" />
 
+
                     <TextView
                         style="@style/word_profile_field"
                         android:text="שם מלא:" />
 
-                </TableRow>
 
+                </TableRow>
+                <TableRow android:layout_margin="5sp">
+
+                    <EditText
+                        android:id="@+id/edit_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="3"
+                        android:autoText="true"
+                        android:ems="3"
+                        android:inputType="number"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/edited_id"
+                        style="@style/word_profile_field"
+                        android:layout_column="4" />
+
+                    <TextView
+                        style="@style/word_profile_field"
+                        android:text="@string/id" />
+
+
+                </TableRow>
                 <TableRow android:layout_margin="5sp">
 
                     <EditText
@@ -106,11 +139,10 @@
                         android:text="מספר טלפון:" />
 
                 </TableRow>
-
                 <TableRow android:layout_margin="5sp">
 
                     <EditText
-                        android:id="@+id/edit_id"
+                        android:id="@+id/edit_add"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="3"
@@ -119,138 +151,18 @@
                         android:visibility="gone" />
 
                     <TextView
-                        android:id="@+id/edited_id"
+                        android:id="@+id/edited_add"
                         style="@style/word_profile_field"
                         android:layout_column="4" />
 
                     <TextView
                         style="@style/word_profile_field"
-                        android:text="תעודת זהות:" />
+                        android:text="כתובת מגורים:" />
 
 
                 </TableRow>
+
             </TableLayout>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10sp"
-                    android:layout_marginBottom="10sp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/parentsTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5sp"
-                        android:text="פרטי הורים"
-                        android:textSize="25sp" />
-
-                    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:id="@+id/parentsData"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:stretchColumns="*"
-                        android:visibility="gone">
-
-
-                        <TableRow android:weightSum="1">
-
-
-                            <EditText
-                                android:id="@+id/edit_father_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="text"
-                                android:visibility="gone" />
-
-                            <TextView
-                                android:id="@+id/edited_father_name"
-                                android:layout_column="6" />
-
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="שם האב:" />
-                        </TableRow>
-
-                        <TableRow android:weightSum="1">
-
-
-                            <EditText
-                                android:id="@+id/edit_father_phone"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="phone"
-                                android:visibility="gone" />
-
-                            <TextView
-                                android:id="@+id/edited_father_phone"
-                                style="@style/word_profile_field"
-                                android:layout_column="6" />
-
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="טלפון האב:" />
-
-
-                        </TableRow>
-
-                        <TableRow>
-
-
-                            <EditText
-                                android:id="@+id/edit_mother_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="text"
-                                android:visibility="gone" />
-
-                            <TextView
-                                android:id="@+id/edited_mother_name"
-                                style="@style/word_profile_field"
-                                android:layout_column="6" />
-
-
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="שם האם:" />
-
-                        </TableRow>
-
-                        <TableRow>
-
-
-                            <EditText
-                                android:id="@+id/edit_mother_phone"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="phone"
-                                android:visibility="gone" />
-
-                            <TextView
-                                android:id="@+id/edited_mother_phone"
-                                android:layout_column="6" />
-
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="טלפון האם:" />
-                        </TableRow>
-
-                    </TableLayout>
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -397,6 +309,337 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginBottom="10sp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/parentsTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5sp"
+                        android:text="משפחה"
+                        android:textSize="25sp" />
+
+                    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/parentsData"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:stretchColumns="*"
+                        android:visibility="gone">
+
+
+                        <TableRow android:weightSum="1">
+
+
+                            <EditText
+                                android:id="@+id/edit_father_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ems="3"
+                                android:inputType="text"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/edited_father_name"
+                                android:layout_column="6" />
+
+                            <TextView
+                                style="@style/word_profile_field"
+                                android:text="שם האב:" />
+                        </TableRow>
+
+                        <TableRow android:weightSum="1">
+
+
+                            <EditText
+                                android:id="@+id/edit_father_phone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ems="3"
+                                android:inputType="phone"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/edited_father_phone"
+                                style="@style/word_profile_field"
+                                android:layout_column="6" />
+
+                            <TextView
+                                style="@style/word_profile_field"
+                                android:text="טלפון האב:" />
+
+
+                        </TableRow>
+
+                        <TableRow>
+
+
+                            <EditText
+                                android:id="@+id/edit_mother_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ems="3"
+                                android:inputType="text"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/edited_mother_name"
+                                style="@style/word_profile_field"
+                                android:layout_column="6" />
+
+
+                            <TextView
+                                style="@style/word_profile_field"
+                                android:text="שם האם:" />
+
+                        </TableRow>
+
+
+                    </TableLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginBottom="10sp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/educationTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5sp"
+                        android:text="השכלה"
+                        android:textSize="25sp" />
+
+                    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/educationData"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:stretchColumns="*"
+                        android:visibility="gone">
+
+
+                        <TableRow android:weightSum="1">
+
+
+                            <EditText
+                                android:id="@+id/edit_last_institution"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ems="3"
+                                android:inputType="text"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/edited_last_institution"
+                                android:layout_column="6" />
+
+                            <TextView
+                                style="@style/word_profile_field"
+                                android:text="מוסד לימודים אחרון:" />
+                        </TableRow>
+
+                        <TableRow android:weightSum="1">
+
+
+                            <EditText
+                                android:id="@+id/edit_age"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ems="3"
+                                android:inputType="phone"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/edited_age"
+                                style="@style/word_profile_field"
+                                android:layout_column="6" />
+
+                            <TextView
+                                style="@style/word_profile_field"
+                                android:text="גיל:" />
+
+
+                        </TableRow>
+
+                        <TableRow>
+
+
+                            <EditText
+                                android:id="@+id/edit_is_student"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ems="3"
+                                android:inputType="text"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/edited_is_student"
+                                style="@style/word_profile_field"
+                                android:layout_column="6" />
+
+
+                            <TextView
+                                style="@style/word_profile_field"
+                                android:text="גיל/כיתה:" />
+
+                        </TableRow>
+
+                        <TableRow>
+
+
+                            <EditText
+                                android:id="@+id/edit_mother_phone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ems="3"
+                                android:inputType="phone"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/edited_mother_phone"
+                                android:layout_column="6" />
+
+                            <TextView
+                                style="@style/word_profile_field"
+                                android:text="טלפון האם:" />
+                        </TableRow>
+
+                    </TableLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginBottom="10sp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/healthTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5sp"
+                        android:text="בריאות"
+                        android:textSize="25sp" />
+
+                    <TableLayout
+                        android:id="@+id/healthData"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:stretchColumns="*"
+                        android:visibility="gone">
+
+
+                        <TableRow android:weightSum="1">
+
+
+                            <Spinner
+                                android:id="@+id/hmo_spinner"
+                                android:layout_height="50dp"
+                                android:layout_width="160dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginTop="10dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"/>
+
+                            <EditText
+                                android:id="@+id/edit_hmo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ems="3"
+                                android:inputType="text"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/edited_hmo"
+                                android:layout_column="6" />
+
+                            <TextView
+                                style="@style/word_profile_field"
+                                android:text="קופת חולים:" />
+                        </TableRow>
+
+                        <TableRow android:weightSum="1">
+
+
+                            <EditText
+                                android:id="@+id/edit_medical_treatment"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ems="3"
+                                android:inputType="phone"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/edited_medical_treatment"
+                                style="@style/word_profile_field"
+                                android:layout_column="6" />
+
+                            <TextView
+                                style="@style/word_profile_field"
+                                android:text="טיפול תרופתי קבוע:" />
+
+
+                        </TableRow>
+
+                        <TableRow>
+
+
+                            <EditText
+                                android:id="@+id/edit_medical_problems"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ems="3"
+                                android:inputType="text"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/edited_medical_problems"
+                                style="@style/word_profile_field"
+                                android:layout_column="6" />
+
+
+                            <TextView
+                                style="@style/word_profile_field"
+                                android:text="בעיות רפואיות ידועות:" />
+
+                        </TableRow>
+
+
+                    </TableLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:layout_marginTop="10sp"
                     android:layout_marginBottom="10sp">
@@ -508,6 +751,14 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/examples"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="מעבר זמני להפניות"/>
+
+
         </LinearLayout>
     </ScrollView>
 </layout>

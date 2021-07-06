@@ -52,6 +52,13 @@
             android:id="@+id/action_recycleSearch_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/referenceFragment"
+        android:name="com.example.atnachta.ReferenceFragment"
+        android:label="fragment_reference"
+        tools:layout="@layout/fragment_reference" />
+
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.atnachta.profileFragment"
@@ -59,8 +66,14 @@
         tools:layout="@layout/fragment_profile" >
 
         <action
+            android:id="@+id/action_ProfileFragment_to_ReferenceFragment"
+            app:destination="@id/referenceFragment" />
+
+        <action
             android:id="@+id/action_profileFragment_to_newReferenceFragment"
             app:destination="@id/newReferenceFragment" />
     </fragment>
+
+
 
 </navigation>

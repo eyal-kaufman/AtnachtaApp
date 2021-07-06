@@ -46,4 +46,6 @@
     <string name="motherDetails">פרטי אמא</string>
     <string name="fullName">שם מלא</string>
     <string name="referenceReason">סיבת ההפניה</string>
+    <string name="id">תעודת זהות:</string>
+
 </resources>

@@ -1,4 +1,5 @@
 package com.example.atnachta
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -7,13 +8,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
+import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.atnachta.data.Girl
 import com.example.atnachta.data.Profile
 import com.example.atnachta.databinding.FragmentRecycleSearchBinding
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -55,8 +56,8 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
     lateinit var firestore: FirebaseFirestore
     lateinit var collectionReference: CollectionReference
     lateinit var adapter: ProfileAdapter
-    lateinit var map_lst : MutableList<Map<String, Any>>
-    var data_STR = ""
+
+    lateinit var initialSearchInput: String
     val TAG : String = "RecycleView"
     var filename =""
     var filepath = ""
@@ -68,43 +69,19 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         firestore = Firebase.firestore
 
         collectionReference = firestore.collection(PROFILES_COLLECTION)
+        initialSearchInput = RecycleSearchArgs.fromBundle(requireArguments()).searchInput
         setUpRecyclerView()
 
         // onClickListener for the search button - update result list
         binding.searchButton.setOnClickListener { updateQuery(binding.searchInput.text.toString()) }
 
 
-        // TODO: Eyals code, may want to remove
-//        var girlsList : MutableList<Map<String,Any>> = mutableListOf()
-//        var str = ""
-//        val splitText = "איל".toString().split(" ")
-//        val docRef = firestore.collection("profiles").orderBy("firstName", Query.Direction.DESCENDING)
-//            .get()
-//            .addOnSuccessListener { documents ->
-//                for (document in documents) {
-//                    girlsList.add(document.data)
-//                    Log.d(TAG, "${document.id} => ${document.data}")
-//                    str += document.data.toString()
-//                    str += "aa"
-//
-//                }
-//
-//            }
-//            .addOnFailureListener { exception ->
-//                Log.w(TAG, "Error getting documents: ", exception)
-//            }
-//        Log.d("@@@@@", girlsList.toString())
-//        Log.d("@@@@@STR", str)
-//        val girlsList : MutableList<Girl> = mutableListOf()
-//        val adapter = PersonItemAdapter(girlsData = girlsList,)
-//        binding.resultList.adapter = adapter
-        if (!fooo()){
+
+        if (!isFileExists()){
             binding.button3.isEnabled = false
         }
-        binding.button3.setOnClickListener { foo() }
-//        docRef.get()
+        binding.button3.setOnClickListener { sendProfilesByEmail() }
 
-//    print(docRef.get())
     }
 
     /**
@@ -144,22 +121,17 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         binding.resultList.adapter = adapter
 
     }
-    fun fooo(): Boolean {
+    fun isFileExists(): Boolean {
         val extra = Environment.getExternalStorageState()
         if (extra.equals(Environment.MEDIA_MOUNTED) ){
             return true
         }
         return false
     }
-//    TODO DELETE:
 
-    fun foo(){
-//        val docs = JSONObject(jsonArrayString).getJSONArray("profiles")
 
-//        val fileName = "myfile3.csv"
-//
-//        val myfile = File(fileName)
-//        myfile.createNewFile()
+    fun sendProfilesByEmail(){
+
 
         filename ="myFile.csv"
         filepath = "MyFileDir"
@@ -180,9 +152,7 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
                             csvPrinter.printRecord(headers)
                         }
                         csvPrinter.printRecord(doc.data.toSortedMap().values)
-//
-//                        fos = FileOutputStream(myextrnal)
-//                        fos!!.write((doc.data.toString()+"\n").toByteArray())
+
 
                         Log.d(TAG, "${doc.id} => ${doc.data}")
 
@@ -204,64 +174,6 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
             e.printStackTrace()
         } catch (e : IOException){
             e.printStackTrace()
-        }
-//        val path: Uri =
-//            FileProvider.getUriForFile(requireContext(), "com.example.atnachta.fileprovider", myextrnal)
-////        val new_path = Uri.fromFile(myextrnal)
-//        val fileIntent = Intent(Intent.ACTION_SEND)
-//        fileIntent.type = "text/csv"
-//        fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Data")
-//        fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-//        fileIntent.putExtra(Intent.EXTRA_STREAM, path)
-//        startActivity(fileIntent)
-//
-//
-//        map_lst = mutableListOf()
-
-//        myfile.writeText(content)
-        try {
-
-//            val filelocation =
-//                File(context.getExternalFilesDir(), "data.csv")
-//            val root = File(context?.getExternalFilesDir(null), "Notes")
-//            if (!root.exists()) {
-//                root.mkdirs();
-//            }
-//            val outputfile = File(root, "data.csv")
-//            val writer = FileWriter(outputfile)
-//            writer.append(content)
-//            writer.flush()
-//            writer.close()
-
-//
-//            val bufferedReader: BufferedReader =myextrnal.bufferedReader()
-//            val inputString = bufferedReader.use { it.readText() }
-//            println(inputString)
-//            Log.e("errr inputString",inputString)
-//            Log.e("errr dataSTR",myextrnal.path)
-//            val file= File(context?.getExternalFilesDir(null),"data.csv")
-//            val uri = Uri.fromFile(file)
-
-//            val intent = Intent(Intent.ACTION_SEND).apply {
-//                type = "*/*"
-//                putExtra(Intent.EXTRA_EMAIL, "eeyalhod@gmail.com")
-//                putExtra(Intent.EXTRA_SUBJECT, "what what try try")
-////                putExtra(Intent.EXTRA_STREAM, uri)
-//            }
-//            startActivity(Intent.createChooser(intent,"aaaaa"))
-
-//            val filelocation: File = File(context?.filesDir, "data.csv")
-
-
-
-
-//            ContextCompat.startActivity(Intent.createChooser(fileIntent, "Send mail"))
-//            startActivity(Intent.createChooser(fileIntent,"aaaaa"))
-//            if (context?.let { intent.resolveActivity(it.packageManager) } != null) {
-//                startActivity(intent)
-//            }
-        } catch (e : IOException){
-            Log.e("errr","not fn", e)
         }
 
 
@@ -294,28 +206,6 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
     override fun onDestroy() {
         super.onDestroy()
         adapter.stopListening()
-    }
-
-    // TODO: remove this function
-    fun queryProfiles(searchInput: EditText) : MutableList<Girl>{
-        val girlsList : MutableList<Girl> = mutableListOf()
-        val splitText = searchInput.text.toString().split(" ")
-        val docRef = firestore.collection("profiles").whereIn("firstName", splitText)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        girlsList.add(document.toObject<Girl>())
-                        Log.d(TAG, "${document.id} => ${document.data}")
-
-                    }
-
-                }
-                .addOnFailureListener { exception ->
-                    Log.w(TAG, "Error getting documents: ", exception)
-                }
-//        val query: String = searchInput.text.toString()
-//        return girlsList.filter{ query in it.firstName || query in it.lastName} as MutableList<Girl>
-        return girlsList
     }
 
 

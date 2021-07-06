@@ -10,8 +10,10 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.widget.Button
 import android.widget.EditText
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.atnachta.databinding.FragmentNewProfileBinding
 import kotlinx.android.synthetic.main.fragment_profile.*
 import com.example.atnachta.databinding.FragmentProfileBinding
@@ -48,7 +50,7 @@ class profileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
-        binding.button4.setOnClickListener { view : View -> view.findNavController().navigate(R.id.action_profileFragment_to_newReferenceFragment)}
+//        binding.button4.setOnClickListener { view : View -> view.findNavController().navigate(R.id.action_profileFragment_to_newReferenceFragment)}
         activity?.setTitle(R.string.basicDetails)
         binding.editButton.setOnClickListener {
             editMode(it)

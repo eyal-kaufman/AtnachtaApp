@@ -31,6 +31,7 @@ import java.io.*
 import java.util.*
 
 
+
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
@@ -75,7 +76,8 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         // onClickListener for the search button - update result list
         binding.searchButton.setOnClickListener { updateQuery(binding.searchInput.text.toString()) }
 
-
+        binding.newProfileButton.setOnClickListener{ v : View -> v.findNavController().navigate(
+            RecycleSearchDirections.actionRecycleSearchToNewReference(true))}
 
         if (!isFileExists()){
             binding.button3.isEnabled = false
@@ -93,8 +95,6 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         val newQuery : Query = if (searchInput.isBlank()){ // if blank just show everything
             collectionReference.orderBy("firstName", Query.Direction.DESCENDING)
         } else{ // query by input
-            val splitText = searchInput.split(" ")
-            // NOTICE - this wont find old test profiles without a searchList field
             collectionReference.whereArrayContains("searchList", searchInput)
         }
         val newOptions : FirestoreRecyclerOptions<Profile> = FirestoreRecyclerOptions.Builder<Profile>()
@@ -108,14 +108,17 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
 
     private fun setUpRecyclerView() {
         // set up a query which gets all of the profiles in the database
-        val query : Query = collectionReference.orderBy("firstName", Query.Direction.DESCENDING)
+        val query : Query = if (initialSearchInput.isBlank()){ // if blank just show everything
+            collectionReference.orderBy("firstName", Query.Direction.DESCENDING)
+        } else{ // query by input
+            collectionReference.whereArrayContains("searchList", initialSearchInput)
+        }
 
         // define the options object (firebaseUI class), that gets the query into the adapter
         val firestoreRecyclerOptions : FirestoreRecyclerOptions<Profile> = FirestoreRecyclerOptions.Builder<Profile>()
             .setQuery(query, Profile::class.java)
             .build()
 
-//        foo()
         adapter = ProfileAdapter(firestoreRecyclerOptions,this)
         binding.resultList.layoutManager = LinearLayoutManager(activity) // still not sure what that is, but is needed
         binding.resultList.adapter = adapter
@@ -224,7 +227,6 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
     ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_recycle_search,container,false)
-//        binding.searchButton.setOnClickListener { adapter.editResultList(getGirlsList(girlsList,binding.searchInput)) }
         return binding.root
     }
 

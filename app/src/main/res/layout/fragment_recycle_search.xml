@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/button3"
+            app:layout_constraintBottom_toTopOf="@+id/newProfileButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,17 +29,16 @@
             android:id="@+id/searchInput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="what to search?"
-            app:layout_constraintEnd_toStartOf="@+id/searchButton"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
+            android:hint="@string/searchHint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/searchButton"
             app:layout_constraintTop_toTopOf="@+id/searchButton" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/newProfileButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="example"
+            android:text="@string/addNewProfileButtonText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -48,11 +47,9 @@
             android:id="@+id/searchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="SEARCH"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/searchInput"
+            android:layout_marginTop="24dp"
+            android:text="@string/recycleSearchSearchButton"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

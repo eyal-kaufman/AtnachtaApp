@@ -21,27 +21,9 @@
         <action
             android:id="@+id/action_mainScreen_to_recycleSearch"
             app:destination="@id/recycleSearch" />
-        <action
-            android:id="@+id/action_mainScreen_to_newProfileFragment"
-            app:destination="@id/newProfileFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/newReferenceFragment"
-        android:name="com.example.atnachta.NewReference"
-        android:label="fragment_new_reference"
-        tools:layout="@layout/fragment_new_reference" >
         <argument
-            android:name="girlDocId"
+            android:name="userID"
             app:argType="string" />
-    </fragment>
-    <fragment
-        android:id="@+id/newProfileFragment"
-        android:name="com.example.atnachta.NewProfileFragment"
-        android:label="fragment_new_profile"
-        tools:layout="@layout/fragment_new_profile" >
-        <action
-            android:id="@+id/action_newProfileFragment_to_newReferenceFragment"
-            app:destination="@id/newReferenceFragment" />
     </fragment>
     <fragment
         android:id="@+id/recycleSearch"
@@ -51,29 +33,39 @@
         <action
             android:id="@+id/action_recycleSearch_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_recycleSearch_to_newReference"
+            app:destination="@id/newReference" />
+        <argument
+            android:name="searchInput"
+            app:argType="string" />
     </fragment>
-
-    <fragment
-        android:id="@+id/referenceFragment"
-        android:name="com.example.atnachta.ReferenceFragment"
-        android:label="fragment_reference"
-        tools:layout="@layout/fragment_reference" />
-
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.atnachta.profileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
 
+        <argument
+            android:name="docID"
+            app:argType="string" />
         <action
-            android:id="@+id/action_ProfileFragment_to_ReferenceFragment"
-            app:destination="@id/referenceFragment" />
-
-        <action
-            android:id="@+id/action_profileFragment_to_newReferenceFragment"
-            app:destination="@id/newReferenceFragment" />
+            android:id="@+id/action_profileFragment_to_newReference"
+            app:destination="@id/newReference" />
     </fragment>
-
-
+    <fragment
+        android:id="@+id/newReference"
+        android:name="com.example.atnachta.NewReference"
+        android:label="fragment_new_reference"
+        tools:layout="@layout/fragment_new_reference" >
+        <action
+            android:id="@+id/action_newReference_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/mainScreen"
+            app:popUpToInclusive="false" />
+        <argument
+            android:name="isNewProfile"
+            app:argType="boolean" />
+    </fragment>
 
 </navigation>

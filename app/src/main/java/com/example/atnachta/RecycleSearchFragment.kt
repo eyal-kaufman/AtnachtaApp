@@ -5,9 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -16,6 +14,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.atnachta.data.Profile
+import com.example.atnachta.DataToCSV
 import com.example.atnachta.databinding.FragmentRecycleSearchBinding
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.CollectionReference
@@ -67,6 +66,7 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        activity?.menuInflater.inflate(R.menu.menu_main)
         firestore = Firebase.firestore
 
         collectionReference = firestore.collection(PROFILES_COLLECTION)
@@ -74,18 +74,33 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         setUpRecyclerView()
 
         // onClickListener for the search button - update result list
-        binding.searchButton.setOnClickListener { updateQuery(binding.searchInput.text.toString()) }
+        binding.searchButton.setOnClickListener {
+            updateQuery(binding.searchInput.text.toString()) }
 
-        binding.newProfileButton.setOnClickListener{ v : View -> v.findNavController().navigate(
+        binding.newProfileButton.setOnClickListener{ v : View ->
+            v.findNavController().navigate(
             RecycleSearchDirections.actionRecycleSearchToNewReference(true))}
-
         if (!isFileExists()){
-            binding.button3.isEnabled = false
+            binding.newProfileButton.isEnabled = false
         }
-        binding.button3.setOnClickListener { sendProfilesByEmail() }
+
 
     }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_main, menu)
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return when (item.itemId) {
+            R.id.export_to_mail -> {
+                sendProfilesByEmail()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
     /**
      * Click handler for the search button.
      * Updates the query the adapter works with, according to what the user searched
@@ -139,9 +154,9 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         filename ="myFile.csv"
         filepath = "MyFileDir"
         val myextrnal = File(context?.getExternalFilesDir(filepath), filename)
-        var fos : FileOutputStream? = null
-//        val tmp = Profile.l;
-        var headers : SortedSet<String> = sortedSetOf()
+
+//        var headers : SortedSet<String> = sortedSetOf()
+        var headers : MutableList<String> = mutableListOf()
         try{
             collectionReference.orderBy("firstName", Query.Direction.DESCENDING)
                 .get().addOnSuccessListener { documents->
@@ -150,14 +165,20 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
                     val csvPrinter = CSVPrinter(writer, CSVFormat.DEFAULT)
 
                     for (doc in documents){
+                        doc.data.remove("ID")
+                        doc.data.remove("")
                         if (headers.size==0) {
-                            headers = doc.data.keys.toSortedSet()
+//                            headers = doc.data.keys.toSortedSet()
+                            headers = doc.data.keys.toMutableList()
+                            headers.sort()
+                            Log.d(TAG, "${doc.id} BEFORE => ${headers}")
+                            DataToCSV.mapFields(headers)
+                            Log.d(TAG, "${doc.id} AFTER => ${headers}")
                             csvPrinter.printRecord(headers)
                         }
                         csvPrinter.printRecord(doc.data.toSortedMap().values)
 
-
-                        Log.d(TAG, "${doc.id} => ${doc.data}")
+                        Log.d(TAG, "${doc.id} => ${doc.data.toSortedMap()}")
 
                     }
                     val path: Uri =
@@ -169,8 +190,9 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
                     fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     fileIntent.putExtra(Intent.EXTRA_STREAM, path)
                     startActivity(fileIntent)
-                    csvPrinter.flush();
-                    csvPrinter.close();
+
+                    csvPrinter.flush()
+                    csvPrinter.close()
                 }
 
         } catch (e :FileNotFoundException ){
@@ -218,6 +240,7 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(

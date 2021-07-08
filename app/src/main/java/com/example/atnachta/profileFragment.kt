@@ -3,6 +3,7 @@ package com.example.atnachta
 import android.os.Bundle
 import android.transition.AutoTransition
 import android.transition.TransitionManager
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TableRow
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
@@ -17,25 +20,32 @@ import androidx.navigation.fragment.findNavController
 import com.example.atnachta.databinding.FragmentNewProfileBinding
 import kotlinx.android.synthetic.main.fragment_profile.*
 import com.example.atnachta.databinding.FragmentProfileBinding
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+private const val PROFILES_COLLECTION = "profiles"
 
 /**
  * A simple [Fragment] subclass.
  * Use the [profileFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class profileFragment : Fragment() {
+class profileFragment : Fragment(), View.OnClickListener{
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     lateinit var binding: FragmentProfileBinding
-
+    lateinit var firestore: FirebaseFirestore
+    lateinit var collectionReference: CollectionReference
+    lateinit var referenceList : MutableList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -54,6 +64,24 @@ class profileFragment : Fragment() {
         activity?.setTitle(R.string.basicDetails)
         binding.editButton.setOnClickListener {
             editMode(it)
+//            var tableRow = TableRow(context)
+//            var b = Button (context)
+//            b.setText(R.string.basicDetails)
+//            tableRow.addView(b)
+            referenceList = mutableListOf()
+            firestore = Firebase.firestore
+            collectionReference = firestore.collection(PROFILES_COLLECTION).document("M7j4xACU2tG0nbgUyNkK").collection("References")
+            collectionReference.get()
+                .addOnSuccessListener { documents->
+                    for (doc in documents){
+                        val tr = inflater.inflate(R.layout.reference_row_table, binding.referenceTable, false)
+                        tr.setOnClickListener(this)
+                        referenceList.add(doc.id)
+                        binding.referenceTable.addView(tr)
+                    }
+                }
+
+
         }
 
         binding.button5.setOnClickListener {
@@ -201,5 +229,27 @@ class profileFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onClick(v: View?) {
+//        binding.referenceTable.setOnClickListener {
+//            Toast.makeText(context, getString(R.string.passordResetMsg),
+//                Toast.LENGTH_SHORT).show()
+//        }
+//        TODO("Not yet implemented")
+//        referenceList[v?.id!!]
+        if (v != null) {
+            Log.d("@@@@@@@", "${v.id} "+v.toString())
+
+
+        }
+        if (v != null) {
+            if (v.id < 2){
+                v?.setOnClickListener {  Toast.makeText(context, referenceList[v.id], Toast.LENGTH_SHORT).show()}
+
+            }
+        }
+
+
     }
 }

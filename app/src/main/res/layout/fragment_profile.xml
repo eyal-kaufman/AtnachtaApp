@@ -413,9 +413,10 @@
                         android:id="@+id/referenceData"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <TableLayout
+                            android:id="@+id/reference_table"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="fill"
@@ -426,7 +427,8 @@
                             <TableRow
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:weightSum="1">
+                                android:weightSum="1"
+                                tools:visibility="visible">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -449,6 +451,7 @@
                             </TableRow>
 
                             <TableRow
+                                android:id="@+id/ref_first_row"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:weightSum="1">

@@ -1,12 +1,10 @@
 package com.example.atnachta
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,7 +12,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.atnachta.data.Profile
-import com.example.atnachta.DataToCSV
 import com.example.atnachta.databinding.FragmentRecycleSearchBinding
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.CollectionReference
@@ -22,13 +19,10 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVPrinter
 import java.io.*
-import java.util.*
-
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -79,7 +73,7 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
 
         binding.newProfileButton.setOnClickListener{ v : View ->
             v.findNavController().navigate(
-            RecycleSearchDirections.actionRecycleSearchToNewReference(true))}
+            RecycleSearchDirections.actionRecycleSearchToNewReference(true,"",""))}
         if (!isFileExists()){
             binding.newProfileButton.isEnabled = false
         }
@@ -87,7 +81,7 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
 
     }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_main, menu)
+        inflater.inflate(R.menu.menu_recycle_fragment, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -208,11 +202,18 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
      * @param snapshot docSnapshot of the selcted profile. We get the snapshot from the viewHolder
      * (specifically in onBindViewHolder), which gets using firebaseUI methods
      */
-    override fun onProfileSelected(snapshot: DocumentSnapshot) {
+    override fun onProfileSelected(snapshot: DocumentSnapshot, newReference: Boolean) {
         val docId : String = snapshot.id
         Log.d(TAG, docId)
-        val action = RecycleSearchDirections.actionRecycleSearchToProfileFragment(docId)
-        findNavController().navigate(action)
+        if (newReference){
+            findNavController().navigate(RecycleSearchDirections.actionRecycleSearchToNewReference(false, "", docId))
+        }
+        else {
+            val action = RecycleSearchDirections.actionRecycleSearchToProfileFragment(docId)
+            findNavController().navigate(action)
+        }
+
+
     }
 
     // the documentation said to implement it like that

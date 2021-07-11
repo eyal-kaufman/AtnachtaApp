@@ -66,6 +66,14 @@
         <argument
             android:name="isNewProfile"
             app:argType="boolean" />
+        <argument
+            android:name="referenceID"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="docID"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
 </navigation>

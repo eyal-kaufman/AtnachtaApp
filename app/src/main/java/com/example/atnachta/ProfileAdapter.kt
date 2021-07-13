@@ -23,13 +23,17 @@ class ProfileAdapter(options: FirestoreRecyclerOptions<Profile>, private val lis
     }
 
     override fun onBindViewHolder(holder: ProfileHolder, position: Int, model: Profile) {
-        holder.binding.fullNameText.text = "First Name: ${model.firstName}"
-        holder.binding.ageText.text = "Phone Number: ${model.age}"
+        holder.binding.fullNameText.text = "${model.firstName}"
+        holder.binding.ageText.text = "${model.age}"
         holder.binding.qualityImage.setImageResource(R.drawable.ic_launcher_background)
 
         // onClickListener for the holder - click received by the holder but handled by the fragment
         holder.binding.root.setOnClickListener {
-            listener.onProfileSelected(snapshots.getSnapshot(position))
+            listener.onProfileSelected(snapshots.getSnapshot(position),false)
+        }
+        holder.binding.root.setOnLongClickListener {
+            listener.onProfileSelected(snapshots.getSnapshot(position),true)
+            true
         }
     }
 
@@ -41,6 +45,6 @@ class ProfileAdapter(options: FirestoreRecyclerOptions<Profile>, private val lis
 //    }
 
     interface OnProfileSelectedListener{
-        fun onProfileSelected(snapshot : DocumentSnapshot)
+        fun onProfileSelected(snapshot: DocumentSnapshot, newReference: Boolean)
     }
 }

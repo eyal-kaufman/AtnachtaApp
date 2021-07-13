@@ -5,6 +5,7 @@
     tools:context=".NewProfileFragment">
 
     <ScrollView
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -775,9 +776,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
                     android:layout_marginTop="10sp"
-                    android:layout_marginBottom="10sp">
+                    android:layout_marginBottom="10sp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/referenceTitle"
@@ -794,6 +795,7 @@
                         android:visibility="gone">
 
                         <TableLayout
+                            android:id="@+id/reference_table"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="fill"
@@ -804,7 +806,8 @@
                             <TableRow
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:weightSum="1">
+                                android:weightSum="1"
+                                tools:visibility="visible">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -827,8 +830,10 @@
                             </TableRow>
 
                             <TableRow
+                                android:id="@+id/ref_first_row"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:visibility="gone"
                                 android:weightSum="1">
 
                                 <TextView
@@ -852,6 +857,7 @@
                             <TableRow
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:visibility="gone"
                                 android:weightSum="1">
 
                                 <TextView
@@ -873,7 +879,7 @@
                             </TableRow>
 
                             <Button
-                                android:id="@+id/button4"
+                                android:id="@+id/add_reference_btn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="#8BC34A"

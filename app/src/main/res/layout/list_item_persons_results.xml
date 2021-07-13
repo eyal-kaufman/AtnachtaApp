@@ -62,15 +62,15 @@
 
     <TextView
         android:id="@+id/ageText"
-        android:layout_width="16dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="14dp"
-        tools:text="20"
         app:layout_constraintEnd_toStartOf="@+id/ageLabel"
         app:layout_constraintHorizontal_bias="0.772"
         app:layout_constraintStart_toEndOf="@+id/IDLabel"
-        app:layout_constraintTop_toBottomOf="@+id/fullNameText" />
+        app:layout_constraintTop_toBottomOf="@+id/fullNameText"
+        tools:text="200" />
 
     <TextView
         android:id="@+id/IDLabel"

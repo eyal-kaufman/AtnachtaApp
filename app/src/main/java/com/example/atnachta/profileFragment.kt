@@ -1,28 +1,37 @@
 package com.example.atnachta
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.transition.AutoTransition
 import android.transition.TransitionManager
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.widget.Button
-import android.widget.EditText
-import androidx.activity.addCallback
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import com.example.atnachta.databinding.FragmentNewProfileBinding
-import kotlinx.android.synthetic.main.fragment_profile.*
+import androidx.fragment.app.Fragment
 import com.example.atnachta.databinding.FragmentProfileBinding
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+
+private const val TAG = "profileFragment"
+private const val FILE_SELECT_CODE = 0 // added for file uploads
 
 /**
  * A simple [Fragment] subclass.
@@ -35,6 +44,11 @@ class profileFragment : Fragment() {
     private var param2: String? = null
 
     lateinit var binding: FragmentProfileBinding
+
+    lateinit var firestore: FirebaseFirestore
+    lateinit var profileRef: DocumentReference
+    lateinit var storage: FirebaseStorage
+    lateinit var storageRef: StorageReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +99,7 @@ class profileFragment : Fragment() {
         }
         return binding.root
     }
+
 
     private fun displayMode(view: View) {
         edited_name.text = edit_name.text
@@ -181,6 +196,124 @@ class profileFragment : Fragment() {
 
         view.visibility = View.GONE
         button5.visibility = View.VISIBLE
+    }
+
+    // todo: these last functions Itay added to test file uploads
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        firestore = Firebase.firestore
+        storage = Firebase.storage
+        storageRef = storage.reference
+        val profileDocID = profileFragmentArgs.fromBundle(requireArguments()).docID
+        profileRef = firestore.collection("profiles").document(profileDocID)
+        profileRef.update("firstName","testUpdate")
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+//        pickFile()
+    }
+
+    private fun pickFile() {
+        val fileintent = Intent(Intent.ACTION_GET_CONTENT)
+        fileintent.type = "application/pdf"
+        fileintent.addCategory(Intent.CATEGORY_OPENABLE)
+        startActivityForResult(fileintent, FILE_SELECT_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode != FILE_SELECT_CODE || resultCode != Activity.RESULT_OK) {
+            return
+        }
+        // upload to cloud storage
+        val fileUri = data!!.data
+        if (fileUri != null){
+            uploadFile(fileUri)
+        } else{
+            Log.w(TAG, "pickingFileFromDevice:failure")
+            Toast.makeText(context, getString(R.string.filePickerError),
+                Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun uploadFile(fileUri: Uri) {
+        val storage = Firebase.storage
+        val storageRef = storage.reference
+        val fileRef = storageRef.child(fileUri.lastPathSegment!!) // todo: check how to actually get the filename
+        val uploadTask = fileRef.putFile(fileUri)
+        val urlTask = uploadTask.continueWithTask { task ->
+            // getting the download URL of the file
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    Log.w(TAG, "uploadFileToStorage:failure",it)
+                    Toast.makeText(context, getString(R.string.fileUploadError),
+                        Toast.LENGTH_SHORT).show()
+                    throw it
+                }
+            }
+            Log.w(TAG, "uploadFileToStorage:success")
+            Toast.makeText(context, getString(R.string.fileUploadSuccess),
+                Toast.LENGTH_SHORT).show()
+            fileRef.downloadUrl // the result of the task is now the URL
+            // adding the file name as a field in the profile
+            fileRef.metadata.addOnSuccessListener { metadata ->
+                profileRef
+                    .update("filename", metadata.name)
+                    .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+                    .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+            }.addOnFailureListener {e -> Log.w(TAG, "Error getting file metadata", e) }
+        }.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val downloadUri = task.result
+                // adding the URL as a field in the profile
+                profileRef
+                    .update("fileURL", downloadUri.toString())
+                    .addOnSuccessListener {
+                        Log.d(TAG, "DocumentSnapshot successfully updated!")
+                        updateUI()}
+                    .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+            } else {
+                Log.w(TAG, "gettingFileURL:failure")
+                Toast.makeText(context, getString(R.string.getURLFailure),
+                    Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    /**
+     * update the textView and set onclick listener
+     */
+    private fun updateUI() {
+        profileRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    binding.editedName.text = document.getString("filename")
+                    binding.editedName.setOnClickListener{openFile(document.getString("fileURL"))}
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    private fun openFile(url: String?) {
+        if(url==null){
+            Log.w(TAG, "downloadingFileFromURL:failure")
+            Toast.makeText(context, getString(R.string.downloadFromStorageError),
+                Toast.LENGTH_SHORT).show()
+        }
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.setDataAndType(Uri.parse(url), "application/pdf")
+        // not sure about these flags. also, or is bitwise (in order to combine flags)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        val newIntent = Intent.createChooser(intent, "Open File")
+        try {
+            startActivity(newIntent)
+        } catch (e: ActivityNotFoundException) {
+            Log.w(TAG, "Error opening file", e)
+        }
+
     }
 
     companion object {

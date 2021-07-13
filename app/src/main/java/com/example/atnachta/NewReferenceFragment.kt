@@ -1,13 +1,17 @@
 package com.example.atnachta
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
@@ -18,6 +22,8 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,6 +34,8 @@ private const val ARG_PARAM2 = "param2"
 
 private const val TAG = "DocSnippets" // not sure what this means, was copied from Firestore documentation
 private const val PROFILES_COLLECTION = "profiles"
+
+private const val FILE_SELECT_CODE = 0
 
 
 /**
@@ -96,6 +104,61 @@ class NewReference : Fragment() {
         binding.dateTextView.setOnClickListener{v:View -> setDatePicker(v)}
         binding.timeTextView.setOnClickListener{v:View -> setTimePicker(v)}
 
+        /*TODO: delete this last section! this is only for testing file uploads*/
+        pickFile()
+
+    }
+
+    /*TODO: delete this function! this is only for testing file uploads*/
+    private fun pickFile() {
+        val fileintent = Intent(Intent.ACTION_GET_CONTENT)
+        fileintent.type = "application/pdf"
+        fileintent.addCategory(Intent.CATEGORY_OPENABLE)
+        startActivityForResult(fileintent, FILE_SELECT_CODE)
+    }
+
+    /*TODO: delete this function! this is only for testing file uploads*/
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode != FILE_SELECT_CODE || resultCode != Activity.RESULT_OK) {
+            return
+        }
+        // upload to cloud storage
+        val fileUri = data!!.data
+        if (fileUri != null){
+            uploadFile(fileUri)
+        } else{
+            Log.w(TAG, "pickingFileFromDevice:failure")
+            Toast.makeText(context, getString(R.string.filePickerError),
+                Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /*TODO: delete this function! this is only for testing file uploads*/
+    private fun uploadFile(fileUri: Uri) {
+        val path = fileUri.path ?: ""
+        if (path.isBlank()){
+            Log.w(TAG, "uploadingFileToCloud:failure")
+            Toast.makeText(context, getString(R.string.fileUploadError),
+                Toast.LENGTH_SHORT).show()
+            return
+        }
+        val file = File(path)
+        val fileName = file.name
+        val storage = Firebase.storage
+        val storageRef = storage.reference
+        val fileRef = storageRef.child(fileName)
+        val uploadTask = fileRef.putFile(fileUri)
+        uploadTask.addOnFailureListener{
+            Log.w(TAG, "uploadingFileToCloud:failure",it)
+            Toast.makeText(context, getString(R.string.fileUploadError),
+                Toast.LENGTH_SHORT).show()
+        }.addOnSuccessListener {
+            Log.w(TAG, "uploadingFileToCloud:success")
+            Toast.makeText(context, fileName,
+                Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun configureUI(isNewProfile: Boolean) {
@@ -152,6 +215,7 @@ class NewReference : Fragment() {
     }
 
     private fun continueButtonHandler(view: View){
+        binding.continueButton.isEnabled = false //
         val profile : Profile = createProfile()
         val profileDocRef = firestore.collection(PROFILES_COLLECTION).document()
         profileDocRef.set(profile)

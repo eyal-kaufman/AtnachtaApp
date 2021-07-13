@@ -1,10 +1,10 @@
 package com.example.atnachta
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.util.Log
@@ -15,14 +15,18 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.atnachta.databinding.FragmentProfileBinding
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FileDownloadTask
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.fragment_profile.*
+import java.io.File
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -49,6 +53,7 @@ class profileFragment : Fragment() {
     lateinit var profileRef: DocumentReference
     lateinit var storage: FirebaseStorage
     lateinit var storageRef: StorageReference
+    private var downloadId : Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -209,7 +214,7 @@ class profileFragment : Fragment() {
         profileRef.update("firstName","testUpdate")
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
-//        pickFile()
+        pickFile()
     }
 
     private fun pickFile() {
@@ -286,8 +291,9 @@ class profileFragment : Fragment() {
         profileRef.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
-                    binding.editedName.text = document.getString("filename")
-                    binding.editedName.setOnClickListener{openFile(document.getString("fileURL"))}
+                    val filename = document.getString("filename") ?: ""
+                    binding.editedName.text = filename
+                    binding.editedName.setOnClickListener{downloadFile(document.getString("fileURL"),filename)}
                 } else {
                     Log.d(TAG, "No such document")
                 }
@@ -297,24 +303,58 @@ class profileFragment : Fragment() {
             }
     }
 
-    private fun openFile(url: String?) {
+    private fun downloadFile(url: String?, filename: String) {
         if(url==null){
             Log.w(TAG, "downloadingFileFromURL:failure")
             Toast.makeText(context, getString(R.string.downloadFromStorageError),
                 Toast.LENGTH_SHORT).show()
         }
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.setDataAndType(Uri.parse(url), "application/pdf")
-        // not sure about these flags. also, or is bitwise (in order to combine flags)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        val newIntent = Intent.createChooser(intent, "Open File")
-        try {
-            startActivity(newIntent)
-        } catch (e: ActivityNotFoundException) {
-            Log.w(TAG, "Error opening file", e)
+        val rootPath = File(Environment.getExternalStorageDirectory(), "file_name")
+        if (!rootPath.exists()) {
+            rootPath.mkdirs()
         }
 
-    }
+        val localFile = File(rootPath, "imageName.txt")
+
+        islandRef.getFile(localFile)
+            .addOnSuccessListener(OnSuccessListener<FileDownloadTask.TaskSnapshot?> {
+                Log.e("firebase ", ";local tem file created  created " + localFile.toString())
+                //  updateDb(timestamp,localFile.toString(),position);
+            }).addOnFailureListener(OnFailureListener { exception ->
+                Log.e(
+                    "firebase ",
+                    ";local tem file not created  created $exception"
+                )
+            })
+//        val request = DownloadManager.Request(
+//            Uri.parse(url))
+//            .setTitle(filename)
+//            .setDescription(getString(R.string.fileDownloadDescription))
+//            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+//        val downloadManager : DownloadManager = activity?.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+//        downloadId = downloadManager.enqueue(request)
+//        }
+//        var broadcastReceiver = object:BroadcastReceiver(){
+//            override fun onReceive(context: Context?, intent: Intent?) {
+//                val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID,-1)
+//                if (id==downloadId){
+//                    Toast.makeText(context, getString(R.string.downloadCompleted),
+//                        Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
+
+//        val intent = Intent(Intent.ACTION_VIEW)
+//        intent.setDataAndType(Uri.parse(url), "application/pdf")
+//        // not sure about these flags. also, or is bitwise (in order to combine flags)
+//        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+//        val newIntent = Intent.createChooser(intent, "Open File")
+//        try {
+//            startActivity(newIntent)
+//        } catch (e: ActivityNotFoundException) {
+//            Log.w(TAG, "Error opening file", e)
+//        }
+//    }
 
     companion object {
         /**

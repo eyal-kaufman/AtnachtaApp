@@ -16,6 +16,7 @@
             android:authorities="com.example.atnachta.fileprovider"
             android:grantUriPermissions="true"
             android:exported="false">
+
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />

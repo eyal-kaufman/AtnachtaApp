@@ -7,8 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -21,7 +20,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.fragment_main_screen.*
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_profile.edit_button
+import kotlinx.android.synthetic.main.fragment_profile.edit_id
+import kotlinx.android.synthetic.main.fragment_profile.edit_phone
+import kotlinx.android.synthetic.main.fragment_profile.edited_id
+import kotlinx.android.synthetic.main.fragment_profile.edited_phone
+import kotlinx.android.synthetic.main.fragment_reference.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -44,16 +50,10 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener {
     lateinit var girlDocId: String
     lateinit var girlDocRef: DocumentReference
     val TAG: String = "profile"
-
-//    val _edit_text_array = arrayOf(binding.editName, binding.editId, binding.editPhone ,
-//        binding.editFatherName, binding.editMotherName, binding.editFatherPhone,
-//        binding.editMotherPhone, binding.editAddress, binding.editBirthDate,
-//        binding.editKupach, binding.editSchool, binding.editCivil)
-//
-//    val _edited_text_array = arrayOf(binding.editedName, binding.editedId, binding.editedPhone ,
-//        binding.editedFatherName, binding.editedMotherName, binding.editedFatherPhone,
-//        binding.editedMotherPhone, binding.editedAddress, binding.editedBirthDate,
-//        binding.editedKupach, binding.editedSchool, binding.editedCivil)
+    var _edit_text_array: Array<TextView?> = arrayOfNulls(20)
+    var _edited_text_array: Array<TextView?> = arrayOfNulls(20)
+    lateinit var _map_of_views: Map<String, ArrayList<TextView>>
+    lateinit var _map_of_titles: Map<TextView, TableLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,57 +65,38 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        girlDocRef.update("firstName", "hey!").addOnSuccessListener {
-            Log.d(TAG, "success!")
-//            displayMode(view)
-        }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "get failed with ", exception)
-            }
-    }
+        girlDocId = profileFragmentArgs.fromBundle(requireArguments()).docID
+        firestore = Firebase.firestore
+        girlDocRef = firestore.collection("profiles").document(girlDocId)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        var profile: Girl
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
-        binding.button4.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_profileFragment_to_newReferenceFragment)
-        }
-        binding.examples.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_ProfileFragment_to_ReferenceFragment)
-        }
-
-//        girlDocId = "r2m6NpHUQX4WZOpcjJCC"
-//        firestore = Firebase.firestore
-//        girlDocRef = firestore.collection("profiles").document(girlDocId)
-
-        activity?.setTitle(R.string.basicDetails)
+        initialData(view)
+        displayMode(view)
 
         binding.editButton.setOnClickListener {
             editMode(it)
         }
-//        binding.button5.setOnClickListener { view ->
-//
-//        }
 
-
-        binding.parentsTitle.setOnClickListener {
-            if (parentsData.visibility == View.GONE) {
-                TransitionManager.beginDelayedTransition(parentsData, AutoTransition())
-                parentsData.visibility = View.VISIBLE;
-            } else {
-                parentsData.visibility = View.GONE;
+        binding.submitChanges.setOnClickListener { view ->
+            for ((k, v) in _map_of_views) {
+                girlDocRef.update(k, v[0].text.toString()).addOnSuccessListener {}
+                    .addOnFailureListener { exception -> Log.d(TAG, "get failed with ", exception) }
             }
+            girlDocRef.update("id", edit_id.text.toString()).addOnSuccessListener {}
+                .addOnFailureListener { exception -> Log.d(TAG, "get failed with ", exception) }
+            displayMode(view)
         }
-        binding.generalTitle.setOnClickListener {
-            if (generalData.visibility == View.GONE) {
-                TransitionManager.beginDelayedTransition(generalData, AutoTransition())
-                generalData.visibility = View.VISIBLE;
-            } else {
-                generalData.visibility = View.GONE;
+
+        activity?.setTitle(R.string.basicDetails)
+
+        //movement of the titles
+        for((k,v) in _map_of_titles){
+            k.setOnClickListener {
+                if (v.visibility == View.GONE) {
+                    TransitionManager.beginDelayedTransition(v, AutoTransition())
+                    v.visibility = View.VISIBLE;
+                } else {
+                    v.visibility = View.GONE;
+                }
             }
         }
         binding.referenceTitle.setOnClickListener {
@@ -126,27 +107,62 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 referenceData.visibility = View.GONE;
             }
         }
-        binding.educationTitle.setOnClickListener {
-            if (educationData.visibility == View.GONE) {
-                TransitionManager.beginDelayedTransition(educationData, AutoTransition())
-                educationData.visibility = View.VISIBLE;
-            } else {
-                educationData.visibility = View.GONE;
+    }
+
+    private fun initialData(view: View) {
+        _edit_text_array = arrayOf(
+            binding.editFirstName, binding.editLastName, binding.editId,
+            binding.editPhone, binding.editFatherName, binding.editMotherName,
+            binding.editFatherPhone, binding.editMotherPhone, binding.editAddress,
+            binding.editBirthDate, binding.editKupach, binding.editSchool, binding.editCivil
+        )
+        _edited_text_array = arrayOf(
+            binding.editedFirstName, binding.editedLastName,
+            binding.editedId, binding.editedPhone, binding.editedFatherName,
+            binding.editedMotherName, binding.editedFatherPhone, binding.editedMotherPhone,
+            binding.editedAddress, binding.editedBirthDate,
+            binding.editedKupach, binding.editedSchool, binding.editedCivil
+        )
+        _map_of_views = mapOf("firstName" to arrayListOf(edit_first_name, edited_first_name),
+            "lastName" to arrayListOf(edit_last_name, edited_last_name),
+            "phone" to arrayListOf(edit_phone, edited_phone),
+            "homeAddress" to arrayListOf(edit_address, edited_address)
+        )
+        _map_of_titles = mapOf(generalTitle to generalData, parentsTitle to parentsData,
+            healthTitle to healthData, educationTitle to educationData)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+
+        // Inflate the layout for this fragment
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
+        return binding.root
+    }
+
+    private fun retrieveProfileData(document: DocumentSnapshot) {
+        Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+        for ((k, v) in _map_of_views) {
+            v[1].text = document.getString(k)
+            v[0].setText(document.getString(k))
+        }
+        edited_id.text = document.get("id").toString()
+        edit_id.setText(document.get("id").toString())
+    }
+
+    private fun displayMode(view: View) {
+        for (edit_text in _edit_text_array) {
+            if (edit_text != null) {
+                edit_text.visibility = View.GONE
             }
         }
-        binding.healthTitle.setOnClickListener {
-            if (healthData.visibility == View.GONE) {
-                TransitionManager.beginDelayedTransition(healthData, AutoTransition())
-                healthData.visibility = View.VISIBLE;
-            } else {
-                healthData.visibility = View.GONE;
+        for (edited_text in _edited_text_array) {
+            if (edited_text != null) {
+                edited_text.visibility = View.VISIBLE
             }
         }
-
-
-        girlDocId = "ncq4qmlp3LZGxp9iZliB"
-        firestore = Firebase.firestore
-        girlDocRef = firestore.collection("profiles").document(girlDocId)
         girlDocRef.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
@@ -160,138 +176,24 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 Log.d(TAG, "get failed with ", exception)
             }
 
-        return binding.root
-    }
-
-    private fun retrieveProfileData(document: DocumentSnapshot) {
-        Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-        edited_name.text = document.getString("firstName")
-        edited_id.text = document.getString("lastName")
-        edited_phone.text = document.getString("age")
-    }
-
-    private fun updateProfileData(document: DocumentSnapshot) {
-        girlDocRef.update("lastName", edit_id.text)
-        girlDocRef.update("age", edit_phone.text)
-        girlDocRef.update("firstName", edit_name.text)
-        Log.d(TAG, "DocumentSnapshot update: ${document.data}")
-    }
-
-    private fun update(view: View) {
-
-    }
-
-
-    private fun displayMode(view: View) {
-//        for(edit_text in _edit_text_array){
-//            edit_text.visibility = View.GONE
-//        }
-//        for(edited_text in _edited_text_array){
-//            edited_text.visibility = View.VISIBLE
-//        }
-        edited_name.visibility = View.VISIBLE
-        edit_name.visibility = View.GONE
-
-        edited_id.visibility = View.VISIBLE
-        edit_id.visibility = View.GONE
-
-        edited_phone.visibility = View.VISIBLE
-        edit_phone.visibility = View.GONE
-
-        edited_father_name.text = edit_father_name.text
-        edited_father_name.visibility = View.VISIBLE
-        edited_mother_name.visibility = View.VISIBLE
-
-        edited_mother_name.text = edit_mother_name.text
-        edit_father_name.visibility = View.GONE
-        edit_mother_name.visibility = View.GONE
-
-        edited_father_phone.text = edit_father_phone.text
-        edited_father_phone.visibility = View.VISIBLE
-        edited_mother_phone.visibility = View.VISIBLE
-
-        edited_mother_phone.text = edit_mother_phone.text
-        edit_father_phone.visibility = View.GONE
-        edit_mother_phone.visibility = View.GONE
-
-        edited_address.text = edit_address.text
-        edited_address.visibility = View.VISIBLE
-        edit_address.visibility = View.GONE
-
-        edited_birth_date.text = edit_birth_date.text
-        edited_birth_date.visibility = View.VISIBLE
-        edit_birth_date.visibility = View.GONE
-
-        edited_kupach.text = edit_kupach.text
-        edited_kupach.visibility = View.VISIBLE
-        edit_kupach.visibility = View.GONE
-
-        edited_school.text = edit_school.text
-        edited_school.visibility = View.VISIBLE
-        edit_school.visibility = View.GONE
-
-        edited_civil.text = edit_civil.text
-        edited_civil.visibility = View.VISIBLE
-        edit_civil.visibility = View.GONE
-
         view.visibility = View.VISIBLE
         edit_button.visibility = View.VISIBLE
-        button5.visibility = View.GONE
+        submit_changes.visibility = View.GONE
     }
 
-
     private fun editMode(view: View) {
-//        for(edit_text in _edit_text_array){
-//            edit_text.visibility = View.VISIBLE
-//        }
-//        for(edited_text in _edited_text_array){
-//            edited_text.visibility = View.GONE
-//        }
+        for (edit_text in _edit_text_array) {
+            if (edit_text != null) {
+                edit_text.visibility = View.VISIBLE
+            }
+        }
+        for (edited_text in _edited_text_array) {
+            if (edited_text != null) {
+                edited_text.visibility = View.GONE
+            }
+        }
         view.visibility = View.GONE
-        button5.visibility = View.VISIBLE
-//        for(edit_text in _edit_text_array){
-//            edit_text.visibility = View.VISIBLE
-//        }
-//        for(edited_text in _edited_text_array){
-//            edited_text.visibility = View.GONE
-//        }
-        edited_name.visibility = View.GONE
-        edit_name.visibility = View.VISIBLE
-
-        edited_id.visibility = View.GONE
-        edit_id.visibility = View.VISIBLE
-
-        edited_phone.visibility = View.GONE
-        edit_phone.visibility = View.VISIBLE
-
-        edited_father_name.visibility = View.GONE
-        edited_mother_name.visibility = View.GONE
-
-        edit_father_name.visibility = View.VISIBLE
-        edit_mother_name.visibility = View.VISIBLE
-
-        edited_father_phone.visibility = View.GONE
-        edited_mother_phone.visibility = View.GONE
-
-        edit_father_phone.visibility = View.VISIBLE
-        edit_mother_phone.visibility = View.VISIBLE
-
-        edited_address.visibility = View.GONE
-        edit_address.visibility = View.VISIBLE
-
-        edited_birth_date.visibility = View.GONE
-        edit_birth_date.visibility = View.VISIBLE
-
-        edited_kupach.visibility = View.GONE
-        edit_kupach.visibility = View.VISIBLE
-
-        edited_school.visibility = View.GONE
-        edit_school.visibility = View.VISIBLE
-
-        edited_civil.visibility = View.GONE
-        edit_civil.visibility = View.VISIBLE
-
-
+        submit_changes.visibility = View.VISIBLE
     }
 
     companion object {
@@ -331,3 +233,125 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener {
         TODO("Not yet implemented")
     }
 }
+
+//--------- useful things ----------//
+
+//                binding.button4.setOnClickListener { view: View ->
+//            view.findNavController().navigate(R.id.action_profileFragment_to_newReferenceFragment)
+//        }
+//        binding.examples.setOnClickListener { view: View ->
+//            view.findNavController().navigate(R.id.action_ProfileFragment_to_ReferenceFragment)
+//        }
+//
+//        for(i in 0..fields.size){
+//            val field = fields.get(i)
+//            _map_of_views.plus(field, arrayListOf(_edit_text_array[i], _edited_text_array[i]))
+//        }
+
+//------------------------------------------------------------//
+
+//private fun updateProfileData(document: DocumentSnapshot) {
+//        girlDocRef.update("firstName", edit_first_name.text.toString())
+//        girlDocRef.update("lastName", edit_last_name.text.toString())
+//        girlDocRef.update("id", edit_id.text.toString())
+//        girlDocRef.update("phone", edit_phone)
+//        girlDocRef.update("homeAddress", edit_address.text.toString())
+//        Log.d(TAG, "DocumentSnapshot update: ${document.data}")
+//    }
+
+//        edited_first_name.visibility = View.VISIBLE
+//        edit_first_name.visibility = View.GONE
+
+//        edited_last_name.visibility = View.VISIBLE
+//        edit_last_name.visibility = View.GONE
+//
+//        edited_id.visibility = View.VISIBLE
+//        edit_id.visibility = View.GONE
+//
+//        edited_phone.visibility = View.VISIBLE
+//        edit_phone.visibility = View.GONE
+//
+////        edited_father_name.text = edit_father_name.text
+//        edited_father_name.visibility = View.VISIBLE
+//        edited_mother_name.visibility = View.VISIBLE
+//
+////        edited_mother_name.text = edit_mother_name.text
+//        edit_father_name.visibility = View.GONE
+//        edit_mother_name.visibility = View.GONE
+//
+////        edited_father_phone.text = edit_father_phone.text
+//        edited_father_phone.visibility = View.VISIBLE
+//        edited_mother_phone.visibility = View.VISIBLE
+//
+////        edited_mother_phone.text = edit_mother_phone.text
+//        edit_father_phone.visibility = View.GONE
+//        edit_mother_phone.visibility = View.GONE
+//
+////        edited_address.text = edit_address.text
+//        edited_address.visibility = View.VISIBLE
+//        edit_address.visibility = View.GONE
+//
+////        edited_birth_date.text = edit_birth_date.text
+//        edited_birth_date.visibility = View.VISIBLE
+//        edit_birth_date.visibility = View.GONE
+//
+////        edited_kupach.text = edit_kupach.text
+//        edited_kupach.visibility = View.VISIBLE
+//        edit_kupach.visibility = View.GONE
+//
+////        edited_school.text = edit_school.text
+//        edited_school.visibility = View.VISIBLE
+//        edit_school.visibility = View.GONE
+//
+////        edited_civil.text = edit_civil.text
+//        edited_civil.visibility = View.VISIBLE
+//        edit_civil.visibility = View.GONE
+
+
+//        for(edit_text in _edit_text_array){
+//            edit_text.visibility = View.VISIBLE
+//        }
+//        for(edited_text in _edited_text_array){
+//            edited_text.visibility = View.GONE
+//        }
+//
+//        edited_first_name.visibility = View.GONE
+//        edit_first_name.visibility = View.VISIBLE
+//
+//        edited_last_name.visibility = View.GONE
+//        edit_last_name.visibility = View.VISIBLE
+//
+//        edited_id.visibility = View.GONE
+//        edit_id.visibility = View.VISIBLE
+//
+//        edited_phone.visibility = View.GONE
+//        edit_phone.visibility = View.VISIBLE
+//
+//        edited_address.visibility = View.GONE
+//        edit_address.visibility = View.VISIBLE
+//
+//         //--------------------------------//
+//
+//        edited_father_name.visibility = View.GONE
+//        edited_mother_name.visibility = View.GONE
+//
+//        edit_father_name.visibility = View.VISIBLE
+//        edit_mother_name.visibility = View.VISIBLE
+//
+//        edited_father_phone.visibility = View.GONE
+//        edited_mother_phone.visibility = View.GONE
+//
+//        edit_father_phone.visibility = View.VISIBLE
+//        edit_mother_phone.visibility = View.VISIBLE
+//
+//        edited_birth_date.visibility = View.GONE
+//        edit_birth_date.visibility = View.VISIBLE
+//
+//        edited_kupach.visibility = View.GONE
+//        edit_kupach.visibility = View.VISIBLE
+//
+//        edited_school.visibility = View.GONE
+//        edit_school.visibility = View.VISIBLE
+//
+//        edited_civil.visibility = View.GONE
+//        edit_civil.visibility = View.VISIBLE

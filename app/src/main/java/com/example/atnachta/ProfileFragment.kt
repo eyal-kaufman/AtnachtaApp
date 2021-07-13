@@ -153,6 +153,8 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     private fun displayMode(view: View) {
+
+
         for (edit_text in _edit_text_array) {
             if (edit_text != null) {
                 edit_text.visibility = View.GONE

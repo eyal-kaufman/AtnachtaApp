@@ -276,7 +276,7 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
     override fun onClick(v: View?) {
 
         v?.findNavController()?.navigate(
-            profileFragmentDirections.actionProfileFragmentToNewReference(false, referenceList[v.id],docID))
+            profileFragmentDirections.actionProfileFragmentToReferenceFragment(docID.toString(),referenceList[v.id].toString()))
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

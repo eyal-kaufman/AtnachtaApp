@@ -76,4 +76,7 @@
     <string name="timeChooserText">נא לבחור שעה...</string>
     <string name="dateAndTime">תאריך ושעה</string>
     <string name="exportMenuOption">ייצוא למייל</string>
+    <string name="deleteProfileDialog">מחיקת פרופיל</string>
+    <string name="deleteProfileButton">למחוק פרופיל</string>
+    <string name="cancleButton">ביטול</string>
 </resources>

@@ -33,6 +33,8 @@ import kotlinx.android.synthetic.main.fragment_profile.edited_id
 import kotlinx.android.synthetic.main.fragment_profile.edited_phone
 import kotlinx.android.synthetic.main.fragment_reference.*
 import kotlinx.android.synthetic.main.reference_row_table.view.*
+import android.app.AlertDialog;
+import android.content.DialogInterface
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -267,6 +269,13 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
                 true
             }
             R.id.delete_profile-> {
+                val dialog = AlertDialog.Builder(context)
+                dialog.setTitle(R.string.deleteProfileDialog)
+                    .setPositiveButton(R.string.deleteProfileButton) { dialogInterface: DialogInterface, i: Int ->
+                        Log.d(TAG, "${docID} deleted")
+                    }
+                    .setNegativeButton(R.string.cancleButton) { dia, id -> dia.cancel() }
+                dialog.show()
                 true
             }
 

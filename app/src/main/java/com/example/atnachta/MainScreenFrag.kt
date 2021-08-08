@@ -78,21 +78,29 @@ class MainScreen : Fragment() {
             view.findNavController().navigate(
             MainScreenDirections.actionMainScreenToRecycleSearch(searchInput))}
 
-        binding.instructorPasswordChangeButton.setOnClickListener{
-            auth.sendPasswordResetEmail(INSTRUCTOR_USER_EMAIL)
-                .addOnCompleteListener(requireActivity()) { task ->
-                    if (task.isSuccessful) {
-                        Log.d(TAG, "Email sent.")
-                        Toast.makeText(context, getString(R.string.passordResetMsg),
-                            Toast.LENGTH_SHORT).show()
-                    } else{
-                        Log.w(TAG, "UserPasswordReset:failure", task.exception)
-                        Toast.makeText(context, getString(R.string.generalPasswordResetError),
-                            Toast.LENGTH_SHORT).show()
-                    }
-                }
-        }
+        binding.instructorPasswordChangeButton.setOnClickListener{passwordChangeButtonHandler()}
+    }
 
+    private fun passwordChangeButtonHandler(){
+        binding.progressIndicator.visibility = View.VISIBLE
+        auth.sendPasswordResetEmail(INSTRUCTOR_USER_EMAIL)
+            .addOnCompleteListener(requireActivity()) { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG, "Email sent.")
+                    Toast.makeText(
+                        context, getString(R.string.passordResetMsg),
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                } else {
+                    Log.w(TAG, "UserPasswordReset:failure", task.exception)
+                    Toast.makeText(
+                        context, getString(R.string.generalPasswordResetError),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                binding.progressIndicator.visibility = View.INVISIBLE
+            }
     }
     companion object {
         /**

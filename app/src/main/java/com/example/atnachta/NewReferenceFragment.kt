@@ -51,6 +51,8 @@ class NewReference : Fragment() {
     private lateinit var binding : FragmentNewReferenceBinding
     private lateinit var firestore : FirebaseFirestore
 
+    private lateinit var profileDocID : String
+
     private val formatDate = SimpleDateFormat("dd/MM/yyyy", Locale.ITALY) // a random eu state
     private val formatTime = SimpleDateFormat("kk:mm", Locale.ITALY) // a random eu state
 
@@ -82,19 +84,15 @@ class NewReference : Fragment() {
         // getting Firestore instance
         firestore = Firebase.firestore
 
-        // getting girlDocId
-//        profileDocId = NewReferenceArgs.fromBundle(requireArguments()).profileDocId
-//        profileDocRef = firestore.collection(PROFILES_COLLECTION).document(profileDocId)
-//        firestore.collection(PROFILES_COLLECTION).document(girlDocId).update("age", 123123123)
+        // getting profile docID (will be empty string if we are creating a new profile)
+        profileDocID = NewReferenceArgs.fromBundle(requireArguments()).profileDocID
 
-        // setting UI according to existence of the profile
+        // setting UI and DocID according to existence of the profile
         val isNewProfile = NewReferenceArgs.fromBundle(requireArguments()).isNewProfile
         configureUI(isNewProfile)
 
-
-
         // continue button setup
-        binding.continueButton.setOnClickListener {v : View -> continueButtonHandler(v)}
+        binding.continueButton.setOnClickListener {v : View -> continueButtonHandler(v,isNewProfile)}
 
         // setting current date and time in views
         binding.dateTextView.text = formatDate.format(Calendar.getInstance().time)
@@ -103,61 +101,6 @@ class NewReference : Fragment() {
         // setting listeners for picking date and time
         binding.dateTextView.setOnClickListener{v:View -> setDatePicker(v)}
         binding.timeTextView.setOnClickListener{v:View -> setTimePicker(v)}
-
-        /*TODO: delete this last section! this is only for testing file uploads*/
-        pickFile()
-
-    }
-
-    /*TODO: delete this function! this is only for testing file uploads*/
-    private fun pickFile() {
-        val fileintent = Intent(Intent.ACTION_GET_CONTENT)
-        fileintent.type = "application/pdf"
-        fileintent.addCategory(Intent.CATEGORY_OPENABLE)
-        startActivityForResult(fileintent, FILE_SELECT_CODE)
-    }
-
-    /*TODO: delete this function! this is only for testing file uploads*/
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode != FILE_SELECT_CODE || resultCode != Activity.RESULT_OK) {
-            return
-        }
-        // upload to cloud storage
-        val fileUri = data!!.data
-        if (fileUri != null){
-            uploadFile(fileUri)
-        } else{
-            Log.w(TAG, "pickingFileFromDevice:failure")
-            Toast.makeText(context, getString(R.string.filePickerError),
-                Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    /*TODO: delete this function! this is only for testing file uploads*/
-    private fun uploadFile(fileUri: Uri) {
-        val path = fileUri.path ?: ""
-        if (path.isBlank()){
-            Log.w(TAG, "uploadingFileToCloud:failure")
-            Toast.makeText(context, getString(R.string.fileUploadError),
-                Toast.LENGTH_SHORT).show()
-            return
-        }
-        val file = File(path)
-        val fileName = file.name
-        val storage = Firebase.storage
-        val storageRef = storage.reference
-        val fileRef = storageRef.child(fileName)
-        val uploadTask = fileRef.putFile(fileUri)
-        uploadTask.addOnFailureListener{
-            Log.w(TAG, "uploadingFileToCloud:failure",it)
-            Toast.makeText(context, getString(R.string.fileUploadError),
-                Toast.LENGTH_SHORT).show()
-        }.addOnSuccessListener {
-            Log.w(TAG, "uploadingFileToCloud:success")
-            Toast.makeText(context, fileName,
-                Toast.LENGTH_SHORT).show()
-        }
 
     }
 
@@ -214,11 +157,18 @@ class NewReference : Fragment() {
         timePicker.show()
     }
 
-    private fun continueButtonHandler(view: View){
-        binding.continueButton.isEnabled = false //
-        val profile : Profile = createProfile()
-        val profileDocRef = firestore.collection(PROFILES_COLLECTION).document()
-        profileDocRef.set(profile)
+    private fun continueButtonHandler(view: View, isNewProfile: Boolean){
+        binding.continueButton.isEnabled = false
+        binding.progressIndicator.visibility = View.VISIBLE
+        val profileDocRef : DocumentReference
+        if (isNewProfile){
+            val profile : Profile = createProfile()
+            profileDocRef = firestore.collection(PROFILES_COLLECTION).document()
+            profileDocRef.set(profile)
+        }
+        else{
+            profileDocRef = firestore.collection(PROFILES_COLLECTION).document(profileDocID)
+        }
         val ref: Reference = createReference()
         profileDocRef.collection("References").add(ref)
                 .addOnSuccessListener { documentReference ->
@@ -234,10 +184,16 @@ class NewReference : Fragment() {
                     NewReferenceDirections.actionNewReferenceToProfileFragment(document.id))
             } else {
                 Log.d(TAG, "No such document")
+                Toast.makeText(context, getString(R.string.profileCreationError),
+                    Toast.LENGTH_SHORT).show()
+                binding.progressIndicator.visibility = View.INVISIBLE
             }
         }
             .addOnFailureListener { exception ->
                 Log.d(TAG, "get failed with ", exception)
+                Toast.makeText(context, getString(R.string.profileCreationError),
+                    Toast.LENGTH_SHORT).show()
+                binding.progressIndicator.visibility = View.INVISIBLE
             }
     }
 

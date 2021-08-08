@@ -80,6 +80,11 @@
     <string name="fileUploadSuccess">העלת קובץ בוצעה בהצלחה</string>
     <string name="getURLFailure">שגיאה - לא ניתן להשיג קישור לקובץ</string>
     <string name="downloadFromStorageError">שגיאה - הורדת  הקובץ נכשלה</string>
-    <string name="fileDownloadDescription">file is donwloading…</string>
+    <string name="fileDownloadDescription">file is downloading…</string>
     <string name="downloadCompleted">הסתיימה הורדת הקובץ</string>
+    <string name="loginErrorUnknown">התחברות נכשלה: יש לנסות שנית</string>
+    <string name="loginErrorInvalidCredentials">התחברות נכשלה: שם משתמש או סיסמא לא חוקיים</string>
+    <string name="loginErrorInvalidUser">התחברות נכשלה: המשתמש לא קיים במערכת</string>
+    <string name="loginErrorNetwork">התחברות נכשלה: נא לבדוק חיבור לרשת ולנסות שנית</string>
+    <string name="profileCreationError">שגיאה ביצירת פרופיל: נא לנסות שנית</string>
 </resources>

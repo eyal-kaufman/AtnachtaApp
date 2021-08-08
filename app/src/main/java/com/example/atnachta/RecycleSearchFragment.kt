@@ -36,6 +36,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 private const val PROFILES_COLLECTION = "profiles"
+private const val EMPTY_DOC_ID = ""
 
 
 
@@ -71,7 +72,8 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
 
         // onClickListener for the newProfile button - go to create profile fragment
         binding.newProfileButton.setOnClickListener{ v : View -> v.findNavController().navigate(
-            RecycleSearchDirections.actionRecycleSearchToNewReference(true))}
+            RecycleSearchDirections.actionRecycleSearchToNewReference(true, EMPTY_DOC_ID))}
+
     }
 
     /**
@@ -90,7 +92,6 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
             .build()
         // Change options of adapter.
         adapter.updateOptions(newOptions)
-
     }
 
     private fun setUpRecyclerView() {
@@ -100,7 +101,6 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         } else{ // query by input
             collectionReference.whereArrayContains("searchList", initialSearchInput)
         }
-
         // define the options object (firebaseUI class), that gets the query into the adapter
         val firestoreRecyclerOptions : FirestoreRecyclerOptions<Profile> = FirestoreRecyclerOptions.Builder<Profile>()
             .setQuery(query, Profile::class.java)
@@ -109,7 +109,6 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         adapter = ProfileAdapter(firestoreRecyclerOptions,this)
         binding.resultList.layoutManager = LinearLayoutManager(activity) // still not sure what that is, but is needed
         binding.resultList.adapter = adapter
-
     }
 
     /**

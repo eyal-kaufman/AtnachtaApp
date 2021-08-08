@@ -1,10 +1,13 @@
 package com.example.atnachta
 
 import android.app.Activity
+import android.app.DownloadManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
+import android.os.Environment.DIRECTORY_DOWNLOADS
+import android.provider.OpenableColumns
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.util.Log
@@ -15,18 +18,14 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.atnachta.databinding.FragmentProfileBinding
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FileDownloadTask
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.fragment_profile.*
-import java.io.File
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -211,9 +210,6 @@ class profileFragment : Fragment() {
         storageRef = storage.reference
         val profileDocID = profileFragmentArgs.fromBundle(requireArguments()).docID
         profileRef = firestore.collection("profiles").document(profileDocID)
-        profileRef.update("firstName","testUpdate")
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
         pickFile()
     }
 
@@ -221,7 +217,7 @@ class profileFragment : Fragment() {
         val fileintent = Intent(Intent.ACTION_GET_CONTENT)
         fileintent.type = "application/pdf"
         fileintent.addCategory(Intent.CATEGORY_OPENABLE)
-        startActivityForResult(fileintent, FILE_SELECT_CODE)
+        startActivityForResult(Intent.createChooser(fileintent,"Select PDF"), FILE_SELECT_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -240,10 +236,19 @@ class profileFragment : Fragment() {
         }
     }
 
+
+
     private fun uploadFile(fileUri: Uri) {
         val storage = Firebase.storage
         val storageRef = storage.reference
-        val fileRef = storageRef.child(fileUri.lastPathSegment!!) // todo: check how to actually get the filename
+        val filenameFromURI = getFilename(fileUri)
+        if (filenameFromURI == null){
+            Log.w(TAG, "uploadFileToStorage:failure")
+            Toast.makeText(context, getString(R.string.fileUploadError),
+                Toast.LENGTH_SHORT).show()
+            return
+        }
+        val fileRef = storageRef.child(filenameFromURI)
         val uploadTask = fileRef.putFile(fileUri)
         val urlTask = uploadTask.continueWithTask { task ->
             // getting the download URL of the file
@@ -258,24 +263,23 @@ class profileFragment : Fragment() {
             Log.w(TAG, "uploadFileToStorage:success")
             Toast.makeText(context, getString(R.string.fileUploadSuccess),
                 Toast.LENGTH_SHORT).show()
-            fileRef.downloadUrl // the result of the task is now the URL
+            fileRef.downloadUrl // the result of the task is now the URL, see firebase docs
             // adding the file name as a field in the profile
-            fileRef.metadata.addOnSuccessListener { metadata ->
-                profileRef
-                    .update("filename", metadata.name)
-                    .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
-                    .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
-            }.addOnFailureListener {e -> Log.w(TAG, "Error getting file metadata", e) }
         }.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val downloadUri = task.result
-                // adding the URL as a field in the profile
-                profileRef
-                    .update("fileURL", downloadUri.toString())
-                    .addOnSuccessListener {
-                        Log.d(TAG, "DocumentSnapshot successfully updated!")
-                        updateUI()}
-                    .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+                fileRef.metadata.addOnSuccessListener { metadata ->
+                    val filename = metadata.name
+                    val url =downloadUri.toString()
+                    profileRef
+                        .update(mapOf(
+                            "filename" to  metadata.name,
+                            "fileURL" to downloadUri.toString()))
+                        .addOnSuccessListener {
+                            Log.d(TAG, "DocumentSnapshot successfully updated!")
+                            updateUI()}
+                        .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+                }.addOnFailureListener {e -> Log.w(TAG, "Error getting file metadata", e) }
             } else {
                 Log.w(TAG, "gettingFileURL:failure")
                 Toast.makeText(context, getString(R.string.getURLFailure),
@@ -303,58 +307,44 @@ class profileFragment : Fragment() {
             }
     }
 
+
     private fun downloadFile(url: String?, filename: String) {
-        if(url==null){
+        if (url == null) {
             Log.w(TAG, "downloadingFileFromURL:failure")
-            Toast.makeText(context, getString(R.string.downloadFromStorageError),
-                Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context, getString(R.string.downloadFromStorageError),
+                Toast.LENGTH_SHORT
+            ).show()
         }
-        val rootPath = File(Environment.getExternalStorageDirectory(), "file_name")
-        if (!rootPath.exists()) {
-            rootPath.mkdirs()
+        val request = DownloadManager.Request(
+            Uri.parse(url))
+            .setTitle(filename)
+            .setDescription(getString(R.string.fileDownloadDescription))
+            .setDestinationInExternalFilesDir(context, DIRECTORY_DOWNLOADS, "$filename.pdf")
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+        val downloadManager : DownloadManager = activity?.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        downloadId = downloadManager.enqueue(request)
+    }
+
+    /**
+     * this method receives a file URI and returns its actual name. Any other method i tried, like
+     * directly checking the URIs path, resulted in a cryptic name (for example document:1111)
+     * this method was copied from stackoverflow:
+     * https://stackoverflow.com/questions/45054005/android-incorrect-file-name-for-selected-filefrom-file-chooser
+     * currently has no idea what is going on in there or why it works
+     */
+    private fun getFilename(uri: Uri): String? {
+        val cursor = activity?.contentResolver?.query(uri, null, null, null, null)
+        var filename: String? = null
+
+        cursor?.getColumnIndex(OpenableColumns.DISPLAY_NAME)?.let { nameIndex ->
+            cursor.moveToFirst()
+
+            filename = cursor.getString(nameIndex)
+            cursor.close()
         }
-
-        val localFile = File(rootPath, "imageName.txt")
-
-        islandRef.getFile(localFile)
-            .addOnSuccessListener(OnSuccessListener<FileDownloadTask.TaskSnapshot?> {
-                Log.e("firebase ", ";local tem file created  created " + localFile.toString())
-                //  updateDb(timestamp,localFile.toString(),position);
-            }).addOnFailureListener(OnFailureListener { exception ->
-                Log.e(
-                    "firebase ",
-                    ";local tem file not created  created $exception"
-                )
-            })
-//        val request = DownloadManager.Request(
-//            Uri.parse(url))
-//            .setTitle(filename)
-//            .setDescription(getString(R.string.fileDownloadDescription))
-//            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-//        val downloadManager : DownloadManager = activity?.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-//        downloadId = downloadManager.enqueue(request)
-//        }
-//        var broadcastReceiver = object:BroadcastReceiver(){
-//            override fun onReceive(context: Context?, intent: Intent?) {
-//                val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID,-1)
-//                if (id==downloadId){
-//                    Toast.makeText(context, getString(R.string.downloadCompleted),
-//                        Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        }
-
-//        val intent = Intent(Intent.ACTION_VIEW)
-//        intent.setDataAndType(Uri.parse(url), "application/pdf")
-//        // not sure about these flags. also, or is bitwise (in order to combine flags)
-//        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
-//        val newIntent = Intent.createChooser(intent, "Open File")
-//        try {
-//            startActivity(newIntent)
-//        } catch (e: ActivityNotFoundException) {
-//            Log.w(TAG, "Error opening file", e)
-//        }
-//    }
+        return filename
+    }
 
     companion object {
         /**
@@ -376,3 +366,56 @@ class profileFragment : Fragment() {
             }
     }
 }
+
+
+//    fun sendProfilesByEmail(){
+//        filename ="myFile.csv"
+//        filepath = "MyFileDir"
+//        val myextrnal = File(context?.getExternalFilesDir(filepath), filename)
+//
+////        var headers : SortedSet<String> = sortedSetOf()
+//        var headers : MutableList<String> = mutableListOf()
+//        try{
+//            collectionReference.orderBy("firstName", Query.Direction.DESCENDING)
+//                .get().addOnSuccessListener { documents->
+//                    val writer = myextrnal.bufferedWriter()
+//                    writer.write("\ufeff")
+//                    val csvPrinter = CSVPrinter(writer, CSVFormat.DEFAULT)
+//
+//                    for (doc in documents){
+//                        doc.data.remove("ID")
+//                        doc.data.remove("")
+//                        if (headers.size==0) {
+////                            headers = doc.data.keys.toSortedSet()
+//                            headers = doc.data.keys.toMutableList()
+//                            headers.sort()
+//                            Log.d(TAG, "${doc.id} BEFORE => ${headers}")
+//                            DataToCSV.mapFields(headers)
+//                            Log.d(TAG, "${doc.id} AFTER => ${headers}")
+//                            csvPrinter.printRecord(headers)
+//                        }
+//                        csvPrinter.printRecord(doc.data.toSortedMap().values)
+//
+//                        Log.d(TAG, "${doc.id} => ${doc.data.toSortedMap()}")
+//
+//                    }
+//                    val path: Uri =
+//                        FileProvider.getUriForFile(requireContext(), "com.example.atnachta.fileprovider", myextrnal)
+//
+//                    val fileIntent = Intent(Intent.ACTION_SEND)
+//                    fileIntent.type = "text/csv"
+//                    fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Data")
+//                    fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//                    fileIntent.putExtra(Intent.EXTRA_STREAM, path)
+//                    startActivity(fileIntent)
+//
+//                    csvPrinter.flush()
+//                    csvPrinter.close()
+//                }
+//
+//        } catch (e : FileNotFoundException){
+//            e.printStackTrace()
+//        } catch (e : IOException){
+//            e.printStackTrace()
+//        }
+//    }

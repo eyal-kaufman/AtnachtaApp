@@ -12,7 +12,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.atnachta.databinding.FragmentLoginBinding
+import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -62,7 +65,6 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         // ActionBar title text
         activity?.setTitle(R.string.loginFragmentTitle)
 
@@ -75,19 +77,8 @@ class LoginFragment : Fragment() {
             val password = binding.fieldPassword.text.toString()
             signIn(email, password,it)
         }
-
-
         // password reset link setup
-        binding.passwordResetLink.setOnClickListener{
-            auth.sendPasswordResetEmail(SUPER_USER_EMAIL)
-                .addOnCompleteListener(requireActivity()) { task ->
-                    if (task.isSuccessful) {
-                        Log.d(TAG, "Email sent.")
-                    Toast.makeText(context, getString(R.string.passordResetMsg),
-                        Toast.LENGTH_SHORT).show()
-                    }
-                }
-        }
+        binding.passwordResetLink.setOnClickListener{passwordChangeLinkHandler()}
 
         // login button setup
         binding.devButton.setOnClickListener {
@@ -120,16 +111,35 @@ class LoginFragment : Fragment() {
                             LoginFragmentDirections.actionLoginFragmentToMainScreen(uid))
                     }
                     else{
-                        Log.w(TAG, "signInWithEmail:failure", task.exception)
-                        binding.loginErrorMsg.visibility = View.VISIBLE
+                        // if somehow user is null, show a general error to the user
+                        notifyUser(null)
                     }
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithEmail:failure", task.exception)
-                    binding.loginErrorMsg.visibility = View.VISIBLE
+                    notifyUser(task.exception)
                 }
                 binding.progressIndicator.visibility = View.INVISIBLE
             }
+    }
+
+    private fun notifyUser(e: Exception?) {
+        Log.w(TAG,"signInWithEmail:failure",e)
+        val message : String = when (e) {
+            is FirebaseAuthInvalidCredentialsException -> {
+                getString(R.string.loginErrorInvalidCredentials)
+            }
+            is FirebaseAuthInvalidUserException -> {
+                getString(R.string.loginErrorInvalidUser)
+            }
+            is FirebaseNetworkException -> {
+                getString(R.string.loginErrorNetwork)
+            }
+            else -> {
+                getString(R.string.loginErrorUnknown)
+            }
+        }
+        binding.loginErrorMsg.text = message
+        binding.loginErrorMsg.visibility = View.VISIBLE
     }
 
     private fun validateForm(): Boolean {
@@ -151,6 +161,23 @@ class LoginFragment : Fragment() {
         }
 
         return valid
+    }
+
+    private fun passwordChangeLinkHandler(){
+        binding.progressIndicator.visibility = View.VISIBLE
+        auth.sendPasswordResetEmail(SUPER_USER_EMAIL)
+            .addOnCompleteListener(requireActivity()) { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG, "Email sent.")
+                    Toast.makeText(context, getString(R.string.passordResetMsg),
+                        Toast.LENGTH_SHORT).show()
+                } else{
+                    Log.w(TAG, "SuperUserPasswordReset:failure", task.exception)
+                    Toast.makeText(context, getString(R.string.generalPasswordResetError),
+                        Toast.LENGTH_SHORT).show()
+                }
+                binding.progressIndicator.visibility = View.INVISIBLE
+            }
     }
 
     companion object {

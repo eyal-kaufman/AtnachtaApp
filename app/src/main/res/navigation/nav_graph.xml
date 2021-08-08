@@ -66,6 +66,9 @@
         <argument
             android:name="isNewProfile"
             app:argType="boolean" />
+        <argument
+            android:name="profileDocID"
+            app:argType="string" />
     </fragment>
 
 </navigation>

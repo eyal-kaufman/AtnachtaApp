@@ -4,20 +4,16 @@ import android.os.Bundle
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.onNavDestinationSelected
-import kotlinx.android.synthetic.main.fragment_profile.*
+import com.example.atnachta.data.Girl
 import com.example.atnachta.databinding.FragmentProfileBinding
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -32,52 +28,46 @@ import kotlinx.android.synthetic.main.fragment_profile.edit_phone
 import kotlinx.android.synthetic.main.fragment_profile.edited_id
 import kotlinx.android.synthetic.main.fragment_profile.edited_phone
 import kotlinx.android.synthetic.main.fragment_reference.*
-import kotlinx.android.synthetic.main.reference_row_table.view.*
 
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "docID"
+private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-private const val PROFILES_COLLECTION = "profiles"
 
 /**
  * A simple [Fragment] subclass.
  * Use the [profileFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.OnClickListener{
+class profileFragment : Fragment(), AdapterView.OnItemSelectedListener {
     // TODO: Rename and change types of parameters
-    private var docID: String? = null
+    private var param1: String? = null
     private var param2: String? = null
+    lateinit var profile: Girl
     lateinit var firestore: FirebaseFirestore
-    lateinit var collectionReference: CollectionReference
     lateinit var binding: FragmentProfileBinding
+    lateinit var girlDocId: String
     lateinit var girlDocRef: DocumentReference
     val TAG: String = "profile"
     var _edit_text_array: Array<TextView?> = arrayOfNulls(20)
     var _edited_text_array: Array<TextView?> = arrayOfNulls(20)
     lateinit var _map_of_views: Map<String, ArrayList<TextView>>
     lateinit var _map_of_titles: Map<TextView, TableLayout>
-    lateinit var referenceList : MutableMap<Int, String>
-    lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            docID = it.getString(ARG_PARAM1)
+            param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        navController = findNavController(this)
-
-        setHasOptionsMenu(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        girlDocId = profileFragmentArgs.fromBundle(requireArguments()).docID
+        girlDocId = profileFragmentArgs.fromBundle(requireArguments()).docID
         firestore = Firebase.firestore
-        girlDocRef = firestore.collection(PROFILES_COLLECTION).document(docID.toString())
+        girlDocRef = firestore.collection("profiles").document(girlDocId)
 
         initialData(view)
         displayMode(view)
@@ -116,25 +106,6 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
             } else {
                 referenceData.visibility = View.GONE;
             }
-        }
-        referenceList = mutableMapOf()
-        collectionReference = firestore.collection(PROFILES_COLLECTION).document(docID.toString()).collection("References")
-        collectionReference.get()
-            .addOnSuccessListener { documents->
-                for (doc in documents){
-
-                    val tr = layoutInflater.inflate(R.layout.reference_row_table, binding.referenceTable, false)
-                    tr.setOnClickListener(this)
-
-                    referenceList[tr.id] = doc.id
-                    tr.reference_date.text = doc.data["dateOfRef"].toString()
-                    tr.referer_name.text = doc.data["receiverName"].toString()
-                    binding.referenceTable.addView(tr,1)
-                }
-            }
-
-        binding.addReferenceBtn.setOnClickListener {
-            navigateToNewReference()
         }
     }
 
@@ -252,31 +223,6 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
                     putString(ARG_PARAM2, param2)
                 }
             }
-    }
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_profile_fragment, menu)
-    }
-    private fun navigateToNewReference(){
-        navController.navigate(profileFragmentDirections.actionProfileFragmentToNewReference(false, "",docID))
-    }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        return when (item.itemId) {
-            R.id.add_reference-> {
-                navigateToNewReference()
-                true
-            }
-            R.id.delete_profile-> {
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-    override fun onClick(v: View?) {
-
-        v?.findNavController()?.navigate(
-            profileFragmentDirections.actionProfileFragmentToReferenceFragment(docID.toString(),referenceList[v.id].toString()))
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

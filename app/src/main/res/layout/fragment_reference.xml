@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ReferenceFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10sp"
+            android:gravity="right"
+            android:orientation="vertical">
+
+            <!--            <Button-->
+            <!--                android:id="@+id/button"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:onClick="update"-->
+            <!--                android:text="Button" />-->
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:stretchColumns="*">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="15sp">
+
+                    <Button
+                        android:id="@+id/edit_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ערוך"
+                        android:visibility="visible" />
+
+
+                    <Button
+                        android:id="@+id/button5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="אישור"
+                        android:visibility="gone" />
+
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:text="הפניה"
+                        android:textSize="30sp" />
+
+                </TableRow>
+
+            </TableLayout>
+
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="637dp"
+                android:stretchColumns="*">
+
+                <TableRow
+                    android:layout_margin="5sp"
+                    android:weightSum="1">
+
+
+                    <EditText
+                        android:id="@+id/edit_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="3"
+                        android:ems="3"
+                        android:inputType="text"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/edited_name"
+                        style="@style/word_profile_field"
+                        android:layout_column="4" />
+
+                    <TextView
+                        style="@style/word_profile_field"
+                        android:text="שם מקבל ההפניה:"
+                        android:textDirection="rtl" />
+
+                </TableRow>
+
+                <TableRow android:layout_margin="5sp">
+
+                    <EditText
+                        android:id="@+id/edit_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="3"
+                        android:ems="3"
+                        android:inputType="date"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/edited_id"
+                        style="@style/word_profile_field"
+                        android:layout_column="4" />
+
+                    <TextView
+                        style="@style/word_profile_field"
+                        android:text="תאריך ההפניה" />
+
+
+                </TableRow>
+
+                <TableRow android:layout_margin="5sp">
+
+                    <EditText
+                        android:id="@+id/edit_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="3"
+                        android:ems="3"
+                        android:inputType="time"
+                        android:visibility="gone" />
+
+
+                    <TextView
+                        android:id="@+id/edited_phone"
+                        style="@style/word_profile_field"
+                        android:layout_width="match_parent"
+                        android:layout_column="4" />
+
+                    <TextView
+                        style="@style/word_profile_field"
+                        android:layout_width="match_parent"
+                        android:text="שעת ההפניה:" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_margin="5sp">
+
+                    <CheckBox
+                        android:id="@+id/if_Welfare"
+                        android:text="האם נמצאת בקשר עם גורם רווחה?"
+                        android:textDirection="firstStrongRtl" />
+
+
+                </TableRow>
+
+
+                <TableRow
+                    android:id="@+id/ref_welfare_name"
+                    android:layout_margin="5sp"
+                    android:visibility="gone">
+
+                    <EditText
+                        android:id="@+id/edit_ref_welfare_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="3"
+                        android:ems="3"
+                        android:inputType="number"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/edited_ref_welfare_name"
+                        style="@style/word_profile_field"
+                        android:layout_column="4" />
+
+                    <TextView
+                        style="@style/word_profile_field"
+                        android:text="שם גורם רווחה:" />
+
+
+                </TableRow>
+
+
+                <TableRow
+                    android:id="@+id/ref_welfare_phone"
+                    android:layout_margin="5sp"
+                    android:visibility="gone">
+
+
+                    <EditText
+                        android:id="@+id/edit_ref_welfare_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="3"
+                        android:ems="3"
+                        android:inputType="phone"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/edited_ref_welfare_phone"
+                        style="@style/word_profile_field"
+                        android:layout_column="4" />
+
+                    <TextView
+                        style="@style/word_profile_field"
+                        android:text="מספר טלפון גורם מפנה:" />
+
+
+                </TableRow>
+
+
+                <TableRow
+                    android:id="@+id/ref_welfare_rule"
+                    android:layout_margin="5sp"
+                    android:visibility="gone">
+
+                    <EditText
+                        android:id="@+id/edit_ref_welfare_rule"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="3"
+                        android:ems="3"
+                        android:inputType="number"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/edited_ref_welfare_rule"
+                        style="@style/word_profile_field"
+                        android:layout_column="4" />
+
+                    <TextView
+                        style="@style/word_profile_field"
+                        android:text="תפקיד גורם הרווחה:" />
+
+
+                </TableRow>
+
+                <TableRow android:layout_margin="5sp">
+
+                    <EditText
+                        android:id="@+id/edit_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="3"
+                        android:ems="3"
+                        android:inputType="number"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/edited_add"
+                        style="@style/word_profile_field"
+                        android:layout_column="4" />
+
+                    <TextView
+                        style="@style/word_profile_field"
+                        android:text="שם גורם מפנה:" />
+
+
+                </TableRow>
+
+                <TableRow android:layout_margin="5sp">
+
+                    <EditText
+                        android:id="@+id/edit_ref_rule"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="3"
+                        android:ems="3"
+                        android:inputType="number"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/edited_ref_rule"
+                        style="@style/word_profile_field"
+                        android:layout_column="4" />
+
+                    <TextView
+                        style="@style/word_profile_field"
+                        android:text="תפקיד גורם מפנה:" />
+
+
+                </TableRow>
+
+                <TableRow android:layout_margin="5sp">
+
+                    <EditText
+                        android:id="@+id/edit_ref_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="3"
+                        android:ems="3"
+                        android:inputType="phone"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/edited_ref_phone"
+                        style="@style/word_profile_field"
+                        android:layout_column="4" />
+
+                    <TextView
+                        style="@style/word_profile_field"
+                        android:text="טלפון גורם מפנה:" />
+                </TableRow>
+
+
+                <TableRow android:layout_margin="5sp">
+
+                    <EditText
+                        android:id="@+id/edit_ref_reason"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="3"
+                        android:ems="3"
+                        android:inputType="textMultiLine"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/edited_ref_reason"
+                        style="@style/word_profile_field"
+                        android:layout_column="4" />
+
+                    <TextView
+                        style="@style/word_profile_field"
+                        android:text="סיבת הפניה:" />
+
+                </TableRow>
+
+
+                <TableRow android:layout_margin="5sp">
+
+                    <EditText
+                        android:id="@+id/edit_ref_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="3"
+                        android:ems="3"
+                        android:inputType="textCapCharacters"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/edited_ref_status"
+                        style="@style/word_profile_field"
+                        android:layout_column="4" />
+
+                    <TextView
+                        style="@style/word_profile_field"
+                        android:text="סטטוס הפניה:" />
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5sp">
+
+                    <EditText
+                        android:id="@+id/edit_ref_leaving_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="3"
+                        android:ems="3"
+                        android:inputType="date"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/edited_ref_leaving_date"
+                        style="@style/word_profile_field"
+                        android:layout_column="4" />
+
+                    <TextView
+                        style="@style/word_profile_field"
+                        android:text="תאריך עזיבה:" />
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5sp">
+
+                    <EditText
+                        android:id="@+id/edit_ref_leaving_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="3"
+                        android:ems="3"
+                        android:inputType="time"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/edited_ref_leaving_time"
+                        style="@style/word_profile_field"
+                        android:layout_column="4" />
+
+                    <TextView
+                        style="@style/word_profile_field"
+                        android:text="שעת עזיבה:" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5sp">
+
+                    <EditText
+                        android:id="@+id/edit_ref_leaving_dest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="3"
+                        android:ems="3"
+                        android:inputType="text"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/edited_ref_leaving_dest"
+                        style="@style/word_profile_field"
+                        android:layout_column="4" />
+
+                    <TextView
+                        style="@style/word_profile_field"
+                        android:text="יעד עזיבה:" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5sp">
+
+                    <EditText
+                        android:id="@+id/edit_ref_leaving_reason"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="3"
+                        android:ems="3"
+                        android:inputType="text"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/edited_ref_leaving_reason"
+                        style="@style/word_profile_field"
+                        android:layout_column="4" />
+
+                    <TextView
+                        style="@style/word_profile_field"
+                        android:text="סיבת עזיבה:" />
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5sp">
+
+                    <EditText
+                        android:id="@+id/edit_ref_leaving_msg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="3"
+                        android:ems="3"
+                        android:inputType="text"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/edited_ref_leaving_msg"
+                        style="@style/word_profile_field"
+                        android:layout_column="4" />
+
+                    <TextView
+                        style="@style/word_profile_field"
+                        android:text="הודעה נמסרה ל:" />
+
+                </TableRow>
+            </TableLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

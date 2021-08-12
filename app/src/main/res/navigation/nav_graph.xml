@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_profileFragment_to_newReference"
             app:destination="@id/newReference" />
+        <action
+            android:id="@+id/action_profileFragment_to_referenceFragment"
+            app:destination="@id/referenceFragment" />
     </fragment>
     <fragment
         android:id="@+id/newReference"
@@ -68,6 +71,22 @@
             app:argType="boolean" />
         <argument
             android:name="profileDocID"
+            app:argType="string" />
+        <argument
+            android:name="referenceDocID"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/referenceFragment"
+        android:name="com.example.atnachta.ReferenceFragment"
+        android:label="fragment_reference"
+        tools:layout="@layout/fragment_reference" >
+        <argument
+            android:name="docID"
+            app:argType="string" />
+        <argument
+            android:name="referenceID"
             app:argType="string" />
     </fragment>
 

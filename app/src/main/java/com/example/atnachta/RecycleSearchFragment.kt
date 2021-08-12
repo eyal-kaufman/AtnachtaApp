@@ -1,14 +1,10 @@
 package com.example.atnachta
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
+import android.view.*
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -23,7 +19,6 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVPrinter
@@ -36,7 +31,6 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 private const val PROFILES_COLLECTION = "profiles"
-private const val EMPTY_DOC_ID = ""
 
 
 
@@ -59,23 +53,48 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
 
     lateinit var initialSearchInput: String
     val TAG : String = "RecycleView"
+    var filename =""
+    var filepath = ""
+    ///samples
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        activity?.menuInflater.inflate(R.menu.menu_main)
         firestore = Firebase.firestore
+
         collectionReference = firestore.collection(PROFILES_COLLECTION)
         initialSearchInput = RecycleSearchArgs.fromBundle(requireArguments()).searchInput
         setUpRecyclerView()
 
         // onClickListener for the search button - update result list
-        binding.searchButton.setOnClickListener { updateQuery(binding.searchInput.text.toString()) }
+        binding.searchButton.setOnClickListener {
+            updateQuery(binding.searchInput.text.toString()) }
 
-        // onClickListener for the newProfile button - go to create profile fragment
-        binding.newProfileButton.setOnClickListener{ v : View -> v.findNavController().navigate(
-            RecycleSearchDirections.actionRecycleSearchToNewReference(true, EMPTY_DOC_ID))}
+        binding.newProfileButton.setOnClickListener{ v : View ->
+            v.findNavController().navigate(
+            RecycleSearchDirections.actionRecycleSearchToNewReference(true,"",""))}
+        if (!isFileExists()){
+            binding.newProfileButton.isEnabled = false
+        }
+
 
     }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_recycle_fragment, menu)
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return when (item.itemId) {
+            R.id.export_to_mail -> {
+                sendProfilesByEmail()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
     /**
      * Click handler for the search button.
      * Updates the query the adapter works with, according to what the user searched
@@ -90,8 +109,10 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         val newOptions : FirestoreRecyclerOptions<Profile> = FirestoreRecyclerOptions.Builder<Profile>()
             .setQuery(newQuery, Profile::class.java)
             .build()
+
         // Change options of adapter.
         adapter.updateOptions(newOptions)
+
     }
 
     private fun setUpRecyclerView() {
@@ -101,6 +122,7 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         } else{ // query by input
             collectionReference.whereArrayContains("searchList", initialSearchInput)
         }
+
         // define the options object (firebaseUI class), that gets the query into the adapter
         val firestoreRecyclerOptions : FirestoreRecyclerOptions<Profile> = FirestoreRecyclerOptions.Builder<Profile>()
             .setQuery(query, Profile::class.java)
@@ -109,18 +131,89 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         adapter = ProfileAdapter(firestoreRecyclerOptions,this)
         binding.resultList.layoutManager = LinearLayoutManager(activity) // still not sure what that is, but is needed
         binding.resultList.adapter = adapter
+
+    }
+    fun isFileExists(): Boolean {
+        val extra = Environment.getExternalStorageState()
+        if (extra.equals(Environment.MEDIA_MOUNTED) ){
+            return true
+        }
+        return false
     }
 
+
+    fun sendProfilesByEmail(){
+
+
+        filename ="myFile.csv"
+        filepath = "MyFileDir"
+        val myextrnal = File(context?.getExternalFilesDir(filepath), filename)
+
+//        var headers : SortedSet<String> = sortedSetOf()
+        var headers : MutableList<String> = mutableListOf()
+        try{
+            collectionReference.orderBy("firstName", Query.Direction.DESCENDING)
+                .get().addOnSuccessListener { documents->
+                    val writer = myextrnal.bufferedWriter()
+                    writer.write("\ufeff")
+                    val csvPrinter = CSVPrinter(writer, CSVFormat.DEFAULT)
+
+                    for (doc in documents){
+                        doc.data.remove("ID")
+                        doc.data.remove("")
+                        if (headers.size==0) {
+//                            headers = doc.data.keys.toSortedSet()
+                            headers = doc.data.keys.toMutableList()
+                            headers.sort()
+                            Log.d(TAG, "${doc.id} BEFORE => ${headers}")
+                            DataToCSV.mapFields(headers)
+                            Log.d(TAG, "${doc.id} AFTER => ${headers}")
+                            csvPrinter.printRecord(headers)
+                        }
+                        csvPrinter.printRecord(doc.data.toSortedMap().values)
+
+                        Log.d(TAG, "${doc.id} => ${doc.data.toSortedMap()}")
+
+                    }
+                    val path: Uri =
+                        FileProvider.getUriForFile(requireContext(), "com.example.atnachta.fileprovider", myextrnal)
+
+                    val fileIntent = Intent(Intent.ACTION_SEND)
+                    fileIntent.type = "text/csv"
+                    fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Data")
+                    fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    fileIntent.putExtra(Intent.EXTRA_STREAM, path)
+                    startActivity(fileIntent)
+
+                    csvPrinter.flush()
+                    csvPrinter.close()
+                }
+
+        } catch (e :FileNotFoundException ){
+            e.printStackTrace()
+        } catch (e : IOException){
+            e.printStackTrace()
+        }
+
+
+    }
     /**
      * the click handler for pressing a result item
      * @param snapshot docSnapshot of the selcted profile. We get the snapshot from the viewHolder
      * (specifically in onBindViewHolder), which gets using firebaseUI methods
      */
-    override fun onProfileSelected(snapshot: DocumentSnapshot) {
+    override fun onProfileSelected(snapshot: DocumentSnapshot, newReference: Boolean) {
         val docId : String = snapshot.id
         Log.d(TAG, docId)
-        val action = RecycleSearchDirections.actionRecycleSearchToProfileFragment(docId)
-        findNavController().navigate(action)
+        if (newReference){
+            findNavController().navigate(RecycleSearchDirections.actionRecycleSearchToNewReference(false, "", docId))
+        }
+        else {
+            val action = RecycleSearchDirections.actionRecycleSearchToProfileFragment(docId)
+            findNavController().navigate(action)
+        }
+
+
     }
 
     // the documentation said to implement it like that
@@ -148,6 +241,7 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(

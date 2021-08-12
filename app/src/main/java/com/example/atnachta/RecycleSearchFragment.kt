@@ -73,7 +73,7 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
 
         binding.newProfileButton.setOnClickListener{ v : View ->
             v.findNavController().navigate(
-            RecycleSearchDirections.actionRecycleSearchToNewReference(true,"",""))}
+            RecycleSearchDirections.actionRecycleSearchToNewReference(true,""))}
         if (!isFileExists()){
             binding.newProfileButton.isEnabled = false
         }
@@ -206,7 +206,7 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         val docId : String = snapshot.id
         Log.d(TAG, docId)
         if (newReference){
-            findNavController().navigate(RecycleSearchDirections.actionRecycleSearchToNewReference(false, "", docId))
+            findNavController().navigate(RecycleSearchDirections.actionRecycleSearchToNewReference(false, docId))
         }
         else {
             val action = RecycleSearchDirections.actionRecycleSearchToProfileFragment(docId)

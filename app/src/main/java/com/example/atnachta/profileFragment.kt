@@ -48,12 +48,13 @@ private const val PROFILES_COLLECTION = "profiles"
  */
 class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.OnClickListener{
     // TODO: Rename and change types of parameters
-    private var docID: String? = null
+    private var param1: String? = null
     private var param2: String? = null
     lateinit var firestore: FirebaseFirestore
     lateinit var collectionReference: CollectionReference
     lateinit var binding: FragmentProfileBinding
     lateinit var girlDocRef: DocumentReference
+    private lateinit var docID: String
     val TAG: String = "profile"
     var _edit_text_array: Array<TextView?> = arrayOfNulls(20)
     var _edited_text_array: Array<TextView?> = arrayOfNulls(20)
@@ -65,11 +66,10 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            docID = it.getString(ARG_PARAM1)
+            param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
         navController = findNavController(this)
-
         setHasOptionsMenu(true)
     }
 
@@ -77,7 +77,8 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
         super.onViewCreated(view, savedInstanceState)
 //        girlDocId = profileFragmentArgs.fromBundle(requireArguments()).docID
         firestore = Firebase.firestore
-        girlDocRef = firestore.collection(PROFILES_COLLECTION).document(docID.toString())
+        docID = profileFragmentArgs.fromBundle(requireArguments()).docID
+        girlDocRef = firestore.collection(PROFILES_COLLECTION).document(docID)
 
         initialData(view)
         displayMode(view)
@@ -257,7 +258,7 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
         inflater.inflate(R.menu.menu_profile_fragment, menu)
     }
     private fun navigateToNewReference(){
-        navController.navigate(profileFragmentDirections.actionProfileFragmentToNewReference(false, "",docID))
+        navController.navigate(profileFragmentDirections.actionProfileFragmentToNewReference(false,docID))
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 

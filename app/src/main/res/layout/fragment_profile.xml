@@ -16,13 +16,6 @@
             android:gravity="right"
             android:orientation="vertical">
 
-<!--            <Button-->
-<!--                android:id="@+id/button"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:onClick="update"-->
-<!--                android:text="Button" />-->
-
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -59,136 +52,129 @@
 
             </TableLayout>
 
-
-            <TableLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:stretchColumns="*">
-
-                <TableRow
-                    android:layout_margin="5sp"
-                    android:weightSum="1">
+                android:layout_height="250dp"
+                android:padding="5dp"
+                tools:layout_editor_absoluteX="5dp"
+                tools:layout_editor_absoluteY="78dp">
 
 
-                    <EditText
-                        android:id="@+id/edit_first_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
-                        android:inputType="text"
-                        android:visibility="gone" />
+                <EditText
+                    android:id="@+id/edit_last_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:padding="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/last_name"
+                    app:layout_constraintStart_toStartOf="@+id/edit_first_name"
+                    app:layout_constraintTop_toTopOf="@+id/last_name" />
 
-                    <TextView
-                        android:id="@+id/edited_first_name"
-                        style="@style/word_profile_field"
-                        android:layout_column="4" />
-
-
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="שם מלא:" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_margin="5sp"
-                    android:weightSum="1">
+                <TextView
+                    android:id="@+id/first_name"
+                    style="@style/word_profile_field"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="שם מלא:"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/last_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-                    <EditText
-                        android:id="@+id/edit_last_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
-                        android:inputType="text"
-                        android:visibility="gone" />
+                <EditText
+                    android:id="@+id/edit_first_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_margin="3dp"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:padding="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/first_name"
+                    app:layout_constraintEnd_toStartOf="@+id/first_name"
+                    app:layout_constraintHorizontal_bias="0.397"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/first_name" />
 
-                    <TextView
-                        android:id="@+id/edited_last_name"
-                        style="@style/word_profile_field"
-                        android:layout_column="4" />
+                <EditText
+                    android:id="@+id/edit_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:padding="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/id"
+                    app:layout_constraintStart_toStartOf="@+id/edit_last_name"
+                    app:layout_constraintTop_toTopOf="@+id/id" />
+
+                <EditText
+                    android:id="@+id/edit_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:ems="10"
+                    android:inputType="phone"
+                    android:padding="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/phone"
+                    app:layout_constraintStart_toStartOf="@+id/edit_id"
+                    app:layout_constraintTop_toTopOf="@+id/phone" />
+
+                <EditText
+                    android:id="@+id/edit_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:padding="5dp"
+                    android:textAlignment="viewStart"
+                    app:layout_constraintBottom_toBottomOf="@+id/address"
+                    app:layout_constraintStart_toStartOf="@+id/edit_phone"
+                    app:layout_constraintTop_toTopOf="@+id/address" />
+
+                <TextView
+                    android:id="@+id/id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="תעודת זהות:"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/phone"
+                    app:layout_constraintEnd_toEndOf="@+id/last_name"
+                    app:layout_constraintTop_toBottomOf="@+id/last_name" />
+
+                <TextView
+                    android:id="@+id/phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="מספר טלפון:"
+                    android:textSize="20dp"
+                    app:layout_constraintBottom_toTopOf="@+id/address"
+                    app:layout_constraintEnd_toEndOf="@+id/id"
+                    app:layout_constraintTop_toBottomOf="@+id/id" />
+
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="115dp"
+                    android:layout_height="28dp"
+                    android:text="כתובת מגורים"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/phone"
+                    app:layout_constraintTop_toBottomOf="@+id/phone" />
+
+                <TextView
+                    android:id="@+id/last_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="שם משפחה:"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/id"
+                    app:layout_constraintEnd_toEndOf="@+id/first_name"
+                    app:layout_constraintTop_toBottomOf="@+id/first_name" />
 
 
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="שם משפחה:" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                </TableRow>
-
-                <TableRow android:layout_margin="5sp">
-
-                    <EditText
-                        android:id="@+id/edit_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:autoText="true"
-                        android:ems="3"
-                        android:inputType="number"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/edited_id"
-                        style="@style/word_profile_field"
-                        android:layout_column="4" />
-
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="תעודת זהות:" />
-
-
-                </TableRow>
-                <TableRow android:layout_margin="5sp">
-
-                    <EditText
-                        android:id="@+id/edit_phone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
-                        android:inputType="phone"
-                        android:visibility="gone" />
-
-
-                    <TextView
-                        android:id="@+id/edited_phone"
-                        style="@style/word_profile_field"
-                        android:layout_width="match_parent"
-                        android:layout_column="4" />
-
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:layout_width="match_parent"
-                        android:text="מספר טלפון:" />
-
-                </TableRow>
-                <TableRow android:layout_margin="5sp">
-
-                    <EditText
-                        android:id="@+id/edit_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
-                        android:inputType="text"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/edited_address"
-                        style="@style/word_profile_field"
-                        android:layout_column="4" />
-
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="כתובת מגורים:" />
-
-
-                </TableRow>
-
-            </TableLayout>
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -196,109 +182,140 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10sp"
-                    android:layout_marginBottom="10sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/generalTitle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="5sp"
                         android:text="פרטים כלליים"
                         android:textSize="25sp" />
 
-                    <TableLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/generalData"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:stretchColumns="1"
-                        android:visibility="gone">
+                        android:layout_height="200dp"
+                        android:padding="8dp"
+                        android:visibility="gone"
+                        tools:layout_editor_absoluteX="5dp"
+                        tools:layout_editor_absoluteY="50dp">
+
+                        <TextView
+                            android:id="@+id/birth_date"
+                            style="@style/word_profile_field"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="תאריך לידה:"
+                            android:textSize="20sp"
+                            app:layout_constraintBottom_toTopOf="@+id/origin_country"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
 
-                        <TableRow>
+                        <EditText
+                            android:id="@+id/edit_birth_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:ems="9"
+                            android:inputType="date"
+                            android:padding="5dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/birth_date"
+                            app:layout_constraintEnd_toStartOf="@+id/birth_date"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/birth_date" />
 
-                            <EditText
-                                android:id="@+id/edit_birth_date"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="datetime"
-                                android:visibility="gone" />
+                        <TextView
+                            android:id="@+id/origin_country"
+                            style="@style/word_profile_field"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ארץ לידה:"
+                            android:textSize="20sp"
+                            app:layout_constraintBottom_toTopOf="@+id/year_of_aliyah"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/birth_date" />
 
-                            <TextView
-                                android:id="@+id/edited_birth_date"
-                                style="@style/word_profile_field"
-                                android:layout_column="4" />
+                        <EditText
+                            android:id="@+id/edit_origin_country"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:ems="9"
+                            android:inputType="textPersonName"
+                            android:padding="5dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/origin_country"
+                            app:layout_constraintStart_toStartOf="@+id/edit_birth_date"
+                            app:layout_constraintTop_toTopOf="@+id/origin_country" />
 
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="תאריך לידה:" />
+                        <TextView
+                            android:id="@+id/year_of_aliyah"
+                            style="@style/word_profile_field"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="שנת עלייה:"
+                            android:textSize="20sp"
+                            app:layout_constraintBottom_toTopOf="@+id/religiosity"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/origin_country" />
 
-                        </TableRow>
+                        <EditText
+                            android:id="@+id/edit_year_of_aliyah"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:ems="9"
+                            android:inputType="number"
+                            android:padding="5dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/year_of_aliyah"
+                            app:layout_constraintStart_toStartOf="@+id/edit_origin_country"
+                            app:layout_constraintTop_toTopOf="@+id/year_of_aliyah" />
 
-                        <TableRow>
+                        <TextView
+                            android:id="@+id/religiosity"
+                            style="@style/word_profile_field"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="סטטוס דתי:"
+                            android:textSize="20sp"
+                            app:layout_constraintBottom_toTopOf="@+id/civil"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/year_of_aliyah" />
 
+                        <EditText
+                            android:id="@+id/edit_religiosity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:ems="9"
+                            android:inputType="textPersonName"
+                            android:padding="5dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/religiosity"
+                            app:layout_constraintStart_toStartOf="@+id/edit_year_of_aliyah"
+                            app:layout_constraintTop_toTopOf="@+id/religiosity" />
 
-                            <EditText
-                                android:id="@+id/edit_kupach"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="text"
-                                android:visibility="gone" />
+                        <TextView
+                            android:id="@+id/civil"
+                            style="@style/word_profile_field"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="סטטוס אזרחות:"
+                            android:textSize="20sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/religiosity" />
 
-                            <TextView
-                                android:id="@+id/edited_kupach"
-                                style="@style/word_profile_field"
-                                android:layout_column="4" />
+                        <EditText
+                            android:id="@+id/edit_civil"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:ems="9"
+                            android:inputType="textPersonName"
+                            android:padding="5dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/civil"
+                            app:layout_constraintStart_toStartOf="@+id/edit_religiosity"
+                            app:layout_constraintTop_toTopOf="@+id/civil" />
 
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="קופת חולים:" />
-                        </TableRow>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <TableRow>
-
-                            <EditText
-                                android:id="@+id/edit_school"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="text"
-                                android:visibility="gone" />
-
-                            <TextView
-                                android:id="@+id/edited_school"
-                                style="@style/word_profile_field"
-                                android:layout_column="4" />
-
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="מסגרת לימודים:" />
-                        </TableRow>
-
-                        <TableRow>
-
-                            <EditText
-                                android:id="@+id/edit_civil"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="text"
-                                android:visibility="gone" />
-
-                            <TextView
-                                android:id="@+id/edited_civil"
-                                style="@style/word_profile_field"
-                                android:layout_column="4" />
-
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="סטטוס אזרחות:" />
-                        </TableRow>
-                    </TableLayout>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -310,95 +327,134 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10sp"
-                    android:layout_marginBottom="10sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/parentsTitle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="5sp"
                         android:text="משפחה"
                         android:textSize="25sp" />
 
-                    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/parentsData"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:stretchColumns="*"
-                        android:visibility="gone">
+                        android:layout_height="200dp"
+                        android:padding="8dp"
+                        android:visibility="gone"
+                        tools:layout_editor_absoluteX="5dp"
+                        tools:layout_editor_absoluteY="50dp">
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/father_name"-->
+<!--                            style="@style/word_profile_field"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="שם אב:"-->
+<!--                            android:textSize="20sp"-->
+<!--  />-->
+
+<!--                        <EditText-->
+<!--                            android:id="@+id/edit_father_address"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="30dp"-->
+<!--                            android:ems="9"-->
+<!--                            android:inputType="text"-->
+<!--                            android:padding="5dp"-->
+<!--                            app:layout_constraintBottom_toBottomOf="@+id/father_name" />-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/father_address"-->
+<!--                            style="@style/word_profile_field"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="כתובת אב:"-->
+<!--                            android:textSize="20sp" />-->
 
 
-                        <TableRow android:weightSum="1">
+<!--                        <EditText-->
+<!--                            android:id="@+id/edit_father_name"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="30dp"-->
+<!--                            android:ems="9"-->
+<!--                            android:inputType="date"-->
+<!--                            android:padding="5dp"-->
+<!-- />-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/father_phone"-->
+<!--                            style="@style/word_profile_field"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="טלפון אב:"-->
+<!--                            android:textSize="20sp" />-->
+
+<!--                        <EditText-->
+<!--                            android:id="@+id/edit_father_phone"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="30dp"-->
+<!--                            android:ems="9"-->
+<!--                            android:inputType="phone"-->
+<!--                            android:padding="5dp"-->
+<!-- />-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/father_status"-->
+<!--                            style="@style/word_profile_field"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="מצב משפחתי:"-->
+<!--                            android:textSize="20sp" />-->
 
 
-                            <EditText
-                                android:id="@+id/edit_father_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="text"
-                                android:visibility="gone" />
-
-                            <TextView
-                                android:id="@+id/edited_father_name"
-                                android:layout_column="6" />
-
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="שם האב:" />
-                        </TableRow>
-
-                        <TableRow android:weightSum="1">
+<!--&lt;!&ndash;                        TODO להפוך לספינר&ndash;&gt;-->
+<!--                        <EditText-->
+<!--                            android:id="@+id/edit_father_status"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="30dp"-->
+<!--                            android:ems="9"-->
+<!--                            android:inputType="text"-->
+<!--                            android:padding="5dp"-->
+<!--                            />-->
 
 
-                            <EditText
-                                android:id="@+id/edit_father_phone"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="phone"
-                                android:visibility="gone" />
+<!--                        <TextView-->
+<!--                            android:id="@+id/mother_name"-->
+<!--                            style="@style/word_profile_field"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="שם האם:"-->
+<!--                            android:textSize="20sp" />-->
 
-                            <TextView
-                                android:id="@+id/edited_father_phone"
-                                style="@style/word_profile_field"
-                                android:layout_column="6" />
+<!--                        <EditText-->
+<!--                            android:id="@+id/edit_mother_name"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="30dp"-->
+<!--                            android:ems="9"-->
+<!--                            android:inputType="textPersonName"-->
+<!--                            android:padding="5dp" />-->
 
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="טלפון האב:" />
+<!--                        <TextView-->
+<!--                            android:id="@+id/mother_phone"-->
+<!--                            style="@style/word_profile_field"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="טלפון אם:"-->
+<!--                            android:textSize="20sp" />-->
 
-
-                        </TableRow>
-
-                        <TableRow>
-
-
-                            <EditText
-                                android:id="@+id/edit_mother_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="text"
-                                android:visibility="gone" />
-
-                            <TextView
-                                android:id="@+id/edited_mother_name"
-                                style="@style/word_profile_field"
-                                android:layout_column="6" />
+<!--                        <EditText-->
+<!--                            android:id="@+id/edit_mother_phone"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="30dp"-->
+<!--                            android:ems="9"-->
+<!--                            android:inputType="phone"-->
+<!--                            android:padding="5dp" />-->
 
 
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="שם האם:" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        </TableRow>
-
-
-                    </TableLayout>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -410,114 +466,94 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10sp"
-                    android:layout_marginBottom="10sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/educationTitle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="5sp"
                         android:text="השכלה"
                         android:textSize="25sp" />
 
-                    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/educationData"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:stretchColumns="*"
-                        android:visibility="gone">
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:visibility="gone"
+                        tools:layout_editor_absoluteY="35dp">
 
 
-                        <TableRow android:weightSum="1">
+                        <TextView
+                            android:id="@+id/last_school"
+                            style="@style/word_profile_field"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="מסגרת לימודים אחרונה:"
+                            android:textSize="20sp"
+                            app:layout_constraintBottom_toTopOf="@+id/age"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/edit_last_school" />
 
+                        <EditText
+                            android:id="@+id/edit_last_school"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:ems="7"
+                            android:inputType="text"
+                            android:padding="5dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/last_school"
+                            app:layout_constraintEnd_toStartOf="@+id/last_school"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/last_school" />
 
-                            <EditText
-                                android:id="@+id/edit_last_institution"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="text"
-                                android:visibility="gone" />
+                        <TextView
+                            android:id="@+id/age"
+                            style="@style/word_profile_field"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="כיתה:"
+                            android:textSize="20sp"
+                            app:layout_constraintBottom_toTopOf="@+id/grade"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/last_school" />
 
-                            <TextView
-                                android:id="@+id/edited_last_institution"
-                                android:layout_column="6" />
+                        <EditText
+                            android:id="@+id/edit_age"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:ems="9"
+                            android:inputType="text"
+                            android:padding="5dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/age"
+                            app:layout_constraintStart_toStartOf="@+id/edit_last_school"
+                            app:layout_constraintTop_toTopOf="@+id/age" />
 
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="מוסד לימודים אחרון:" />
-                        </TableRow>
+                        <TextView
+                            android:id="@+id/grade"
+                            style="@style/word_profile_field"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="האם תלמידה פעילה?:"
+                            android:textSize="20sp"
 
-                        <TableRow android:weightSum="1">
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/age" />
 
+                        <CheckBox
+                            android:id="@+id/edit_grade"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="@+id/grade"
+                            app:layout_constraintEnd_toStartOf="@+id/grade"
+                            app:layout_constraintTop_toTopOf="@+id/grade" />
 
-                            <EditText
-                                android:id="@+id/edit_age"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="phone"
-                                android:visibility="gone" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                            <TextView
-                                android:id="@+id/edited_age"
-                                style="@style/word_profile_field"
-                                android:layout_column="6" />
-
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="גיל:" />
-
-
-                        </TableRow>
-
-                        <TableRow>
-
-
-                            <EditText
-                                android:id="@+id/edit_is_student"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="text"
-                                android:visibility="gone" />
-
-                            <TextView
-                                android:id="@+id/edited_is_student"
-                                style="@style/word_profile_field"
-                                android:layout_column="6" />
-
-
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="גיל/כיתה:" />
-
-                        </TableRow>
-
-                        <TableRow>
-
-
-                            <EditText
-                                android:id="@+id/edit_mother_phone"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="phone"
-                                android:visibility="gone" />
-
-                            <TextView
-                                android:id="@+id/edited_mother_phone"
-                                android:layout_column="6" />
-
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="טלפון האם:" />
-                        </TableRow>
-
-                    </TableLayout>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -530,106 +566,97 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10sp"
-                    android:layout_marginBottom="10sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/healthTitle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="5sp"
                         android:text="בריאות"
                         android:textSize="25sp" />
 
-                    <TableLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/healthData"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:stretchColumns="*"
-                        android:visibility="gone">
+                        android:layout_height="150dp"
+                        android:padding="8dp"
+                        android:visibility="gone"
+                        tools:layout_editor_absoluteX="5dp"
+                        tools:layout_editor_absoluteY="50dp">
+
+                        <TextView
+                            android:id="@+id/medical_care"
+                            style="@style/word_profile_field"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="קופת חולים:"
+                            android:textSize="20sp"
+                            app:layout_constraintBottom_toTopOf="@+id/medication"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <EditText
+                            android:id="@+id/edit_medical_care"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:ems="8"
+                            android:inputType="date"
+                            android:padding="5dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/medical_care"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/medical_care" />
 
 
-                        <TableRow android:weightSum="1">
+                        <TextView
+                            android:id="@+id/medication"
+                            style="@style/word_profile_field"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="טיפול תרופתי קבוע:"
+                            android:textSize="20sp"
+                            app:layout_constraintBottom_toTopOf="@+id/medical_problems"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/medical_care" />
 
 
-                            <Spinner
-                                android:id="@+id/hmo_spinner"
-                                android:layout_height="50dp"
-                                android:layout_width="160dp"
-                                android:layout_marginEnd="10dp"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginTop="10dp"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"/>
+                        <EditText
+                            android:id="@+id/edit_medication"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:ems="8"
+                            android:inputType="date"
+                            android:padding="5dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/medication"
+                            app:layout_constraintStart_toStartOf="@+id/edit_medical_care"
+                            app:layout_constraintTop_toTopOf="@+id/medication" />
 
-                            <EditText
-                                android:id="@+id/edit_hmo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="text"
-                                android:visibility="gone" />
+                        <TextView
+                            android:id="@+id/medical_problems"
+                            style="@style/word_profile_field"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
 
-                            <TextView
-                                android:id="@+id/edited_hmo"
-                                android:layout_column="6" />
+                            android:text="בעיות רפואיות ידועות:"
+                            android:textSize="20sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/medication" />
 
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="קופת חולים:" />
-                        </TableRow>
+                        <EditText
+                            android:id="@+id/edit_medical_Problems"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:ems="8"
+                            android:inputType="textPersonName"
+                            android:padding="5dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/medical_problems"
+                            app:layout_constraintStart_toStartOf="@+id/edit_medication"
+                            app:layout_constraintTop_toTopOf="@+id/medical_problems" />
 
-                        <TableRow android:weightSum="1">
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-                            <EditText
-                                android:id="@+id/edit_medical_treatment"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="phone"
-                                android:visibility="gone" />
-
-                            <TextView
-                                android:id="@+id/edited_medical_treatment"
-                                style="@style/word_profile_field"
-                                android:layout_column="6" />
-
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="טיפול תרופתי קבוע:" />
-
-
-                        </TableRow>
-
-                        <TableRow>
-
-
-                            <EditText
-                                android:id="@+id/edit_medical_problems"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ems="3"
-                                android:inputType="text"
-                                android:visibility="gone" />
-
-                            <TextView
-                                android:id="@+id/edited_medical_problems"
-                                style="@style/word_profile_field"
-                                android:layout_column="6" />
-
-
-                            <TextView
-                                style="@style/word_profile_field"
-                                android:text="בעיות רפואיות ידועות:" />
-
-                        </TableRow>
-
-
-                    </TableLayout>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -641,15 +668,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10sp"
-                    android:layout_marginBottom="10sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/referenceTitle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="5sp"
                         android:text="הפניות"
                         android:textSize="25sp" />
 
@@ -757,13 +783,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
-            <Button
-                android:id="@+id/examples"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="מעבר זמני להפניות"/>
-
 
         </LinearLayout>
     </ScrollView>

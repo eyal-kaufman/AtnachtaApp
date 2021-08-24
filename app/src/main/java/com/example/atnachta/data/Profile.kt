@@ -10,7 +10,7 @@ class Profile {
     var phone : String? = null
     var ID : String = ""
     var homeAddress : String = ""
-    var dateOfBirth : LocalDate? = null
+    var dateOfBirth : String = ""
     var originCountry : String = ""
     var yearOfAliyah : String = ""
     var religiosity : String = ""
@@ -19,7 +19,7 @@ class Profile {
 //    Education:
     var lastStudyingAt : String = ""
     var grade : String = ""
-    var isActiveStudent : String = ""
+    var isActiveStudent : Boolean = false
 //    Health:
     var medicalCare : String = ""
     var medication : String = ""

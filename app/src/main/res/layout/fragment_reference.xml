@@ -15,12 +15,6 @@
             android:gravity="right"
             android:orientation="vertical">
 
-            <!--            <Button-->
-            <!--                android:id="@+id/button"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:onClick="update"-->
-            <!--                android:text="Button" />-->
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -34,7 +28,7 @@
                     android:layout_margin="15sp">
 
                     <Button
-                        android:id="@+id/edit_button"
+                        android:id="@+id/ref_edit_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="ערוך"
@@ -42,7 +36,7 @@
 
 
                     <Button
-                        android:id="@+id/button5"
+                        android:id="@+id/ref_submit_changes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="אישור"
@@ -58,421 +52,415 @@
 
             </TableLayout>
 
+            <EditText
+                android:id="@+id/edit_ref_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:inputType="textCapCharacters"
+                android:visibility="gone" />
 
-            <TableLayout
+            <TextView
+                android:id="@+id/ref_status"
+                style="@style/word_profile_field"
+                android:text="סטטוס הפניה:"
+                tools:layout_editor_absoluteX="119dp"
+                tools:layout_editor_absoluteY="30dp" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="637dp"
-                android:stretchColumns="*">
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                tools:layout_editor_absoluteY="112dp">
 
-                <TableRow
-                    android:layout_margin="5sp"
-                    android:weightSum="1">
-
-
-                    <EditText
-                        android:id="@+id/edit_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
-                        android:inputType="text"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/edited_name"
-                        style="@style/word_profile_field"
-                        android:layout_column="4" />
-
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="שם מקבל ההפניה:"
-                        android:textDirection="rtl" />
-
-                </TableRow>
-
-                <TableRow android:layout_margin="5sp">
-
-                    <EditText
-                        android:id="@+id/edit_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
-                        android:inputType="date"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/edited_id"
-                        style="@style/word_profile_field"
-                        android:layout_column="4" />
-
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="תאריך ההפניה" />
+                <EditText
+                    android:id="@+id/edit_ref_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:ems="8"
+                    android:inputType="text"
+                    android:padding="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView6"
+                    app:layout_constraintEnd_toStartOf="@+id/textView6"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView6" />
 
 
-                </TableRow>
+                <TextView
+                    android:id="@+id/textView6"
+                    style="@style/word_profile_field"
+                    android:text="שם מקבל ההפניה:"
+                    android:textDirection="rtl"
+                    app:layout_constraintBottom_toTopOf="@+id/ref_date"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <TableRow android:layout_margin="5sp">
+                <EditText
+                    android:id="@+id/edit_ref_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:ems="8"
+                    android:inputType="date"
+                    android:padding="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ref_time"
+                    app:layout_constraintStart_toStartOf="@+id/edit_ref_time"
+                    app:layout_constraintTop_toTopOf="@+id/ref_time" />
 
-                    <EditText
-                        android:id="@+id/edit_phone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
-                        android:inputType="time"
-                        android:visibility="gone" />
+                <TextView
+                    android:id="@+id/ref_date"
+                    style="@style/word_profile_field"
+                    android:text="תאריך ההפניה"
+                    app:layout_constraintBottom_toTopOf="@+id/ref_time"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+                <EditText
+                    android:id="@+id/edit_ref_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:ems="8"
+                    android:inputType="time"
+                    android:padding="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ref_date"
+                    app:layout_constraintStart_toStartOf="@+id/edit_ref_name"
+                    app:layout_constraintTop_toTopOf="@+id/ref_date" />
 
 
-                    <TextView
-                        android:id="@+id/edited_phone"
-                        style="@style/word_profile_field"
-                        android:layout_width="match_parent"
-                        android:layout_column="4" />
+                <TextView
+                    android:id="@+id/ref_time"
+                    style="@style/word_profile_field"
+                    android:layout_width="wrap_content"
+                    android:text="שעת ההפניה:"
+                    app:layout_constraintBottom_toTopOf="@+id/ref_reason"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ref_date" />
 
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:layout_width="match_parent"
-                        android:text="שעת ההפניה:" />
+<!--                <com.google.android.material.textfield.TextInputLayout-->
+<!--                    android:id="@+id/textInputLayout6"-->
+<!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layout_constraintTop_toBottomOf="rea">-->
 
-                </TableRow>
+<!--                    <com.google.android.material.textfield.TextInputEditText-->
+<!--                        android:id="@+id/test"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:hint="@string/newReferenceReceiverName"-->
+<!--                        android:inputType="textPersonName" />-->
 
-                <TableRow
+<!--                </com.google.android.material.textfield.TextInputLayout>-->
+<!--                -->
+                <TextView
+                    android:id="@+id/ref_reason"
+                    style="@style/word_profile_field"
+                    android:text="סיבת הפניה:"
+                    app:layout_constraintBottom_toTopOf="@+id/edit_ref_reason"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ref_time" />
+
+                <EditText
+                    android:id="@+id/edit_ref_reason"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:ems="8"
+                    android:inputType="textMultiLine"
+                    android:lines="3"
+                    android:padding="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/edit_ref_date"
+                    app:layout_constraintTop_toBottomOf="@+id/ref_reason" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <EditText
+                    android:id="@+id/edit_referrer_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:ems="8"
+                    android:inputType="text"
+                    android:padding="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/referrer_name"
+                    app:layout_constraintEnd_toStartOf="@+id/referrer_name"
+                    app:layout_constraintHorizontal_bias="0.351"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/referrer_name"
+                    app:layout_constraintVertical_bias="0.833" />
+
+                <TextView
+                    android:id="@+id/referrer_name"
+                    style="@style/word_profile_field"
+                    android:text="שם גורם מפנה:"
+                    app:layout_constraintBottom_toTopOf="@+id/referrer_rule"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/edit_ref_rule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:ems="8"
+                    android:inputType="text"
+                    android:padding="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/referrer_rule"
+                    app:layout_constraintStart_toStartOf="@+id/edit_referrer_name"
+                    app:layout_constraintTop_toTopOf="@+id/referrer_rule" />
+
+                <TextView
+                    android:id="@+id/referrer_rule"
+                    style="@style/word_profile_field"
+                    android:text="תפקיד גורם מפנה:"
+                    app:layout_constraintBottom_toTopOf="@+id/ref_phone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/referrer_name" />
+
+                <EditText
+                    android:id="@+id/edit_ref_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:ems="8"
+                    android:inputType="phone"
+                    android:padding="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ref_phone"
+                    app:layout_constraintStart_toStartOf="@+id/edit_ref_rule"
+                    app:layout_constraintTop_toTopOf="@+id/ref_phone" />
+
+                <TextView
+                    android:id="@+id/ref_phone"
+                    style="@style/word_profile_field"
+                    android:text="טלפון גורם מפנה:"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/referrer_rule" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteY="472dp">
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <CheckBox
+                android:id="@+id/if_Welfare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="האם נמצאת בקשר עם גורם רווחה?"
+                android:textDirection="firstStrongRtl" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/welfare_data"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_margin="5sp">
-
-                    <CheckBox
-                        android:id="@+id/if_Welfare"
-                        android:text="האם נמצאת בקשר עם גורם רווחה?"
-                        android:textDirection="firstStrongRtl" />
-
-
-                </TableRow>
-
-
-                <TableRow
-                    android:id="@+id/ref_welfare_name"
-                    android:layout_margin="5sp"
-                    android:visibility="gone">
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
 
                     <EditText
                         android:id="@+id/edit_ref_welfare_name"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
-                        android:inputType="number"
-                        android:visibility="gone" />
+                        android:layout_height="30dp"
+                        android:ems="8"
+                        android:inputType="text"
+                        android:padding="5dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/ref_welfare_name"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/ref_welfare_name" />
 
                     <TextView
-                        android:id="@+id/edited_ref_welfare_name"
+                        android:id="@+id/ref_welfare_name"
                         style="@style/word_profile_field"
-                        android:layout_column="4" />
-
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="שם גורם רווחה:" />
-
-
-                </TableRow>
-
-
-                <TableRow
-                    android:id="@+id/ref_welfare_phone"
-                    android:layout_margin="5sp"
-                    android:visibility="gone">
-
+                        android:text="שם גורם רווחה:"
+                        app:layout_constraintBottom_toTopOf="@+id/ref_welfare_rule"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
                         android:id="@+id/edit_ref_welfare_phone"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
+                        android:layout_height="30dp"
+                        android:ems="8"
                         android:inputType="phone"
-                        android:visibility="gone" />
+                        android:padding="5dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/ref_welfare_phone"
+                        app:layout_constraintStart_toStartOf="@+id/edit_ref_welfare_rule"
+                        app:layout_constraintTop_toTopOf="@+id/ref_welfare_phone" />
 
                     <TextView
-                        android:id="@+id/edited_ref_welfare_phone"
+                        android:id="@+id/ref_welfare_phone"
                         style="@style/word_profile_field"
-                        android:layout_column="4" />
+                        android:text="מספר טלפון גורם רווחה:"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ref_welfare_rule" />
 
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="מספר טלפון גורם מפנה:" />
-
-
-                </TableRow>
-
-
-                <TableRow
-                    android:id="@+id/ref_welfare_rule"
-                    android:layout_margin="5sp"
-                    android:visibility="gone">
 
                     <EditText
                         android:id="@+id/edit_ref_welfare_rule"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
-                        android:inputType="number"
-                        android:visibility="gone" />
+                        android:layout_height="30dp"
+                        android:ems="8"
+                        android:inputType="text"
+                        android:padding="5dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/ref_welfare_rule"
+                        app:layout_constraintStart_toStartOf="@+id/edit_ref_welfare_name"
+                        app:layout_constraintTop_toTopOf="@+id/ref_welfare_rule" />
 
                     <TextView
-                        android:id="@+id/edited_ref_welfare_rule"
+                        android:id="@+id/ref_welfare_rule"
                         style="@style/word_profile_field"
-                        android:layout_column="4" />
-
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="תפקיד גורם הרווחה:" />
-
-
-                </TableRow>
-
-                <TableRow android:layout_margin="5sp">
-
-                    <EditText
-                        android:id="@+id/edit_add"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
-                        android:inputType="number"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/edited_add"
-                        style="@style/word_profile_field"
-                        android:layout_column="4" />
-
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="שם גורם מפנה:" />
+                        android:text="תפקיד גורם הרווחה:"
+                        app:layout_constraintBottom_toTopOf="@+id/ref_welfare_phone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ref_welfare_name" />
 
 
-                </TableRow>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
-                <TableRow android:layout_margin="5sp">
+            <CheckBox
+                android:id="@+id/is_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="האם עוזבת?"
+                android:textDirection="firstStrongRtl" />
 
-                    <EditText
-                        android:id="@+id/edit_ref_rule"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
-                        android:inputType="number"
-                        android:visibility="gone" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/leaving_data"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
 
-                    <TextView
-                        android:id="@+id/edited_ref_rule"
-                        style="@style/word_profile_field"
-                        android:layout_column="4" />
-
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="תפקיד גורם מפנה:" />
-
-
-                </TableRow>
-
-                <TableRow android:layout_margin="5sp">
-
-                    <EditText
-                        android:id="@+id/edit_ref_phone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
-                        android:inputType="phone"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/edited_ref_phone"
-                        style="@style/word_profile_field"
-                        android:layout_column="4" />
-
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="טלפון גורם מפנה:" />
-                </TableRow>
-
-
-                <TableRow android:layout_margin="5sp">
-
-                    <EditText
-                        android:id="@+id/edit_ref_reason"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
-                        android:inputType="textMultiLine"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/edited_ref_reason"
-                        style="@style/word_profile_field"
-                        android:layout_column="4" />
-
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="סיבת הפניה:" />
-
-                </TableRow>
-
-
-                <TableRow android:layout_margin="5sp">
-
-                    <EditText
-                        android:id="@+id/edit_ref_status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
-                        android:inputType="textCapCharacters"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/edited_ref_status"
-                        style="@style/word_profile_field"
-                        android:layout_column="4" />
-
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="סטטוס הפניה:" />
-
-                </TableRow>
-
-
-                <TableRow
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5sp">
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
 
                     <EditText
                         android:id="@+id/edit_ref_leaving_date"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
+                        android:layout_height="30dp"
+                        android:ems="8"
                         android:inputType="date"
-                        android:visibility="gone" />
+                        app:layout_constraintBottom_toBottomOf="@+id/ref_leaving_date"
+                        app:layout_constraintEnd_toStartOf="@+id/ref_leaving_date"
+                        app:layout_constraintHorizontal_bias="0.301"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1.0" />
 
                     <TextView
-                        android:id="@+id/edited_ref_leaving_date"
+                        android:id="@+id/ref_leaving_date"
                         style="@style/word_profile_field"
-                        android:layout_column="4" />
-
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="תאריך עזיבה:" />
-
-                </TableRow>
-
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5sp">
+                        android:text="תאריך עזיבה:"
+                        app:layout_constraintBottom_toTopOf="@+id/ref_leaving_time"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
                         android:id="@+id/edit_ref_leaving_time"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
+                        android:layout_height="30dp"
+                        android:ems="8"
+                        android:padding="5dp"
                         android:inputType="time"
-                        android:visibility="gone" />
+                        app:layout_constraintBottom_toBottomOf="@+id/ref_leaving_time"
+                        app:layout_constraintStart_toStartOf="@+id/edit_ref_leaving_date"
+                        app:layout_constraintTop_toTopOf="@+id/ref_leaving_time" />
+
 
                     <TextView
-                        android:id="@+id/edited_ref_leaving_time"
+                        android:id="@+id/ref_leaving_time"
                         style="@style/word_profile_field"
-                        android:layout_column="4" />
-
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="שעת עזיבה:" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5sp">
+                        android:text="שעת עזיבה:"
+                        app:layout_constraintBottom_toTopOf="@+id/ref_leaving_reason"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ref_leaving_date" />
 
                     <EditText
                         android:id="@+id/edit_ref_leaving_dest"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
+                        android:layout_height="30dp"
+                        android:ems="8"
+                        android:padding="5dp"
                         android:inputType="text"
-                        android:visibility="gone" />
+                        app:layout_constraintBottom_toBottomOf="@+id/ref_leaving_dest"
+                        app:layout_constraintStart_toStartOf="@+id/edit_ref_leaving_reason"
+                        app:layout_constraintTop_toTopOf="@+id/ref_leaving_dest" />
+
 
                     <TextView
-                        android:id="@+id/edited_ref_leaving_dest"
+                        android:id="@+id/ref_leaving_dest"
                         style="@style/word_profile_field"
-                        android:layout_column="4" />
-
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="יעד עזיבה:" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5sp">
+                        android:text="יעד עזיבה:"
+                        app:layout_constraintBottom_toTopOf="@+id/ref_leaving_msg"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ref_leaving_reason" />
 
                     <EditText
                         android:id="@+id/edit_ref_leaving_reason"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
+                        android:layout_height="30dp"
+                        android:ems="8"
+                        android:padding="5dp"
                         android:inputType="text"
-                        android:visibility="gone" />
+                        app:layout_constraintBottom_toTopOf="@+id/ref_leaving_dest"
+                        app:layout_constraintStart_toStartOf="@+id/edit_ref_leaving_time"
+                        app:layout_constraintTop_toBottomOf="@+id/ref_leaving_time" />
+
 
                     <TextView
-                        android:id="@+id/edited_ref_leaving_reason"
+                        android:id="@+id/ref_leaving_reason"
                         style="@style/word_profile_field"
-                        android:layout_column="4" />
-
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="סיבת עזיבה:" />
-
-                </TableRow>
-
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5sp">
+                        android:text="סיבת עזיבה:"
+                        app:layout_constraintBottom_toTopOf="@+id/ref_leaving_dest"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ref_leaving_time" />
 
                     <EditText
                         android:id="@+id/edit_ref_leaving_msg"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:ems="3"
+                        android:layout_height="30dp"
+                        android:ems="8"
                         android:inputType="text"
-                        android:visibility="gone" />
+                        android:padding="5dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/ref_leaving_msg"
+                        app:layout_constraintStart_toStartOf="@+id/edit_ref_leaving_dest"
+                        app:layout_constraintTop_toTopOf="@+id/ref_leaving_msg" />
 
                     <TextView
-                        android:id="@+id/edited_ref_leaving_msg"
+                        android:id="@+id/ref_leaving_msg"
                         style="@style/word_profile_field"
-                        android:layout_column="4" />
+                        android:text="הודעה נמסרה ל:"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ref_leaving_dest" />
 
-                    <TextView
-                        style="@style/word_profile_field"
-                        android:text="הודעה נמסרה ל:" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </TableRow>
-            </TableLayout>
+            </androidx.cardview.widget.CardView>
+
 
         </LinearLayout>
     </ScrollView>

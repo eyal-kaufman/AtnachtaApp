@@ -4,8 +4,8 @@
     <dimen name="logo_margin">64dp</dimen>
     <dimen name="smallLabelPadding">8dp</dimen>
     <dimen name="inputTextPadding">16dp</dimen>
-    <dimen name="inputTextPaddingStart">30dp</dimen>
-    <dimen name="inputTextPaddingEnd">30dp</dimen>
+    <dimen name="inputTextPaddingLeft">30dp</dimen>
+    <dimen name="inputTextPaddingRight">30dp</dimen>
     <dimen name="icon_size">64dp</dimen>
     <dimen name="labeledInputMargin">40dp</dimen>
     <dimen name="login_button_margib" />
@@ -14,4 +14,8 @@
     <dimen name="progressBarElevation">2dp</dimen>
     <dimen name="passwordResetLogoMargin">64dp</dimen>
     <dimen name="dateTimeSize">18sp</dimen>
+    <dimen name="borderPaddingHorizontal">15dp</dimen>
+    <dimen name="borderPaddingVertical">7dp</dimen>
+    <dimen name="borderRadius">3dp</dimen>
+    <dimen name="SearchResultTextSize">16sp</dimen>
 </resources>

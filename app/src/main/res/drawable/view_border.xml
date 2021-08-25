@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--this drawable is used to add a border to a view (i.e editText)-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle" >
+    <solid android:color="@android:color/white" />
+    <stroke android:width="1dip" android:color="#9E9E9E"/>
+    <padding
+        android:left="@dimen/borderPaddingHorizontal"
+        android:top="@dimen/borderPaddingVertical"
+        android:right="@dimen/borderPaddingHorizontal"
+        android:bottom="@dimen/borderPaddingVertical" />
+    <corners
+        android:radius="@dimen/borderRadius"/>
+</shape>

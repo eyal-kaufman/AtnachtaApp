@@ -6,6 +6,7 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -23,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -78,9 +80,6 @@ class NewReference : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // ActionBar title text
-        activity?.setTitle(R.string.ReferenceDetails)
-
         // getting Firestore instance
         firestore = Firebase.firestore
 
@@ -106,12 +105,14 @@ class NewReference : Fragment() {
 
     private fun configureUI(isNewProfile: Boolean) {
         if (isNewProfile){
+            activity?.titleTextView?.text=getString(R.string.newProfileTitle)
             return // default layout is for a  new profile
         }
+        // ActionBar title
+        activity?.titleTextView?.text=getString(R.string.newReferenceTitle)
         binding.personalDetailsTitleView.visibility = View.GONE
         binding.textInputLayoutFirstName.visibility = View.GONE
-        binding.textViewAgeTitle.visibility = View.GONE
-        binding.girlAge.visibility = View.GONE
+        binding.textInputLayoutAge.visibility = View.GONE
         binding.divider.visibility = View.GONE
 
         // updating the title constraint so the title is constrained to the top of the screen
@@ -158,6 +159,9 @@ class NewReference : Fragment() {
     }
 
     private fun continueButtonHandler(view: View, isNewProfile: Boolean){
+        if (!validateForm()) {
+            return
+        }
         binding.continueButton.isEnabled = false
         binding.progressIndicator.visibility = View.VISIBLE
         val profileDocRef : DocumentReference
@@ -197,6 +201,19 @@ class NewReference : Fragment() {
             }
     }
 
+    private fun validateForm(): Boolean {
+        return if (TextUtils.isEmpty(binding.girlFirstName.text.toString())) {
+            binding.textInputLayoutFirstName.error = getString(R.string.emptyNameError)
+            binding.scrollView.post {
+                binding.scrollView.fullScroll(View.FOCUS_UP) // scrolls up to the first-name view
+            }
+            false
+        } else {
+            binding.textInputLayoutFirstName.error = null
+            true
+        }
+    }
+
     private fun createProfile() : Profile{
         // todo change this according to the updated profile constructor
         val age : Int? = if (binding.girlAge.text.toString().isBlank()){
@@ -217,7 +234,7 @@ class NewReference : Fragment() {
                         binding.referenceReason.text.toString(),
                         binding.refererName.text.toString(),
                         binding.refererJob.text.toString(),
-                        binding.editTextPhone.text.toString()
+                        binding.refererPhone.text.toString()
         )
     }
 

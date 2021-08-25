@@ -13,6 +13,7 @@ import com.example.atnachta.databinding.FragmentMainScreenBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_main.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,7 +61,7 @@ class MainScreen : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // ActionBar title
-        activity?.setTitle(R.string.mainScreenFragmentTitle)
+        activity?.titleTextView?.text=getString(R.string.mainScreenFragmentTitle)
 
         // getting Firebase Auth instance
         auth = Firebase.auth

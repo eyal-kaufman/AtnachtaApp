@@ -9,11 +9,11 @@
         android:id="@+id/quality_image"
         android:layout_width="@dimen/icon_size"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/ic_baseline_person_24" />
 
@@ -21,84 +21,47 @@
         android:id="@+id/fullNameText"
         android:layout_width="0dp"
         android:layout_height="20dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/AddressValue"
-        app:layout_constraintStart_toEndOf="@+id/quality_image"
-        app:layout_constraintTop_toTopOf="@+id/quality_image"
-        tools:text="Full Name" />
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:textSize="@dimen/SearchResultTextSize"
+        android:textStyle="bold"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="שם מלא" />
 
     <TextView
         android:id="@+id/IDValue"
         android:layout_width="0dp"
         android:layout_height="20dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="150dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/quality_image"
-        app:layout_constraintTop_toTopOf="@+id/IDLabel"
-        tools:text="000000" />
-
-    <TextView
-        android:id="@+id/nameLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="שם"
-        app:layout_constraintEnd_toEndOf="@+id/ageLabel"
-        app:layout_constraintTop_toTopOf="@+id/quality_image" />
-
-    <TextView
-        android:id="@+id/ageLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="7dp"
-        android:layout_marginEnd="8dp"
-        android:text="גיל"
-        app:layout_constraintBottom_toBottomOf="@+id/IDValue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.92"
-        app:layout_constraintStart_toEndOf="@+id/IDValue" />
+        android:layout_marginTop="4dp"
+        android:textSize="@dimen/SearchResultTextSize"
+        android:textStyle="bold"
+        app:layout_constraintRight_toRightOf="@+id/fullNameText"
+        app:layout_constraintTop_toBottomOf="@+id/fullNameText"
+        tools:text="313123456" />
 
     <TextView
         android:id="@+id/ageText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="14dp"
-        app:layout_constraintEnd_toStartOf="@+id/ageLabel"
-        app:layout_constraintHorizontal_bias="0.772"
-        app:layout_constraintStart_toEndOf="@+id/IDLabel"
-        app:layout_constraintTop_toBottomOf="@+id/fullNameText"
-        tools:text="200" />
-
-    <TextView
-        android:id="@+id/IDLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="9dp"
-        android:layout_marginEnd="40dp"
-        android:text="תעודת זהות"
-        app:layout_constraintEnd_toStartOf="@+id/ageLabel"
-        app:layout_constraintTop_toBottomOf="@+id/fullNameText" />
-
-    <TextView
-        android:id="@+id/addressLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="כתובת"
-        app:layout_constraintEnd_toEndOf="@+id/ageLabel"
-        app:layout_constraintTop_toBottomOf="@+id/IDLabel" />
+        android:layout_marginRight="8dp"
+        android:textSize="@dimen/SearchResultTextSize"
+        android:textStyle="bold"
+        app:layout_constraintRight_toLeftOf="@+id/fullNameText"
+        app:layout_constraintTop_toTopOf="@+id/fullNameText"
+        tools:text="17" />
 
     <TextView
         android:id="@+id/AddressValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="10dp"
-        tools:text ="ירושלים, גבעת רם, אהלן אהלן"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
+        android:textSize="@dimen/SearchResultTextSize"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/addressLabel"
-        app:layout_constraintStart_toEndOf="@+id/quality_image" />
+        app:layout_constraintRight_toRightOf="@+id/IDValue"
+        app:layout_constraintTop_toBottomOf="@+id/IDValue"
+        tools:text="ירושלים, גבעת רם, אהלן אהלן" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

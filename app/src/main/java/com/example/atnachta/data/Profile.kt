@@ -5,9 +5,10 @@ import java.time.LocalDate
 
 class Profile {
 //    Personal Details:
-    var firstName : String? = null
+    var firstName : String? = null // initialized in constructor
+    var age : Int? = null // initialized in constructor (could stay null)
     var lastName : String? = null
-    var phone : String? = null
+    var phone : String = ""
     var ID : String = ""
     var homeAddress : String = ""
     var dateOfBirth : String = ""
@@ -15,7 +16,6 @@ class Profile {
     var yearOfAliyah : String = ""
     var religiosity : String = ""
     var citizenshipStatus : String = ""
-    var age : Int? = null
 //    Education:
     var lastStudyingAt : String = ""
     var grade : String = ""

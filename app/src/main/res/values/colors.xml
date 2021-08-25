@@ -9,4 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="dividerColor">#60aaaaaa</color>
     <color name="linkColor">#0000EE</color>
+    <color name="atnachtaPrimary">#921E5A</color>
+    <color name="atnachtaPrimaryVariant">#721D3D</color>
+    <color name="atnachtaSecondary">#4B8A9B</color>
+    <color name="atnachtaSecondaryVariant">#3A6778</color>
 </resources>

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".LoginFragment"
     >
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,8 +16,8 @@
             android:indeterminate="true"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
@@ -28,8 +27,8 @@
             android:layout_marginTop="@dimen/logo_margin"
             android:contentDescription="@string/loginImageDescription"
             android:src="@drawable/atnachta_logo_official"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread" />
 
@@ -39,8 +38,8 @@
             android:layout_height="wrap_content"
             android:text="@string/loginButton"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -52,9 +51,9 @@
             app:errorEnabled="true"
             app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/logInLogo"
             app:layout_constraintVertical_chainStyle="packed">
 
@@ -73,9 +72,9 @@
             android:layout_marginBottom="32dp"
             android:hint="@string/loginPasswordLabel"
             app:layout_constraintBottom_toTopOf="@+id/loginButton"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="0.6"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -93,8 +92,8 @@
             android:textColor="@color/design_default_color_error"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <TextView
             android:id="@+id/passwordResetLink"
@@ -102,8 +101,8 @@
             android:layout_height="wrap_content"
             android:text="@string/resetSuperUserPassoword"
             android:textColor="@color/linkColor"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
         <Button
@@ -113,7 +112,7 @@
             android:layout_height="wrap_content"
             android:text="@string/devButtonText"
             android:textColor="#FFE500"
-            app:layout_constraintEnd_toStartOf="@+id/loginButton"
+            app:layout_constraintRight_toLeftOf="@+id/loginButton"
             app:layout_constraintTop_toTopOf="@+id/loginButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

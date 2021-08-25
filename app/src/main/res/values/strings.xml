@@ -40,7 +40,7 @@
     <string name="address">כתובת</string>
     <string name="basicDetails">פרטים בסיסיים</string>
     <string name="newReferenceFragmentTitle">פרטי הפניה</string>
-    <string name="mainScreenFragmentTitle">חיפוש</string>
+    <string name="mainScreenFragmentTitle">ברוכים הבאים</string>
     <string name="loginFragmentTitle">כניסה</string>
     <string name="loginImageDescription">Logo</string>
     <string name="motherDetails">פרטי אמא</string>
@@ -56,7 +56,7 @@
     <string name="passordResetMsg">נשלח אימייל לאיפוס סיסמא</string>
     <string name="devButtonText">dev sign in</string>
     <string name="welcomeLabel">ברוכים הבאים לאפליקציית אתנחתא!</string>
-    <string name="passwordChangeButtonText">שינוי סיסמת משתמש מדריכים</string>
+    <string name="passwordChangeButtonText">שליחת מייל</string>
     <string name="passwordResetTitleText">אתחול סיסמת מדריכים</string>
     <string name="passwordChangeText1">נא להזין סיסמא חדשה…</string>
     <string name="passwordChangeText2">נא להזין את הסיסמא בשנית…</string>
@@ -88,4 +88,10 @@
     <string name="loginErrorInvalidUser">התחברות נכשלה: המשתמש לא קיים במערכת</string>
     <string name="loginErrorNetwork">התחברות נכשלה: נא לבדוק חיבור לרשת ולנסות שנית</string>
     <string name="profileCreationError">שגיאה ביצירת פרופיל: נא לנסות שנית</string>
+    <string name="emptyNameError">נא להזין שם פרטי</string>
+    <string name="RecycleSearchFragmentTitle">חיפוש</string>
+    <string name="newProfileTitle">פרופיל חדש</string>
+    <string name="newReferenceTitle">הפניה חדשה</string>
+    <string name="passwordChangeLabel">שינוי סיסמת מדריכים</string>
+    <string name="passwordResetDescription">לחצ/י פה לשליחת מייל לאיפוס סיסמת חשבון המדריכים:</string>
 </resources>

@@ -34,4 +34,8 @@
         <item name="android:layout_marginBottom">5sp</item>
         <item name="android:layout_marginTop">5sp</item>
     </style>
+
+    <style name="SmallTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">50dp</item>
+    </style>
 </resources>

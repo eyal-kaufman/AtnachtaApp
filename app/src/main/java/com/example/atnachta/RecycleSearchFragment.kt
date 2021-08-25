@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_main.*
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVPrinter
 import java.io.*
@@ -61,6 +62,9 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        activity?.menuInflater.inflate(R.menu.menu_main)
+        // ActionBar title
+        activity?.titleTextView?.text=getString(R.string.RecycleSearchFragmentTitle)
+
         firestore = Firebase.firestore
 
         collectionReference = firestore.collection(PROFILES_COLLECTION)

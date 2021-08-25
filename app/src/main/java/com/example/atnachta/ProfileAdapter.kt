@@ -23,9 +23,11 @@ class ProfileAdapter(options: FirestoreRecyclerOptions<Profile>, private val lis
     }
 
     override fun onBindViewHolder(holder: ProfileHolder, position: Int, model: Profile) {
-        holder.binding.fullNameText.text = model.firstName
-        holder.binding.ageText.text = model.age.toString()
-        holder.binding.qualityImage.setImageResource(R.drawable.ic_launcher_background)
+        holder.binding.fullNameText.text = "${model.firstName} ${model.lastName}"
+        holder.binding.ageText.text = if (model.age == null){ "" } else {model.age.toString()}
+        holder.binding.IDValue.text = model.ID
+        holder.binding.AddressValue.text = model.homeAddress
+        holder.binding.qualityImage.setImageResource(R.drawable.ic_baseline_person_24)
 
         // onClickListener for the holder - click received by the holder but handled by the fragment
         holder.binding.root.setOnClickListener {

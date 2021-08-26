@@ -24,6 +24,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.reference_row_table.view.*
 
 
@@ -91,6 +92,9 @@ class ReferenceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // ActionBar title text
+        activity?.titleTextView?.text = getString(R.string.referenceFragmentTitle)
+
         firestore = Firebase.firestore
         girlDocRef = firestore.collection(REFERENCES_COLLECTION).document(param1.toString())
 
@@ -101,16 +105,23 @@ class ReferenceFragment : Fragment() {
             editMode(it)
         }
 
-        binding.refSubmitChanges.setOnClickListener { view ->
+        binding.refSubmitChanges.setOnClickListener {
             for ((k, v) in _map_of_views) {
                 girlDocRef.update(k, v.text.toString()).addOnSuccessListener {}
                     .addOnFailureListener { exception -> Log.d(TAG, "get failed with ", exception) }
             }
             displayMode(view)
         }
-
-        activity?.setTitle(R.string.basicDetails)
-
+        binding.FilesTitle.setOnClickListener {
+            val details = binding.FilesData
+            if (details.visibility == View.GONE){
+                TransitionManager.beginDelayedTransition(details, AutoTransition())
+                binding.FilesData.visibility = View.VISIBLE
+            }
+            else{
+              details.visibility = View.GONE
+            }
+         }
     }
 
     private fun initialData(view: View) {

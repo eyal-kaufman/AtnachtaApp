@@ -17,6 +17,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main_screen.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.edit_button
@@ -63,6 +64,9 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // ActionBar title text
+        activity?.titleTextView?.text = getString(R.string.profileFragmentTitle)
+
         firestore = Firebase.firestore
         docID = profileFragmentArgs.fromBundle(requireArguments()).docID
         girlDocRef = firestore.collection(PROFILES_COLLECTION).document(docID.toString())
@@ -74,7 +78,7 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
             editMode(it)
         }
 
-        binding.submitChanges.setOnClickListener { view ->
+        binding.submitChanges.setOnClickListener {
             for ((k, v) in _map_of_views) {
                 girlDocRef.update(k, v.text.toString()).addOnSuccessListener {}
                     .addOnFailureListener { exception -> Log.d(TAG, "get failed with ", exception) }
@@ -83,8 +87,6 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
                 .addOnFailureListener { exception -> Log.d(TAG, "get failed with ", exception) }
             displayMode(view)
         }
-
-        activity?.setTitle(R.string.basicDetails)
 
         //movement of the titles
         for((k,v) in titles_map){

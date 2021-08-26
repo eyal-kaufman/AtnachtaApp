@@ -94,4 +94,10 @@
     <string name="newReferenceTitle">הפניה חדשה</string>
     <string name="passwordChangeLabel">שינוי סיסמת מדריכים</string>
     <string name="passwordResetDescription">לחצ/י פה לשליחת מייל לאיפוס סיסמת חשבון המדריכים:</string>
+    <string name="socialWorkerIntake">אינטייק עו\"ס</string>
+    <string name="courtOrder">צו בית משפט:</string>
+    <string name="parantApproval">אישור הורים:</string>
+    <string name="medicalIntake">אינטייק רפואי</string>
+    <string name="referenceFragmentTitle">פרטי הפניה</string>
+    <string name="profileFragmentTitle">פרטי פרופיל</string>
 </resources>

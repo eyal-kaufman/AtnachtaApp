@@ -177,12 +177,6 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp">
 
@@ -248,16 +242,127 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:layout_editor_absoluteY="472dp">
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/FilesTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="קבצים"
+                        android:textSize="25sp" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/FilesData"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:visibility="gone"
+                        tools:layout_editor_absoluteX="5dp"
+                        tools:layout_editor_absoluteY="50dp">
+
+                        <TextView
+                            android:id="@+id/parentApprovalLabel"
+                            style="@style/word_profile_field"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/parantApproval"
+                            android:textSize="20sp"
+                            app:layout_constraintBottom_toTopOf="@+id/courtOrderLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                        <EditText
+                            android:id="@+id/parentApprovalLink"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:ems="9"
+                            android:inputType="date"
+                            android:padding="5dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/parentApprovalLabel"
+                            app:layout_constraintEnd_toStartOf="@+id/parentApprovalLabel"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/parentApprovalLabel" />
 
+                        <TextView
+                            android:id="@+id/courtOrderLabel"
+                            style="@style/word_profile_field"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/courtOrder"
+                            android:textSize="20sp"
+                            app:layout_constraintBottom_toTopOf="@+id/socialWorkerIntakeLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/parentApprovalLabel" />
 
+                        <EditText
+                            android:id="@+id/courtOrderLink"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:ems="9"
+                            android:inputType="textPersonName"
+                            android:padding="5dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/courtOrderLabel"
+                            app:layout_constraintStart_toStartOf="@+id/parentApprovalLink"
+                            app:layout_constraintTop_toTopOf="@+id/courtOrderLabel" />
+
+                        <TextView
+                            android:id="@+id/socialWorkerIntakeLabel"
+                            style="@style/word_profile_field"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/socialWorkerIntake"
+                            android:textSize="20sp"
+                            app:layout_constraintBottom_toTopOf="@+id/medicalIntakeLabel"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/courtOrderLabel" />
+
+                        <EditText
+                            android:id="@+id/socialWorkerIntakeLink"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:ems="9"
+                            android:inputType="number"
+                            android:padding="5dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/socialWorkerIntakeLabel"
+                            app:layout_constraintStart_toStartOf="@+id/courtOrderLink"
+                            app:layout_constraintTop_toTopOf="@+id/socialWorkerIntakeLabel" />
+
+                        <TextView
+                            android:id="@+id/medicalIntakeLabel"
+                            style="@style/word_profile_field"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/medicalIntake"
+                            android:textSize="20sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/socialWorkerIntakeLabel" />
+
+                        <EditText
+                            android:id="@+id/medicalIntakeLink"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:ems="9"
+                            android:inputType="textPersonName"
+                            android:padding="5dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/medicalIntakeLabel"
+                            app:layout_constraintStart_toStartOf="@+id/socialWorkerIntakeLink"
+                            app:layout_constraintTop_toTopOf="@+id/medicalIntakeLabel" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
             <CheckBox
                 android:id="@+id/if_Welfare"
                 android:layout_width="wrap_content"

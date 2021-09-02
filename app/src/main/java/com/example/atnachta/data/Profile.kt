@@ -1,16 +1,16 @@
 package com.example.atnachta.data
 
-import java.time.LocalDate
+
 
 
 class Profile {
 //    Personal Details:
     var firstName : String? = null
     var lastName : String? = null
-    var phone : String? = null
+    var phone : String = ""
     var ID : String = ""
     var homeAddress : String = ""
-    var dateOfBirth : LocalDate? = null
+    var dateOfBirth : String = ""
     var originCountry : String = ""
     var yearOfAliyah : String = ""
     var religiosity : String = ""
@@ -19,7 +19,7 @@ class Profile {
 //    Education:
     var lastStudyingAt : String = ""
     var grade : String = ""
-    var isActiveStudent : String = ""
+    var isActiveStudent : Boolean = false
 //    Health:
     var medicalCare : String = ""
     var medication : String = ""

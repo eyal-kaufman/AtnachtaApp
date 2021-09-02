@@ -3,4 +3,9 @@
     <item
         android:id="@+id/export_to_mail"
         android:title="@string/exportMenuOption" />
+    <item
+
+        android:id="@+id/export_all_ref_email"
+        android:title="@string/exportReferenceMenuOption" />
+
 </menu>

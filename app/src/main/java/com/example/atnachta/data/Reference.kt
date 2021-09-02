@@ -1,7 +1,7 @@
 package com.example.atnachta.data
 
-import java.time.LocalDate
-import java.time.LocalTime
+
+import java.util.*
 
 data class Reference(
 //        details:
@@ -12,18 +12,18 @@ data class Reference(
         var refererName: String = "",
         var refererJob: String = "",
         var refererPhone: String = "",
-        var refStatus : String = "",
+        var refStatus: String = "",
 //        Welfare services:
-        var knownToWelfare : Boolean = false,
+        var knownToWelfare: Boolean = false,
         var welfareName: String = "",
         var welfarePhone: String = "",
         var welfarePosition: String = "",
 //      Leaving deatils:
-        var leavingDate: LocalDate? = null,
-        var leavingTime: LocalTime? = null,
-        var leavingReason : String = "",
-        var leavingDestination : String = "",
-        var messageSentTo : String =""
+        var leavingDate: String? = null,
+        var leavingTime: String? = null,
+        var leavingReason: String = "",
+        var leavingDestination: String = "",
+        var messageSentTo: String =""
 
 ) {
     //TODO : Change date and time to proper types. String is only temporary!

@@ -1,11 +1,9 @@
 package com.example.atnachta
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.*
-import androidx.core.content.FileProvider
+import android.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -31,6 +29,8 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 private const val PROFILES_COLLECTION = "profiles"
+private const val REFERENCE_COLLECTION = "References"
+private const val ATTENDANCE_COLLECTION = "attendance"
 
 
 
@@ -39,7 +39,8 @@ private const val PROFILES_COLLECTION = "profiles"
  * Use the [RecycleSearch.newInstance] factory method to
  * create an instance of this fragment.
  */
-class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
+class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener,
+    MenuItem.OnMenuItemClickListener {
     // TODO: 1. Check if the recyclerView gets data
     // TODO: 2. Add onClickListeners to the Search button and search results
 
@@ -48,12 +49,12 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
 
     lateinit var binding : FragmentRecycleSearchBinding
     lateinit var firestore: FirebaseFirestore
-    lateinit var collectionReference: CollectionReference
+    lateinit var profileCollection: CollectionReference
     lateinit var adapter: ProfileAdapter
-
+    lateinit var docRefID: String
     lateinit var initialSearchInput: String
     val TAG : String = "RecycleView"
-    var filename =""
+    var fileName =""
     var filepath = ""
     ///samples
 
@@ -63,7 +64,7 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
 //        activity?.menuInflater.inflate(R.menu.menu_main)
         firestore = Firebase.firestore
 
-        collectionReference = firestore.collection(PROFILES_COLLECTION)
+        profileCollection = firestore.collection(PROFILES_COLLECTION)
         initialSearchInput = RecycleSearchArgs.fromBundle(requireArguments()).searchInput
         setUpRecyclerView()
 
@@ -88,7 +89,13 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
 
         return when (item.itemId) {
             R.id.export_to_mail -> {
+
+//                FireStoreHandler.createReport(firestore.collection(ATTENDANCE_COLLECTION), 8,2021)
                 sendProfilesByEmail()
+                true
+            }
+            R.id.export_all_ref_email ->{
+//                sendReferenceByEmail()
                 true
             }
 
@@ -102,9 +109,9 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
      */
     private fun updateQuery(searchInput: String) {
         val newQuery : Query = if (searchInput.isBlank()){ // if blank just show everything
-            collectionReference.orderBy("firstName", Query.Direction.DESCENDING)
+            profileCollection.orderBy("firstName", Query.Direction.DESCENDING)
         } else{ // query by input
-            collectionReference.whereArrayContains("searchList", searchInput)
+            profileCollection.whereArrayContains("searchList", searchInput)
         }
         val newOptions : FirestoreRecyclerOptions<Profile> = FirestoreRecyclerOptions.Builder<Profile>()
             .setQuery(newQuery, Profile::class.java)
@@ -118,9 +125,9 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
     private fun setUpRecyclerView() {
         // set up a query which gets all of the profiles in the database
         val query : Query = if (initialSearchInput.isBlank()){ // if blank just show everything
-            collectionReference.orderBy("firstName", Query.Direction.DESCENDING)
+            profileCollection.orderBy("firstName", Query.Direction.DESCENDING)
         } else{ // query by input
-            collectionReference.whereArrayContains("searchList", initialSearchInput)
+            profileCollection.whereArrayContains("searchList", initialSearchInput)
         }
 
         // define the options object (firebaseUI class), that gets the query into the adapter
@@ -141,52 +148,99 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
         return false
     }
 
+    fun sendReferenceByEmail(){
+        fileName ="referenceReport.csv"
+        filepath = "reports"
+        val file = File(context?.getExternalFilesDir(filepath), fileName)
 
-    fun sendProfilesByEmail(){
-
-
-        filename ="myFile.csv"
-        filepath = "MyFileDir"
-        val myextrnal = File(context?.getExternalFilesDir(filepath), filename)
-
-//        var headers : SortedSet<String> = sortedSetOf()
-        var headers : MutableList<String> = mutableListOf()
         try{
-            collectionReference.orderBy("firstName", Query.Direction.DESCENDING)
-                .get().addOnSuccessListener { documents->
-                    val writer = myextrnal.bufferedWriter()
-                    writer.write("\ufeff")
-                    val csvPrinter = CSVPrinter(writer, CSVFormat.DEFAULT)
+            profileCollection.get().addOnSuccessListener { profileDocs ->
+                var headers : MutableList<String> = mutableListOf()
+                val writer = file.bufferedWriter()
 
-                    for (doc in documents){
-                        doc.data.remove("ID")
-                        doc.data.remove("")
-                        if (headers.size==0) {
-//                            headers = doc.data.keys.toSortedSet()
-                            headers = doc.data.keys.toMutableList()
-                            headers.sort()
-                            Log.d(TAG, "${doc.id} BEFORE => ${headers}")
-                            DataToCSV.mapFields(headers)
-                            Log.d(TAG, "${doc.id} AFTER => ${headers}")
-                            csvPrinter.printRecord(headers)
+                writer.write("\ufeff")//important for input in hebrew
+                val csvPrinter = CSVPrinter(writer, CSVFormat.DEFAULT)
+                for (profile in profileDocs){
+                    profileCollection.document(profile.id).collection("References").get().addOnSuccessListener { referenceDocs ->
+                        var referenceMap: MutableMap<String, Any> = mutableMapOf()
+                        for (reference in referenceDocs){
+                            referenceMap = reference.data
+                            referenceMap["profileName"] = profile.data["firstName"].toString() + " "+ profile.data["lastName"].toString()
+//                            if (headers.size == 0) {
+//
+//                                headers = referenceMap.keys.toMutableList()
+//                                headers.sort()
+//
+//                                DataToCSV.mapFields(headers, DataToCSV.referenceFieldMap)
+//                                csvPrinter.printRecord(headers)
+//
+//                            }
+                            csvPrinter.printRecord(referenceMap.toSortedMap().values)
                         }
-                        csvPrinter.printRecord(doc.data.toSortedMap().values)
-
-                        Log.d(TAG, "${doc.id} => ${doc.data.toSortedMap()}")
 
                     }
-                    val path: Uri =
-                        FileProvider.getUriForFile(requireContext(), "com.example.atnachta.fileprovider", myextrnal)
 
-                    val fileIntent = Intent(Intent.ACTION_SEND)
-                    fileIntent.type = "text/csv"
-                    fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Data")
-                    fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    fileIntent.putExtra(Intent.EXTRA_STREAM, path)
-                    startActivity(fileIntent)
+                }
+                DataToCSV.sendEmail(requireContext(), file, "Profile Report",csvPrinter)
 
-                    csvPrinter.flush()
-                    csvPrinter.close()
+            }
+        } catch (e :FileNotFoundException ){
+            e.printStackTrace()
+        } catch (e : IOException){
+            e.printStackTrace()
+        }
+    }
+    fun sendProfilesByEmail(){
+
+        fileName ="profileReport.csv"
+        filepath = "reports"
+//        filename ="myFile.csv"
+//        filepath = "MyFileDir"
+        val myextrnal = File(context?.getExternalFilesDir(filepath), fileName)
+
+
+//        var headers : MutableList<String> = mutableListOf()
+        try{
+            profileCollection.orderBy("firstName", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener{profileDocuments->
+
+                    val csvPrinter = DataToCSV.writeCSV(profileDocuments, myextrnal, DataToCSV.fieldsMap)
+//                    val writer = myextrnal.bufferedWriter()
+//                    val csvPrinter = CSVPrinter(writer, CSVFormat.DEFAULT)
+//                    writer.write("\ufeff")//important for input in hebrew
+//
+//                    var profileMap: MutableMap<String,Any?> = mutableMapOf()
+//                    for (doc in profileDocuments){
+//                        profileMap = doc.data
+//                        profileMap.remove("searchList")
+//                        if (headers.size==0) {
+//
+//                            headers = profileMap.keys.toMutableList()
+//                            headers.sort()
+//                            Log.d(TAG, "${doc.id} BEFORE => ${headers}")
+//                            DataToCSV.mapFields(headers)
+//                            Log.d(TAG, "${doc.id} AFTER => ${headers}")
+//                            csvPrinter.printRecord(headers)
+//                        }
+//                        csvPrinter.printRecord(profileMap.toSortedMap().values)
+//
+//                        Log.d(TAG, "${doc.id} => ${profileMap.toSortedMap()}")
+//
+//                    }
+                    DataToCSV.sendEmail(requireContext(), myextrnal, "Profile Report",csvPrinter)
+//                    val path: Uri =
+//                        FileProvider.getUriForFile(requireContext(), "com.example.atnachta.fileprovider", myextrnal)
+//
+//                    val fileIntent = Intent(Intent.ACTION_SEND)
+//                    fileIntent.type = "text/csv"
+//                    fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Data")
+//                    fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//                    fileIntent.putExtra(Intent.EXTRA_STREAM, path)
+//                    startActivity(fileIntent)
+//
+//                    csvPrinter.flush()
+//                    csvPrinter.close()
                 }
 
         } catch (e :FileNotFoundException ){
@@ -197,19 +251,57 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
 
 
     }
+
+    fun handleDeleteProfile(){
+        val profileDocReference = profileCollection.document(docRefID)
+        val referenceCollection = profileDocReference.collection(REFERENCE_COLLECTION)
+//        val referencesList : MutableCollection<String> = mutableListOf()
+//        referenceCollection.get()
+//            .addOnSuccessListener { documents ->
+//                for (doc in documents) {
+//                    referencesList.add(doc.id)
+//                }
+//            }
+        FireStoreHandler.deleteProfile(profileDocReference, referenceCollection, null, firestore.collection(ATTENDANCE_COLLECTION))
+    }
     /**
      * the click handler for pressing a result item
      * @param snapshot docSnapshot of the selcted profile. We get the snapshot from the viewHolder
      * (specifically in onBindViewHolder), which gets using firebaseUI methods
      */
-    override fun onProfileSelected(snapshot: DocumentSnapshot, newReference: Boolean) {
-        val docId : String = snapshot.id
-        Log.d(TAG, docId)
-        if (newReference){
-            findNavController().navigate(RecycleSearchDirections.actionRecycleSearchToNewReference(false, docId))
+    override fun onProfileSelected(view : View, snapshot: DocumentSnapshot, longPress: Boolean) {
+//        val docId : String = snapshot.id
+        docRefID = snapshot.id
+        Log.d(TAG, docRefID)
+        if (longPress){
+            PopupMenu(context,view).apply {
+                setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener{menuItem->
+                    when (menuItem?.itemId){
+                    R.id.add_reference ->{
+                        Log.d(TAG, "long press>add reference @@@@@@@@@@@@")
+                        findNavController().navigate(RecycleSearchDirections.actionRecycleSearchToNewReference(false, docRefID))
+                        true
+                    }
+                    R.id.delete_profile ->{
+                        handleDeleteProfile()
+                        true
+                    }
+                    else -> {
+                        Log.d(TAG, "else@@@@@@@@@@@@@@@@@@")
+                        false
+                    }
+                }})
+                inflate(R.menu.menu_profile_fragment)
+                show()
+            }
+//            val popup = PopupMenu(context,view)
+//            val inflater: MenuInflater = popup.menuInflater
+//            inflater.inflate(R.menu.menu_profile_fragment,popup.menu)
+//            popup.show()
+//            findNavController().navigate(RecycleSearchDirections.actionRecycleSearchToNewReference(false, docId))
         }
         else {
-            val action = RecycleSearchDirections.actionRecycleSearchToProfileFragment(docId)
+            val action = RecycleSearchDirections.actionRecycleSearchToProfileFragment(docRefID)
             findNavController().navigate(action)
         }
 
@@ -274,6 +366,23 @@ class RecycleSearch : Fragment(), ProfileAdapter.OnProfileSelectedListener {
             }
     }
 
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        return when (item?.itemId){
+            R.id.add_reference ->{
+                Log.d(TAG, "long press>add reference @@@@@@@@@@@@")
+                findNavController().navigate(RecycleSearchDirections.actionRecycleSearchToNewReference(false, docRefID))
+                true
+            }
+            R.id.delete_profile ->{
+                Log.d(TAG, "long press>delete profile@@@@@@@@@")
+                true
+            }
+            else -> {
+                Log.d(TAG, "else@@@@@@@@@@@@@@@@@@")
+                false
+            }
+        }
+    }
 
 
 }

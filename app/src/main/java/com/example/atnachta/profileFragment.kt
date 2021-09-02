@@ -6,15 +6,11 @@ import android.transition.TransitionManager
 import android.util.Log
 import android.view.*
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.onNavDestinationSelected
 import kotlinx.android.synthetic.main.fragment_profile.*
 import com.example.atnachta.databinding.FragmentProfileBinding
 import com.google.firebase.firestore.CollectionReference
@@ -22,10 +18,8 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_main_screen.*
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.edit_button
 import kotlinx.android.synthetic.main.fragment_profile.edit_id
 import kotlinx.android.synthetic.main.fragment_profile.edit_phone
@@ -40,6 +34,8 @@ import kotlinx.android.synthetic.main.reference_row_table.view.*
 private const val ARG_PARAM1 = "docID"
 private const val ARG_PARAM2 = "param2"
 private const val PROFILES_COLLECTION = "profiles"
+private const val REFERENCE_COLLECTION = "References"
+private const val ATTENDANCE_COLLECTION = "attendance"
 
 /**
  * A simple [Fragment] subclass.
@@ -52,6 +48,7 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
     private var param2: String? = null
     lateinit var firestore: FirebaseFirestore
     lateinit var collectionReference: CollectionReference
+    lateinit var collectionProfile : CollectionReference
     lateinit var binding: FragmentProfileBinding
     lateinit var girlDocRef: DocumentReference
     private lateinit var docID: String
@@ -60,7 +57,7 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
     var _edited_text_array: Array<TextView?> = arrayOfNulls(20)
     lateinit var _map_of_views: Map<String, ArrayList<TextView>>
     lateinit var _map_of_titles: Map<TextView, TableLayout>
-    lateinit var referenceList : MutableMap<Int, String>
+    lateinit var referenceMap : MutableMap<Int, String>
     lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +75,8 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
 //        girlDocId = profileFragmentArgs.fromBundle(requireArguments()).docID
         firestore = Firebase.firestore
         docID = profileFragmentArgs.fromBundle(requireArguments()).docID
-        girlDocRef = firestore.collection(PROFILES_COLLECTION).document(docID)
+        collectionProfile = firestore.collection(PROFILES_COLLECTION)
+        girlDocRef = collectionProfile.document(docID)
 
         initialData(view)
         displayMode(view)
@@ -118,8 +116,8 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
                 referenceData.visibility = View.GONE;
             }
         }
-        referenceList = mutableMapOf()
-        collectionReference = firestore.collection(PROFILES_COLLECTION).document(docID.toString()).collection("References")
+        referenceMap = mutableMapOf()
+        collectionReference = collectionProfile.document(docID).collection(REFERENCE_COLLECTION)
         collectionReference.get()
             .addOnSuccessListener { documents->
                 for (doc in documents){
@@ -127,7 +125,7 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
                     val tr = layoutInflater.inflate(R.layout.reference_row_table, binding.referenceTable, false)
                     tr.setOnClickListener(this)
 
-                    referenceList[tr.id] = doc.id
+                    referenceMap[tr.id] = doc.id
                     tr.reference_date.text = doc.data["dateOfRef"].toString()
                     tr.referer_name.text = doc.data["receiverName"].toString()
                     binding.referenceTable.addView(tr,1)
@@ -268,6 +266,8 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
                 true
             }
             R.id.delete_profile-> {
+                FireStoreHandler.deleteProfile(girlDocRef, collectionReference, referenceMap.values, firestore.collection(ATTENDANCE_COLLECTION))
+                navController.navigate(profileFragmentDirections.actionProfileFragmentToRecycleSearch(""))
                 true
             }
 
@@ -277,7 +277,7 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
     override fun onClick(v: View?) {
 
         v?.findNavController()?.navigate(
-            profileFragmentDirections.actionProfileFragmentToReferenceFragment(docID.toString(),referenceList[v.id].toString()))
+            profileFragmentDirections.actionProfileFragmentToReferenceFragment(docID.toString(),referenceMap[v.id].toString()))
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -288,125 +288,3 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
         TODO("Not yet implemented")
     }
 }
-
-//--------- useful things ----------//
-
-//                binding.button4.setOnClickListener { view: View ->
-//            view.findNavController().navigate(R.id.action_profileFragment_to_newReferenceFragment)
-//        }
-//        binding.examples.setOnClickListener { view: View ->
-//            view.findNavController().navigate(R.id.action_ProfileFragment_to_ReferenceFragment)
-//        }
-//
-//        for(i in 0..fields.size){
-//            val field = fields.get(i)
-//            _map_of_views.plus(field, arrayListOf(_edit_text_array[i], _edited_text_array[i]))
-//        }
-
-//------------------------------------------------------------//
-
-//private fun updateProfileData(document: DocumentSnapshot) {
-//        girlDocRef.update("firstName", edit_first_name.text.toString())
-//        girlDocRef.update("lastName", edit_last_name.text.toString())
-//        girlDocRef.update("id", edit_id.text.toString())
-//        girlDocRef.update("phone", edit_phone)
-//        girlDocRef.update("homeAddress", edit_address.text.toString())
-//        Log.d(TAG, "DocumentSnapshot update: ${document.data}")
-//    }
-
-//        edited_first_name.visibility = View.VISIBLE
-//        edit_first_name.visibility = View.GONE
-
-//        edited_last_name.visibility = View.VISIBLE
-//        edit_last_name.visibility = View.GONE
-//
-//        edited_id.visibility = View.VISIBLE
-//        edit_id.visibility = View.GONE
-//
-//        edited_phone.visibility = View.VISIBLE
-//        edit_phone.visibility = View.GONE
-//
-////        edited_father_name.text = edit_father_name.text
-//        edited_father_name.visibility = View.VISIBLE
-//        edited_mother_name.visibility = View.VISIBLE
-//
-////        edited_mother_name.text = edit_mother_name.text
-//        edit_father_name.visibility = View.GONE
-//        edit_mother_name.visibility = View.GONE
-//
-////        edited_father_phone.text = edit_father_phone.text
-//        edited_father_phone.visibility = View.VISIBLE
-//        edited_mother_phone.visibility = View.VISIBLE
-//
-////        edited_mother_phone.text = edit_mother_phone.text
-//        edit_father_phone.visibility = View.GONE
-//        edit_mother_phone.visibility = View.GONE
-//
-////        edited_address.text = edit_address.text
-//        edited_address.visibility = View.VISIBLE
-//        edit_address.visibility = View.GONE
-//
-////        edited_birth_date.text = edit_birth_date.text
-//        edited_birth_date.visibility = View.VISIBLE
-//        edit_birth_date.visibility = View.GONE
-//
-////        edited_kupach.text = edit_kupach.text
-//        edited_kupach.visibility = View.VISIBLE
-//        edit_kupach.visibility = View.GONE
-//
-////        edited_school.text = edit_school.text
-//        edited_school.visibility = View.VISIBLE
-//        edit_school.visibility = View.GONE
-//
-////        edited_civil.text = edit_civil.text
-//        edited_civil.visibility = View.VISIBLE
-//        edit_civil.visibility = View.GONE
-
-
-//        for(edit_text in _edit_text_array){
-//            edit_text.visibility = View.VISIBLE
-//        }
-//        for(edited_text in _edited_text_array){
-//            edited_text.visibility = View.GONE
-//        }
-//
-//        edited_first_name.visibility = View.GONE
-//        edit_first_name.visibility = View.VISIBLE
-//
-//        edited_last_name.visibility = View.GONE
-//        edit_last_name.visibility = View.VISIBLE
-//
-//        edited_id.visibility = View.GONE
-//        edit_id.visibility = View.VISIBLE
-//
-//        edited_phone.visibility = View.GONE
-//        edit_phone.visibility = View.VISIBLE
-//
-//        edited_address.visibility = View.GONE
-//        edit_address.visibility = View.VISIBLE
-//
-//         //--------------------------------//
-//
-//        edited_father_name.visibility = View.GONE
-//        edited_mother_name.visibility = View.GONE
-//
-//        edit_father_name.visibility = View.VISIBLE
-//        edit_mother_name.visibility = View.VISIBLE
-//
-//        edited_father_phone.visibility = View.GONE
-//        edited_mother_phone.visibility = View.GONE
-//
-//        edit_father_phone.visibility = View.VISIBLE
-//        edit_mother_phone.visibility = View.VISIBLE
-//
-//        edited_birth_date.visibility = View.GONE
-//        edit_birth_date.visibility = View.VISIBLE
-//
-//        edited_kupach.visibility = View.GONE
-//        edit_kupach.visibility = View.VISIBLE
-//
-//        edited_school.visibility = View.GONE
-//        edit_school.visibility = View.VISIBLE
-//
-//        edited_civil.visibility = View.GONE
-//        edit_civil.visibility = View.VISIBLE

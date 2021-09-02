@@ -75,7 +75,8 @@
     <string name="dateChooserText">נא לבחור תאריך…</string>
     <string name="timeChooserText">נא לבחור שעה…</string>
     <string name="dateAndTime">תאריך ושעה</string>
-    <string name="exportMenuOption">ייצוא למייל</string>
+    <string name="exportMenuOption">ייצוא פרופילים למייל</string>
+    <string name="exportReferenceMenuOption">ייצוא הפניות למייל</string>
     <string name="filePickerError">שגיאה במהלך בחירת קובץ</string>
     <string name="fileUploadError">העלת קובץ נכשלה</string>
     <string name="fileUploadSuccess">העלת קובץ בוצעה בהצלחה</string>

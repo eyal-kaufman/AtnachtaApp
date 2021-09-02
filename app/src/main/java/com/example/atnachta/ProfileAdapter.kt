@@ -1,6 +1,7 @@
 package com.example.atnachta
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.atnachta.data.Profile
@@ -29,10 +30,10 @@ class ProfileAdapter(options: FirestoreRecyclerOptions<Profile>, private val lis
 
         // onClickListener for the holder - click received by the holder but handled by the fragment
         holder.binding.root.setOnClickListener {
-            listener.onProfileSelected(snapshots.getSnapshot(position),false)
+            listener.onProfileSelected(it, snapshots.getSnapshot(position),false)
         }
         holder.binding.root.setOnLongClickListener {
-            listener.onProfileSelected(snapshots.getSnapshot(position),true)
+            listener.onProfileSelected(it, snapshots.getSnapshot(position),true)
             true
         }
     }
@@ -45,6 +46,6 @@ class ProfileAdapter(options: FirestoreRecyclerOptions<Profile>, private val lis
 //    }
 
     interface OnProfileSelectedListener{
-        fun onProfileSelected(snapshot: DocumentSnapshot, newReference: Boolean)
+        fun onProfileSelected(view : View, snapshot: DocumentSnapshot, newReference: Boolean)
     }
 }

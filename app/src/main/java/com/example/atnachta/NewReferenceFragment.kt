@@ -1,10 +1,7 @@
 package com.example.atnachta
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -18,13 +15,16 @@ import androidx.navigation.findNavController
 import com.example.atnachta.data.Profile
 import com.example.atnachta.data.Reference
 import com.example.atnachta.databinding.FragmentNewReferenceBinding
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
-import java.io.File
+import java.text.DateFormat
+//import com.google.firebase.storage.ktx.storage
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.Month
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,7 +35,9 @@ private const val ARG_PARAM2 = "param2"
 
 private const val TAG = "DocSnippets" // not sure what this means, was copied from Firestore documentation
 private const val PROFILES_COLLECTION = "profiles"
-
+private const val ATTENDANCE_COLLECTION = "attendance"
+private const val REFERENCE_STATUS_ARRIVED = ""
+private const val DATE_FORMAT = "dd/MM/yyyy"
 private const val FILE_SELECT_CODE = 0
 
 
@@ -53,8 +55,10 @@ class NewReference : Fragment() {
     private lateinit var firestore : FirebaseFirestore
 
     private lateinit var profileDocID : String
-
-    private val formatDate = SimpleDateFormat("dd/MM/yyyy", Locale.ITALY) // a random eu state
+    private lateinit var refDocID: String
+    private lateinit var calendarDate :Calendar
+    private var referenceDate : Date? = null
+    private val formatDate = SimpleDateFormat(DATE_FORMAT, Locale.ITALY) // a random eu state
     private val formatTime = SimpleDateFormat("kk:mm", Locale.ITALY) // a random eu state
 
 //    private lateinit var profileDocId : String
@@ -87,7 +91,7 @@ class NewReference : Fragment() {
 
         // getting profile docID (will be empty string if we are creating a new profile)
         profileDocID = NewReferenceArgs.fromBundle(requireArguments()).profileDocID
-
+        refDocID = ""
         // setting UI and DocID according to existence of the profile
         val isNewProfile = NewReferenceArgs.fromBundle(requireArguments()).isNewProfile
         configureUI(isNewProfile)
@@ -101,6 +105,7 @@ class NewReference : Fragment() {
 
         // setting listeners for picking date and time
         binding.dateTextView.setOnClickListener{v:View -> setDatePicker(v)}
+        
         binding.timeTextView.setOnClickListener{v:View -> setTimePicker(v)}
 
     }
@@ -143,6 +148,7 @@ class NewReference : Fragment() {
     }
 
     private fun setTimePicker(v:View){
+        calendarDate = Calendar.getInstance()
         val c = Calendar.getInstance()
         val hour = c.get(Calendar.HOUR_OF_DAY)
         val minute = c.get(Calendar.MINUTE)
@@ -153,7 +159,9 @@ class NewReference : Fragment() {
                 selectedTime.set(Calendar.HOUR_OF_DAY,chosenHour)
                 selectedTime.set(Calendar.MINUTE,chosenMinute)
                 val time = formatTime.format(selectedTime.time)
+
                 binding.timeTextView.text = time
+                calendarDate = selectedTime
             }, hour, minute,true)
         timePicker.show()
     }
@@ -162,24 +170,59 @@ class NewReference : Fragment() {
         binding.continueButton.isEnabled = false
         binding.progressIndicator.visibility = View.VISIBLE
         val profileDocRef : DocumentReference
+        val referenceDocRef : DocumentReference
+//        val attendanceReference : DocumentReference
+//        var refDocID: String = ""
         if (isNewProfile){
             val profile : Profile = createProfile()
             profileDocRef = firestore.collection(PROFILES_COLLECTION).document()
+            profileDocID = profileDocRef.id
             profileDocRef.set(profile)
         }
         else{
             profileDocRef = firestore.collection(PROFILES_COLLECTION).document(profileDocID)
         }
         val ref: Reference = createReference()
-        profileDocRef.collection("References").add(ref)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(TAG, "DocumentSnapshot written with ID: ${documentReference.id}")
+        referenceDocRef = profileDocRef.collection("References").document()
+        referenceDocRef.set(ref)
+        refDocID = referenceDocRef.id
+//                .addOnSuccessListener { documentReference ->
+//
+//                    Log.d(TAG, "DocumentSnapshot written with ID: ${documentReference.id}")
+//                }
+//                .addOnFailureListener { e ->
+//                    Log.w(TAG, "Error adding reference", e)
+//                }
+//        creating an attendance document, to store the data about this new reference if needed:
+//TODO set what is the right refStatus value to trigger the process of adding reference to attendance collection
+//        val selectedDate = Date(95,12,15,6,30,55)
+        val selectedDate = Calendar.getInstance()
+        selectedDate.set(Calendar.YEAR,2012)
+        selectedDate.set(Calendar.MONTH,12)
+        selectedDate.set(Calendar.DAY_OF_MONTH,11)
+        selectedDate.set(Calendar.HOUR_OF_DAY,10)
+        selectedDate.set(Calendar.MINUTE,30)
+        selectedDate.set(Calendar.SECOND,30)
+
+        if (ref.refStatus==REFERENCE_STATUS_ARRIVED){
+            val attend = hashMapOf("endTime" to ref.leavingDate,
+//                                    "startTime" to Timestamp(selectedDate.time),
+                                    "startTime" to Timestamp(formatDate.parse(binding.dateTextView.text.toString())),
+                                    "reference" to refDocID,
+                                    "profile" to profileDocID)
+            firestore.collection(ATTENDANCE_COLLECTION).add(attend)
+                .addOnSuccessListener { attendanceRef ->
+                    Log.d(TAG, "attendance document written with ID: ${attendanceRef.id}")
                 }
                 .addOnFailureListener { e ->
-                    Log.w(TAG, "Error adding document", e)
+                    Log.w(TAG, "Error adding attendance document", e)
                 }
+
+        }
+//        TODO: why needed another query?
         profileDocRef.get().addOnSuccessListener { document ->
             if (document != null){
+
                 Log.d(TAG, "DocumentSnapshot data: ${document.data}")
                 view.findNavController().navigate(
                     NewReferenceDirections.actionNewReferenceToProfileFragment(document.id))
@@ -214,11 +257,13 @@ class NewReference : Fragment() {
     private fun createReference(): Reference {
         return Reference(binding.receiverName.text.toString(),
                         binding.dateTextView.text.toString(),
+//                        Calendar.getInstance().time,
                         binding.timeTextView.text.toString(),
                         binding.referenceReason.text.toString(),
                         binding.refererName.text.toString(),
                         binding.refererJob.text.toString(),
                         binding.editTextPhone.text.toString()
+
         )
     }
 

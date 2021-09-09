@@ -8,26 +8,24 @@
             android:id="@+id/reference_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="טופל" />
+            android:layout_weight="0.3"
+            android:text="התקבלה ולא הגיעה" />
 
         <TextView
             android:id="@+id/reference_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_weight="0.3"
             android:text="27.4.1997" />
 
         <TextView
             android:id="@+id/referer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="שירה ירחי" />
-
-        <TextView
-            android:id="@+id/ref_document_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible" />
+            android:text=" כגכככג ככגכג כגצתכג כשירה ירחי"
+            android:layout_weight="0.4"
+            android:textSize="16sp" />
 
 
 </TableRow>

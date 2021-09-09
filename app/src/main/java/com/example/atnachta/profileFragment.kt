@@ -9,9 +9,7 @@ import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
-import kotlinx.android.synthetic.main.fragment_profile.*
 import com.example.atnachta.databinding.FragmentProfileBinding
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
@@ -20,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_main_screen.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.edit_button
 import kotlinx.android.synthetic.main.fragment_profile.edit_id
 import kotlinx.android.synthetic.main.fragment_profile.edit_phone
@@ -68,6 +67,7 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
         }
         navController = findNavController(this)
         setHasOptionsMenu(true)
+        referenceMap = mutableMapOf()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -116,19 +116,30 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
                 referenceData.visibility = View.GONE;
             }
         }
-        referenceMap = mutableMapOf()
+//        referenceMap = mutableMapOf()
         collectionReference = collectionProfile.document(docID).collection(REFERENCE_COLLECTION)
         collectionReference.get()
             .addOnSuccessListener { documents->
                 for (doc in documents){
 
-                    val tr = layoutInflater.inflate(R.layout.reference_row_table, binding.referenceTable, false)
-                    tr.setOnClickListener(this)
+                    val tr = layoutInflater.inflate(R.layout.reference_row_table, null)
+//                    val tableRow : TableRow = TableRow(context)
 
+
+
+                    tr.setOnClickListener(this)
+//                    tableRow.setOnClickListener(this)
                     referenceMap[tr.id] = doc.id
+//                    referenceMap[tableRow.id] = doc.id
                     tr.reference_date.text = doc.data["dateOfRef"].toString()
                     tr.referer_name.text = doc.data["receiverName"].toString()
+
+//                    tableRow.addView(tr.reference_date)
+//                    tableRow.addView(tr.referer_name)
+//                    binding.referenceTable.addView(tableRow,1)
+
                     binding.referenceTable.addView(tr,1)
+
                 }
             }
 
@@ -275,9 +286,10 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
         }
     }
     override fun onClick(v: View?) {
+        Log.d(TAG, "clicked on ${referenceMap[v?.id]} and v.id: ${v?.id}")
 
-        v?.findNavController()?.navigate(
-            profileFragmentDirections.actionProfileFragmentToReferenceFragment(docID.toString(),referenceMap[v.id].toString()))
+//        v?.findNavController()?.navigate(
+//            profileFragmentDirections.actionProfileFragmentToReferenceFragment(docID.toString(),referenceMap[v.id].toString()))
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

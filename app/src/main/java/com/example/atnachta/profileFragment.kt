@@ -120,11 +120,12 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
         collectionReference = collectionProfile.document(docID).collection(REFERENCE_COLLECTION)
         collectionReference.get()
             .addOnSuccessListener { documents->
+                var indx = 0
                 for (doc in documents){
 
-                    val tr = layoutInflater.inflate(R.layout.reference_row_table, null)
+                    val tr = layoutInflater.inflate(R.layout.reference_row_table, binding.referenceTable, false)
 //                    val tableRow : TableRow = TableRow(context)
-
+                    tr.id = indx
 
 
                     tr.setOnClickListener(this)
@@ -139,6 +140,7 @@ class profileFragment : Fragment(), AdapterView.OnItemSelectedListener , View.On
 //                    binding.referenceTable.addView(tableRow,1)
 
                     binding.referenceTable.addView(tr,1)
+                    indx++
 
                 }
             }

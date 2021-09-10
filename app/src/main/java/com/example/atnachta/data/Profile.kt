@@ -7,7 +7,7 @@ class Profile {
 //    Personal Details:
     var firstName : String? = null // initialized in constructor
     var age : Int? = null // initialized in constructor (could stay null)
-    var lastName : String? = null
+    var lastName : String = ""
     var phone : String = ""
     var ID : String = ""
     var homeAddress : String = ""

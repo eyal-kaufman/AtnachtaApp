@@ -76,7 +76,7 @@
     <string name="timeChooserText">נא לבחור שעה…</string>
     <string name="dateAndTime">תאריך ושעה</string>
     <string name="exportMenuOption">ייצוא למייל</string>
-    <string name="filePickerError">שגיאה במהלך בחירת קובץ</string>
+    <string name="filePickerError">לא נבחר קובץ</string>
     <string name="fileUploadError">העלת קובץ נכשלה</string>
     <string name="fileUploadSuccess">העלת קובץ בוצעה בהצלחה</string>
     <string name="getURLFailure">שגיאה - לא ניתן להשיג קישור לקובץ</string>
@@ -94,10 +94,59 @@
     <string name="newReferenceTitle">הפניה חדשה</string>
     <string name="passwordChangeLabel">שינוי סיסמת מדריכים</string>
     <string name="passwordResetDescription">לחצ/י פה לשליחת מייל לאיפוס סיסמת חשבון המדריכים:</string>
-    <string name="socialWorkerIntake">אינטייק עו\"ס</string>
+    <string name="socialWorkerIntake">אינטייק עו\"ס:</string>
     <string name="courtOrder">צו בית משפט:</string>
     <string name="parantApproval">אישור הורים:</string>
-    <string name="medicalIntake">אינטייק רפואי</string>
+    <string name="medicalIntake">אינטייק רפואי:</string>
     <string name="referenceFragmentTitle">פרטי הפניה</string>
     <string name="profileFragmentTitle">פרטי פרופיל</string>
+    <string name="upload">העלה</string>
+    <string name="status_dialog_title">נא לבחור סטטוס הפניה:</string>
+    <string name="cancel">ביטול</string>
+    <string name="accept">אישור</string>
+    <string name="leaving_dialog_title">נא למלא פרטי עזיבה</string>
+    <string name="cancel_leave_dialog_title">האם אתם בטוחים?</string>
+    <string name="cancel_leave_dialog_body">ביצוע פעולה זו תמחק את כל פרטי העזיבה</string>
+    <string name="close">סגור</string>
+    <string name="please_choose">נא לבחור…</string>
+    <string name="download_file_dialog_title">הורדה</string>
+    <string name="download_file_dialog_body">לחיצה על אישור תוריד למכשיר את הקובץ %1$s</string>
+    <string name="delete_file_dialog_body">לחיצה על אישור תמחק את הקובץ %1$s</string>
+    <string name="download_file">הורד קובץ</string>
+    <string name="delete_file">מחק קובץ</string>
+    <string name="delete_file_dialog_title">אתם בטוחים?</string>
+    <string name="fileDeleteSuccess">מחיקת הקובץ בוצעה בהצלחה</string>
+    <string name="deleteFileError">שגיאה - מחיקת הקובץ נכשלה</string>
+    <string name="file_overwrite_dialog_title">אתם בטוחים?</string>
+    <string name="file_overwrite_dialog_body">העלאה של קובץ חדש תמחק את הקובץ הנוכחי</string>
+    <string name="father">אבא</string>
+    <string name="father_name">שם</string>
+    <string name="family_status">מצב משפחתי</string>
+    <string name="mother">אמא</string>
+    <string name="fatherDetails">פרטי אבא</string>
+    <string name="has_other_guardian">האם יש אפוטרופוס נוסף?</string>
+    <string name="guardianDetails">פרטי אפוטרופוס</string>
+    <string-array name="reference_status_array">
+        <item>התקבלה ולא הגיעה</item>
+        <item>התקבלה והגיעה</item>
+        <item>לא התקבלה</item>
+        <item>עזבה</item>
+    </string-array>
+    <string-array name="religious_status_array">
+        <item>נא לבחור…</item>
+        <item>חילונית</item>
+        <item>מסורתית</item>
+        <item>דתיה</item>
+        <item>חרדית</item>
+        <item>מוסלמית</item>
+        <item>נוצריה</item>
+        <item>אחר</item>
+    </string-array>
+    <string-array name="family_status_array">
+        <item>נא לבחור…</item>
+        <item>נשוי\\אה</item>
+        <item>גרוש\\ה</item>
+        <item>פרוד\\ה</item>
+        <item>נשוי\\אה בשנית</item>
+    </string-array>
 </resources>

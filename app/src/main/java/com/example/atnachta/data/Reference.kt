@@ -9,9 +9,9 @@ data class Reference(
         var dateOfRef: String = "",
         var timeOfRef: String = "",
         var reason: String = "",
-        var refererName: String = "",
-        var refererJob: String = "",
-        var refererPhone: String = "",
+        var referrerName: String = "",
+        var referrerJob: String = "",
+        var referrerPhone: String = "",
         var refStatus : String = "",
 //        Welfare services:
         var knownToWelfare : Boolean = false,

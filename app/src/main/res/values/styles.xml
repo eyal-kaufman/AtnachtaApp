@@ -27,7 +27,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:layout_margin">5sp</item>
+        <item name="android:layout_margin">8sp</item>
     </style>
 
     <style name="profile_card_view">
@@ -37,5 +37,21 @@
 
     <style name="SmallTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">50dp</item>
+    </style>
+
+    <style name="Title_ThemeOverlay.MaterialComponents.MaterialAlertDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="materialAlertDialogTitleTextStyle">
+            @style/TitleMaterialAlertDialog.MaterialComponents.Title.Text</item>
+    </style>
+    <style name="TitleMaterialAlertDialog.MaterialComponents.Title.Text" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:gravity">right</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="spinner_style">
+        <item name="android:background">@drawable/background_spinner</item>
+        <item name="android:gravity">right</item>
     </style>
 </resources>

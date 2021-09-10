@@ -18,4 +18,16 @@
     <dimen name="borderPaddingVertical">7dp</dimen>
     <dimen name="borderRadius">3dp</dimen>
     <dimen name="SearchResultTextSize">16sp</dimen>
+    <dimen name="fileLabelTextSize">15sp</dimen>
+    <dimen name="fileLinkViewWidth">150dp</dimen>
+    <dimen name="fileLinkViewHeight">30dp</dimen>
+    <dimen name="linearViewSpacing">5dp</dimen>
+    <dimen name="drop_down_item_height">50dp</dimen>
+    <dimen name="ref_status_drawable_padding">8dp</dimen>
+    <dimen name="ref_status_padding">12dp</dimen>
+    <dimen name="cardTitleLeftPadding">10dp</dimen>
+    <dimen name="ImageButtonRadius">10dp</dimen>
+    <dimen name="image_button_width">60dp</dimen>
+    <dimen name="parent_card_title_text_size">22sp</dimen>
+    <dimen name="edit_text_height">30dp</dimen>
 </resources>

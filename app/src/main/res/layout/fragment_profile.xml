@@ -6,6 +6,7 @@
 
     <ScrollView
 
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -15,6 +16,10 @@
             android:layout_margin="10sp"
             android:gravity="right"
             android:orientation="vertical">
+
+            <!--            android:divider="?android:listDivider"
+            android:dividerPadding="16dp"
+            android:showDividers="middle|end"-->
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -31,6 +36,7 @@
                         android:id="@+id/edit_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_baseline_edit_24"
                         android:text="ערוך"
                         android:visibility="visible" />
 
@@ -39,6 +45,7 @@
                         android:id="@+id/submit_changes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_baseline_done_24"
                         android:text="אישור"
                         android:visibility="gone" />
 
@@ -53,6 +60,7 @@
             </TableLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/topConstraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:padding="5dp"
@@ -76,7 +84,7 @@
                     style="@style/word_profile_field"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="שם מלא:"
+                    android:text="שם פרטי:"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toTopOf="@+id/last_name"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -177,7 +185,9 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/linearViewSpacing"
+                android:layout_marginBottom="@dimen/linearViewSpacing">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -190,41 +200,67 @@
                         android:id="@+id/generalTitle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:paddingLeft="@dimen/cardTitleLeftPadding"
                         android:text="פרטים כלליים"
-                        android:textSize="25sp" />
+                        android:textSize="25sp"
+                        app:drawableLeftCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/generalData"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="wrap_content"
                         android:padding="8dp"
                         android:visibility="gone"
                         tools:layout_editor_absoluteX="5dp"
-                        tools:layout_editor_absoluteY="50dp">
+                        tools:layout_editor_absoluteY="50dp"
+                        tools:visibility="visible">
 
                         <TextView
                             android:id="@+id/birth_date"
                             style="@style/word_profile_field"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
                             android:text="תאריך לידה:"
                             android:textSize="20sp"
-                            app:layout_constraintBottom_toTopOf="@+id/origin_country"
+                            app:layout_constraintBottom_toTopOf="@+id/age"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
 
-                        <EditText
+                        <TextView
                             android:id="@+id/edit_birth_date"
                             android:layout_width="wrap_content"
-                            android:layout_height="30dp"
-                            android:ems="9"
-                            android:inputType="date"
-                            android:padding="5dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/view_border"
+                            android:textSize="@dimen/dateTimeSize"
                             app:layout_constraintBottom_toBottomOf="@+id/birth_date"
-                            app:layout_constraintEnd_toStartOf="@+id/birth_date"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/edit_origin_country"
+                            app:layout_constraintStart_toStartOf="@+id/edit_origin_country"
                             app:layout_constraintTop_toTopOf="@+id/birth_date" />
+
+                        <TextView
+                            android:id="@+id/age"
+                            style="@style/word_profile_field"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="גיל:"
+                            android:textSize="20sp"
+                            app:layout_constraintBottom_toTopOf="@+id/origin_country"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/birth_date" />
+
+                        <EditText
+                            android:id="@+id/edit_age"
+                            android:layout_width="60dp"
+                            android:layout_height="30dp"
+                            android:inputType="number"
+                            android:padding="5dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/age"
+                            app:layout_constraintEnd_toEndOf="@+id/edit_origin_country"
+                            app:layout_constraintStart_toStartOf="@+id/edit_origin_country"
+                            app:layout_constraintTop_toTopOf="@+id/age"
+                            app:layout_constraintVertical_bias="1.0" />
 
                         <TextView
                             android:id="@+id/origin_country"
@@ -235,17 +271,18 @@
                             android:textSize="20sp"
                             app:layout_constraintBottom_toTopOf="@+id/year_of_aliyah"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/birth_date" />
+                            app:layout_constraintTop_toBottomOf="@+id/age" />
 
                         <EditText
                             android:id="@+id/edit_origin_country"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
+                            android:layout_marginStart="32dp"
                             android:ems="9"
                             android:inputType="textPersonName"
                             android:padding="5dp"
                             app:layout_constraintBottom_toBottomOf="@+id/origin_country"
-                            app:layout_constraintStart_toStartOf="@+id/edit_birth_date"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/origin_country" />
 
                         <TextView
@@ -281,14 +318,25 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/year_of_aliyah" />
 
-                        <EditText
-                            android:id="@+id/edit_religiosity"
+                        <!--                        <EditText-->
+                        <!--                            android:id="@+id/edit_religiosity"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="30dp"-->
+                        <!--                            android:ems="9"-->
+                        <!--                            android:inputType="textPersonName"-->
+                        <!--                            android:padding="5dp"-->
+                        <!--                            app:layout_constraintBottom_toBottomOf="@+id/religiosity"-->
+                        <!--                            app:layout_constraintStart_toStartOf="@+id/edit_year_of_aliyah"-->
+                        <!--                            app:layout_constraintTop_toTopOf="@+id/religiosity" />-->
+
+                        <Spinner
+                            android:id="@+id/religiositySpinner"
+                            style="@style/spinner_style"
                             android:layout_width="wrap_content"
-                            android:layout_height="30dp"
-                            android:ems="9"
-                            android:inputType="textPersonName"
-                            android:padding="5dp"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:gravity="right"
                             app:layout_constraintBottom_toBottomOf="@+id/religiosity"
+                            app:layout_constraintEnd_toEndOf="@+id/edit_year_of_aliyah"
                             app:layout_constraintStart_toStartOf="@+id/edit_year_of_aliyah"
                             app:layout_constraintTop_toTopOf="@+id/religiosity" />
 
@@ -298,7 +346,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="סטטוס אזרחות:"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/religiosity" />
@@ -311,7 +359,7 @@
                             android:inputType="textPersonName"
                             android:padding="5dp"
                             app:layout_constraintBottom_toBottomOf="@+id/civil"
-                            app:layout_constraintStart_toStartOf="@+id/edit_religiosity"
+                            app:layout_constraintStart_toStartOf="@+id/edit_year_of_aliyah"
                             app:layout_constraintTop_toTopOf="@+id/civil" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -322,7 +370,9 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/linearViewSpacing"
+                android:layout_marginBottom="@dimen/linearViewSpacing">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -335,133 +385,373 @@
                         android:id="@+id/parentsTitle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:paddingLeft="@dimen/cardTitleLeftPadding"
                         android:text="משפחה"
-                        android:textSize="25sp" />
+                        android:textSize="25sp"
+                        app:drawableLeftCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <LinearLayout
                         android:id="@+id/parentsData"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:padding="8dp"
+                        android:layout_height="match_parent"
+                        android:gravity="right"
+                        android:orientation="vertical"
                         android:visibility="gone"
-                        tools:layout_editor_absoluteX="5dp"
-                        tools:layout_editor_absoluteY="50dp">
+                        tools:visibility="visible">
 
-<!--                        <TextView-->
-<!--                            android:id="@+id/father_name"-->
-<!--                            style="@style/word_profile_field"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="שם אב:"-->
-<!--                            android:textSize="20sp"-->
-<!--  />-->
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/fatherCard"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/linearViewSpacing"
+                            android:layout_marginBottom="@dimen/linearViewSpacing">
 
-<!--                        <EditText-->
-<!--                            android:id="@+id/edit_father_address"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="30dp"-->
-<!--                            android:ems="9"-->
-<!--                            android:inputType="text"-->
-<!--                            android:padding="5dp"-->
-<!--                            app:layout_constraintBottom_toBottomOf="@+id/father_name" />-->
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/fatherData"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:visibility="visible"
+                                tools:layout_editor_absoluteY="35dp">
 
-<!--                        <TextView-->
-<!--                            android:id="@+id/father_address"-->
-<!--                            style="@style/word_profile_field"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="כתובת אב:"-->
-<!--                            android:textSize="20sp" />-->
+                                <TextView
+                                    android:id="@+id/fatherTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="8dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:text="@string/fatherDetails"
+                                    android:textSize="@dimen/parent_card_title_text_size"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/textInputLayoutFatherName"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="16dp"
+                                    android:paddingLeft="@dimen/inputTextPaddingLeft"
+                                    android:paddingRight="@dimen/inputTextPaddingRight"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/fatherTitle">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/fatherName"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/fullName"
+                                        android:inputType="textPersonName" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/textInputLayoutFatherAddress"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="16dp"
+                                    android:paddingLeft="@dimen/inputTextPaddingLeft"
+                                    android:paddingRight="@dimen/inputTextPaddingRight"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textInputLayoutFatherName">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/fatherAddress"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/address"
+                                        android:inputType="textPersonName" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/textInputLayoutFatherPhone"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="220dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="16dp"
+                                    android:gravity="right"
+                                    android:paddingLeft="@dimen/inputTextPaddingLeft"
+                                    android:paddingRight="@dimen/inputTextPaddingRight"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textInputLayoutFatherAddress">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/fatherPhone"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="טלפון"
+                                        android:inputType="phone" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <Spinner
+                                    android:id="@+id/fatherStatusSpinner"
+                                    style="@style/spinner_style"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/edit_text_height"
+                                    android:gravity="right"
+                                    app:layout_constraintBottom_toBottomOf="@+id/textInputLayoutFatherPhone"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toLeftOf="@id/textInputLayoutFatherPhone"
+                                    app:layout_constraintTop_toTopOf="@+id/textInputLayoutFatherPhone" />
+
+                                <TextView
+                                    android:id="@+id/fatherStatusSpinnerLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/family_status"
+                                    app:layout_constraintBottom_toTopOf="@+id/fatherStatusSpinner"
+                                    app:layout_constraintEnd_toEndOf="@+id/fatherStatusSpinner" />
 
 
-<!--                        <EditText-->
-<!--                            android:id="@+id/edit_father_name"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="30dp"-->
-<!--                            android:ems="9"-->
-<!--                            android:inputType="date"-->
-<!--                            android:padding="5dp"-->
-<!-- />-->
+                            </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--                        <TextView-->
-<!--                            android:id="@+id/father_phone"-->
-<!--                            style="@style/word_profile_field"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="טלפון אב:"-->
-<!--                            android:textSize="20sp" />-->
+                        </androidx.cardview.widget.CardView>
 
-<!--                        <EditText-->
-<!--                            android:id="@+id/edit_father_phone"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="30dp"-->
-<!--                            android:ems="9"-->
-<!--                            android:inputType="phone"-->
-<!--                            android:padding="5dp"-->
-<!-- />-->
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/motherCard"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/linearViewSpacing"
+                            android:layout_marginBottom="@dimen/linearViewSpacing">
 
-<!--                        <TextView-->
-<!--                            android:id="@+id/father_status"-->
-<!--                            style="@style/word_profile_field"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="מצב משפחתי:"-->
-<!--                            android:textSize="20sp" />-->
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/motherData"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:visibility="visible"
+                                tools:layout_editor_absoluteY="35dp">
 
+                                <TextView
+                                    android:id="@+id/motherTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="8dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:text="@string/motherDetails"
+                                    android:textSize="@dimen/parent_card_title_text_size"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
 
-<!--&lt;!&ndash;                        TODO להפוך לספינר&ndash;&gt;-->
-<!--                        <EditText-->
-<!--                            android:id="@+id/edit_father_status"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="30dp"-->
-<!--                            android:ems="9"-->
-<!--                            android:inputType="text"-->
-<!--                            android:padding="5dp"-->
-<!--                            />-->
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/textInputLayoutMotherName"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="16dp"
+                                    android:paddingLeft="@dimen/inputTextPaddingLeft"
+                                    android:paddingRight="@dimen/inputTextPaddingRight"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/motherTitle">
 
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/motherName"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/fullName"
+                                        android:inputType="textPersonName" />
 
-<!--                        <TextView-->
-<!--                            android:id="@+id/mother_name"-->
-<!--                            style="@style/word_profile_field"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="שם האם:"-->
-<!--                            android:textSize="20sp" />-->
+                                </com.google.android.material.textfield.TextInputLayout>
 
-<!--                        <EditText-->
-<!--                            android:id="@+id/edit_mother_name"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="30dp"-->
-<!--                            android:ems="9"-->
-<!--                            android:inputType="textPersonName"-->
-<!--                            android:padding="5dp" />-->
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/textInputLayoutMotherAddress"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="16dp"
+                                    android:paddingLeft="@dimen/inputTextPaddingLeft"
+                                    android:paddingRight="@dimen/inputTextPaddingRight"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textInputLayoutMotherName">
 
-<!--                        <TextView-->
-<!--                            android:id="@+id/mother_phone"-->
-<!--                            style="@style/word_profile_field"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="טלפון אם:"-->
-<!--                            android:textSize="20sp" />-->
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/motherAddress"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/address"
+                                        android:inputType="textPersonName" />
 
-<!--                        <EditText-->
-<!--                            android:id="@+id/edit_mother_phone"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="30dp"-->
-<!--                            android:ems="9"-->
-<!--                            android:inputType="phone"-->
-<!--                            android:padding="5dp" />-->
+                                </com.google.android.material.textfield.TextInputLayout>
 
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/textInputLayoutMotherPhone"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="220dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="16dp"
+                                    android:gravity="right"
+                                    android:paddingLeft="@dimen/inputTextPaddingLeft"
+                                    android:paddingRight="@dimen/inputTextPaddingRight"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textInputLayoutMotherAddress">
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/motherPhone"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="טלפון"
+                                        android:inputType="phone" />
 
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <Spinner
+                                    android:id="@+id/motherStatusSpinner"
+                                    style="@style/spinner_style"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/edit_text_height"
+                                    android:gravity="right"
+                                    app:layout_constraintBottom_toBottomOf="@+id/textInputLayoutMotherPhone"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toLeftOf="@id/textInputLayoutMotherPhone"
+                                    app:layout_constraintTop_toTopOf="@+id/textInputLayoutMotherPhone" />
+
+                                <TextView
+                                    android:id="@+id/motherStatusSpinnerLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/family_status"
+                                    app:layout_constraintBottom_toTopOf="@+id/motherStatusSpinner"
+                                    app:layout_constraintEnd_toEndOf="@+id/motherStatusSpinner" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <CheckBox
+                            android:id="@+id/hasOtherGuardian"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/has_other_guardian"
+                            android:textDirection="firstStrongRtl" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/guardianCard"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/linearViewSpacing"
+                            android:layout_marginBottom="@dimen/linearViewSpacing"
+                            android:visibility="gone">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/guardianData"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:visibility="visible"
+                                tools:layout_editor_absoluteY="35dp">
+
+                                <TextView
+                                    android:id="@+id/guardianTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="8dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:text="@string/guardianDetails"
+                                    android:textSize="@dimen/parent_card_title_text_size"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/textInputLayoutGuardianName"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="16dp"
+                                    android:paddingLeft="@dimen/inputTextPaddingLeft"
+                                    android:paddingRight="@dimen/inputTextPaddingRight"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/guardianTitle">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/guardianName"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/fullName"
+                                        android:inputType="textPersonName" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/textInputLayoutGuardianAddress"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="16dp"
+                                    android:paddingLeft="@dimen/inputTextPaddingLeft"
+                                    android:paddingRight="@dimen/inputTextPaddingRight"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGuardianName">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/guardianAddress"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/address"
+                                        android:inputType="textPersonName" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/textInputLayoutGuardianPhone"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="220dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="16dp"
+                                    android:gravity="right"
+                                    android:paddingLeft="@dimen/inputTextPaddingLeft"
+                                    android:paddingRight="@dimen/inputTextPaddingRight"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGuardianAddress">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/guardianPhone"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="טלפון"
+                                        android:inputType="phone" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <Spinner
+                                    android:id="@+id/guardianStatusSpinner"
+                                    style="@style/spinner_style"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/edit_text_height"
+                                    android:gravity="right"
+                                    app:layout_constraintBottom_toBottomOf="@+id/textInputLayoutGuardianPhone"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toLeftOf="@id/textInputLayoutGuardianPhone"
+                                    app:layout_constraintTop_toTopOf="@+id/textInputLayoutGuardianPhone" />
+
+                                <TextView
+                                    android:id="@+id/guardianStatusSpinnerLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/family_status"
+                                    app:layout_constraintBottom_toTopOf="@+id/guardianStatusSpinner"
+                                    app:layout_constraintEnd_toEndOf="@+id/guardianStatusSpinner" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/linearViewSpacing"
+                android:layout_marginBottom="@dimen/linearViewSpacing">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -474,8 +764,10 @@
                         android:id="@+id/educationTitle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:paddingLeft="@dimen/cardTitleLeftPadding"
                         android:text="השכלה"
-                        android:textSize="25sp" />
+                        android:textSize="25sp"
+                        app:drawableLeftCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/educationData"
@@ -484,7 +776,8 @@
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:visibility="gone"
-                        tools:layout_editor_absoluteY="35dp">
+                        tools:layout_editor_absoluteY="35dp"
+                        tools:visibility="visible">
 
 
                         <TextView
@@ -493,8 +786,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="מסגרת לימודים אחרונה:"
-                            android:textSize="20sp"
-                            app:layout_constraintBottom_toTopOf="@+id/age"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toTopOf="@+id/grade"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/edit_last_school" />
 
@@ -511,46 +804,38 @@
                             app:layout_constraintTop_toTopOf="@+id/last_school" />
 
                         <TextView
-                            android:id="@+id/age"
+                            android:id="@+id/grade"
                             style="@style/word_profile_field"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="כיתה:"
                             android:textSize="20sp"
-                            app:layout_constraintBottom_toTopOf="@+id/grade"
+                            app:layout_constraintBottom_toTopOf="@+id/isActiveStudent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/last_school" />
 
                         <EditText
-                            android:id="@+id/edit_age"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/edit_grade"
+                            android:layout_width="80dp"
                             android:layout_height="30dp"
                             android:ems="9"
                             android:inputType="text"
                             android:padding="5dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/age"
+                            app:layout_constraintBottom_toBottomOf="@+id/grade"
+                            app:layout_constraintEnd_toEndOf="@+id/edit_last_school"
                             app:layout_constraintStart_toStartOf="@+id/edit_last_school"
-                            app:layout_constraintTop_toTopOf="@+id/age" />
+                            app:layout_constraintTop_toTopOf="@+id/grade" />
 
-                        <TextView
-                            android:id="@+id/grade"
+                        <CheckBox
+                            android:id="@+id/isActiveStudent"
                             style="@style/word_profile_field"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="האם תלמידה פעילה?:"
-                            android:textSize="20sp"
-
+                            android:textSize="18sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/age" />
-
-                        <CheckBox
-                            android:id="@+id/edit_grade"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintBottom_toBottomOf="@+id/grade"
-                            app:layout_constraintEnd_toStartOf="@+id/grade"
-                            app:layout_constraintTop_toTopOf="@+id/grade" />
+                            app:layout_constraintTop_toBottomOf="@+id/grade" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -561,7 +846,9 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/linearViewSpacing"
+                android:layout_marginBottom="@dimen/linearViewSpacing">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -574,8 +861,10 @@
                         android:id="@+id/healthTitle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:paddingLeft="@dimen/cardTitleLeftPadding"
                         android:text="בריאות"
-                        android:textSize="25sp" />
+                        android:textSize="25sp"
+                        app:drawableLeftCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/healthData"
@@ -615,7 +904,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="טיפול תרופתי קבוע:"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             app:layout_constraintBottom_toTopOf="@+id/medical_problems"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/medical_care" />
@@ -639,7 +928,7 @@
                             android:layout_height="wrap_content"
 
                             android:text="בעיות רפואיות ידועות:"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/medication" />
@@ -663,7 +952,9 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/linearViewSpacing"
+                android:layout_marginBottom="@dimen/linearViewSpacing">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -676,14 +967,18 @@
                         android:id="@+id/referenceTitle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:paddingLeft="@dimen/cardTitleLeftPadding"
+                        android:paddingBottom="8dp"
                         android:text="הפניות"
-                        android:textSize="25sp" />
+                        android:textSize="25sp"
+                        app:drawableLeftCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/referenceData"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        tools:visibility="visible">
 
                         <TableLayout
                             android:id="@+id/reference_table"

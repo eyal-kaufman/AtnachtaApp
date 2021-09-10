@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
@@ -55,6 +56,8 @@ class NewReference : Fragment() {
 
     private lateinit var profileDocID : String
 
+    private var isNewProfile : Boolean = false
+
     private val formatDate = SimpleDateFormat("dd/MM/yyyy", Locale.ITALY) // a random eu state
     private val formatTime = SimpleDateFormat("kk:mm", Locale.ITALY) // a random eu state
 
@@ -87,7 +90,7 @@ class NewReference : Fragment() {
         profileDocID = NewReferenceArgs.fromBundle(requireArguments()).profileDocID
 
         // setting UI and DocID according to existence of the profile
-        val isNewProfile = NewReferenceArgs.fromBundle(requireArguments()).isNewProfile
+        isNewProfile = NewReferenceArgs.fromBundle(requireArguments()).isNewProfile
         configureUI(isNewProfile)
 
         // continue button setup
@@ -124,7 +127,7 @@ class NewReference : Fragment() {
     }
 
     private fun setDatePicker(v : View) {
-
+        val dateView :TextView = v as TextView
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
@@ -137,12 +140,13 @@ class NewReference : Fragment() {
                 selectedDate.set(Calendar.MONTH,monthOfYear)
                 selectedDate.set(Calendar.DAY_OF_MONTH,dayOfMonth)
                 val date = formatDate.format(selectedDate.time)
-                binding.dateTextView.text = date
+                dateView.text = date
             }, year, month, day)
         datePicker.show()
     }
 
     private fun setTimePicker(v:View){
+        val timeView :TextView = v as TextView
         val c = Calendar.getInstance()
         val hour = c.get(Calendar.HOUR_OF_DAY)
         val minute = c.get(Calendar.MINUTE)
@@ -153,7 +157,7 @@ class NewReference : Fragment() {
                 selectedTime.set(Calendar.HOUR_OF_DAY,chosenHour)
                 selectedTime.set(Calendar.MINUTE,chosenMinute)
                 val time = formatTime.format(selectedTime.time)
-                binding.timeTextView.text = time
+                timeView.text = time
             }, hour, minute,true)
         timePicker.show()
     }
@@ -202,7 +206,8 @@ class NewReference : Fragment() {
     }
 
     private fun validateForm(): Boolean {
-        return if (TextUtils.isEmpty(binding.girlFirstName.text.toString())) {
+        return if (isNewProfile &&
+            TextUtils.isEmpty(binding.girlFirstName.text.toString())) {
             binding.textInputLayoutFirstName.error = getString(R.string.emptyNameError)
             binding.scrollView.post {
                 binding.scrollView.fullScroll(View.FOCUS_UP) // scrolls up to the first-name view
@@ -234,7 +239,8 @@ class NewReference : Fragment() {
                         binding.referenceReason.text.toString(),
                         binding.refererName.text.toString(),
                         binding.refererJob.text.toString(),
-                        binding.refererPhone.text.toString()
+                        binding.refererPhone.text.toString(),
+            resources.getStringArray(R.array.reference_status_array)[0] // התקבלה ולא הגיעה
         )
     }
 

@@ -107,6 +107,7 @@
                         android:hint="@string/newReferenceReceiverName"
                         android:inputType="textPersonName" />
 
+
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
